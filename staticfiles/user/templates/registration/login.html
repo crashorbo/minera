@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load i18n static %}
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap-icons/font/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>Iniciar Sesion</title>
+</head>
+<body class="miner-app miner-legacy-theme">
+    <div class="contenedor">
+        <div class="card login-container">
+            <div class="login-form">
+                {% if form.errors %}
+                <div class="row form-errors">            
+                    <div class="col-md-2 col-sm-2 d-flex align-items-center justify-content-center"><i class="bi bi-exclamation-triangle"></i></div>
+                    <div class="col-md-10 col-sm-10">
+                        {% if form.errors and not form.non_field_errors %}
+                            <p class="errornote">
+                                {% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}
+                            </p>
+                        {% endif %}
+
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                            <p class="errornote">
+                                {{ error }}
+                            </p>
+                            {% endfor %}
+                        {% endif %}                
+
+                        {% if user.is_authenticated %}
+                            <p class="errornote">
+                            {% blocktranslate trimmed %}
+                                You are authenticated as {{ username }}, but are not authorized to
+                                access this page. Would you like to login to a different account?
+                            {% endblocktranslate %}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}                
+                <h2>Iniciar sesión</h2>
+                <p>Inicie sesión con su cuenta</p>
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.username.errors }}
+                    <div class="input-group input-group-sm pb-3">                        
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><i class="bi bi-person"></i></span>                                            
+                        <input type="text" class="form-control" name="username" placeholder="Usuario">                    
+                    </div> 
+                    {{ form.password.errors }}
+                    <div class="input-group input-group-sm pb-3">                        
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><i class="bi bi-key"></i></span>                                            
+                        <input type="password" class="form-control" name="password" placeholder="Contrasena">                    
+                    </div>
+                    <div class="form-options">
+                        <button type="submit" class="btn btn-primary">Ingresar</button>
+                    </div> 
+                    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                </form>
+            </div>
+            <div class="login-register">
+                <img src="{% static 'images/logo@2x.png' %}" alt="">
+                <p>EMCOISA S.A.</p>
+            </div>            
+        </div>
+    </div>
+    <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

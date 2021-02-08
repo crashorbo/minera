@@ -1,0 +1,52 @@
+.contenedor {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.login-form {
+    width: 350px;
+    padding: 40px 40px;
+}
+
+.login-register {
+    width: 350px;
+    background-color: var(--primary);
+    color: #fff;
+    padding: 40px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-register p {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+ul.errorlist li {
+    color: var(--danger);
+}
+
+.form-errors {
+    color: #fff;
+    background-color: var(--danger);
+    padding: 4px 8px;
+}
+
+.form-errors i {
+    font-size: 24px;
+}
+
+p.errornote {
+    margin-bottom: 8px;
+}
