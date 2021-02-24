@@ -1,4 +1,4 @@
-<form action="">
+<form action="{% url 'pesaje-create' %}" method="post">
     <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE PESAJE</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -18,19 +18,18 @@
                 </div>
             </div>
         </div>
+        {% csrf_token %}
         <div class="row justify-content-md-center pt-4 pb-4">
-            <div class="col-md-8">
+            <div class="col-md-8">                
                 <div class="row pb-2">
-                    <div class="col-md-4"><label for="">Placa Vehiculo</label></div>
-                    <div class="col-md-4"><input type="text" class="form-control form-control-sm"></div>
-                </div>
-                <div class="row pb-2">
-                    <div class="col-md-4">Nombre Conductor</div>
+                    <div class="col-md-4">Conductor</div>
                     <div class="col-md-8"><input type="text" class="form-control form-control-sm"></div>
                 </div>
                 <div class="row pb-2">
-                    <div class="col-md-4">Nombre Proveedor</div>
-                    <div class="col-md-8"><input type="text" class="form-control form-control-sm"></div>
+                    <div class="col-md-4">Proveedor</div>
+                    <div class="col-md-8">
+                        {{ form.proveedor }}
+                    </div>
                 </div>
                 <div class="row pb-2">
                     <div class="col-md-4">Origen Carga</div>
@@ -38,7 +37,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">Destino Carga</div>
-                    <div class="col-md-8"><input type="text" class="form-control form-control-sm"></div>
+                    <div class="col-md-8">{{ form.destino }}</div>
                 </div>
             </div>
         </div>                    
@@ -47,15 +46,15 @@
                 <div class="row">
                     <div class="col-md-4 d-flex flex-column align-items-center">
                         <label for="">PESO BRUTO (kg)</label>
-                        <input type="text" class="form-control">
+                        {{ form.peso_bruto }}
                     </div>
                     <div class="col-md-4 d-flex flex-column align-items-center">
                         <label for="">PESO TARA (Kg)</label>
-                        <input type="text" class="form-control">
+                        {{ form.peso_tara }}
                     </div>
                     <div class="col-md-4 d-flex flex-column align-items-center">
                         <label for="">PESO NETO (Kg)</label>
-                        <input type="text" class="form-control" readonly>
+                        {{ form.peso_neto }}
                     </div>
                 </div>
             </div>
@@ -71,6 +70,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancelar</button>
-        <button type="button" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
     </div>
 </form>

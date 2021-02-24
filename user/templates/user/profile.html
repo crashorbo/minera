@@ -1,0 +1,78 @@
+{% load static %}
+
+{% load bootstrap5 %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">
+            MI PERFIL
+        </h5>
+        <form id="edit-user-form" action="{% url 'user-profile' pk=request.user.id %}" class="form-container" method="post" enctype="multipart/form-data">
+            <div class="row">        
+                <div class="col-md-4 avatar-user text-center">                        
+                    {% if request.user.photo %}
+                    <img id="preview-img" src="{{ request.user.photo.url }}" alt="" class="img-fluid">
+                    {% else %}
+                    <img id="preview-img" src="{% static 'images/avatar-placeholder-large.png' %}" alt="" class="img-fluid">
+                    {% endif %}                    
+                    <label for="id_photo" class="btn btn-primary">ADJUNTAR FOTO</label>
+                    <div class="photo-content">
+                        {{ form.photo }}
+                    </div>                    
+                    {% csrf_token %}            
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-8 mb-2">                    
+                            <label for="" class="sr-only">Nombre de Usuario</label>
+                            {{ form.username }}
+                            <small class="form-text text-muted">
+                                {{ form.username.help_text}}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 mb-2">                    
+                            <label for="" class="sr-only">Nombres</label>
+                            {{ form.first_name }}
+                            <small class="form-text text-muted">
+                                {{ form.first_name.help_text}}
+                            </small>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-8 mb-2">                    
+                            <label for="" class="sr-only">Apellidos</label>
+                            {{ form.last_name }}
+                            <small class="form-text text-muted">
+                                {{ form.last_name.help_text}}
+                            </small>
+                        </div>
+                    </div>           
+                    <div class="row">
+                        <div class="col-md-8 mb-2">                    
+                            <label for="" class="sr-only">Dirección de correo electrónico</label>
+                            {{ form.email }}
+                            <small class="form-text text-muted">
+                                {{ form.email.help_text}}
+                            </small>
+                        </div>
+                    </div>                                    
+                    <div class="row">
+                        <div class="col-md-8 mb-2">                    
+                            <label for="" class="sr-only">Telefono</label>
+                            {{ form.telefono }}
+                            <small class="form-text text-muted">
+                                {{ form.telefono.help_text}}
+                            </small>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-md-8 text-end">
+                            <button type="submit" class="btn btn-primary ">GUARDAR CAMBIOS</button>
+                        </div>
+                    </div>
+                </div>    
+            </div>                                                                        
+        </form>    
+    </div>
+</div>

@@ -1,0 +1,24 @@
+{% load static %}
+
+{% load usuario_tags %}
+
+<table class="table table-hover table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">Mes</th>
+            <th scope="col">Color</th>                            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody >                      
+    {% for color in object_list %}
+        <tr>
+            <td width="60%">{{ color.nombre|color_parametro }}</td>
+            <td width="20%">
+                <div style="background-color: {{ color.valor }};border: 1px solid #23282c;margin:4px;height:20px"></div>
+            </td>
+            <td class="cotizacion-options text-end"><i class="bi bi-pencil-square" data-url={% url 'color-edit' pk=color.id %}></i></td>
+        </tr>
+    {% endfor %}           
+    </tbody>
+</table>

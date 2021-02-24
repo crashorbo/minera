@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'node_modules/vanillajs-datepicker/dist/css/datepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'node_modules/vanillajs-datepicker/dist/css/datepicker-bs4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/datatables/css/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'node_modules/spectrum-colorpicker/spectrum.css' %}">
+    <link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
+{% endblock css %}
+
+{% block title %}Configuracion{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card sticky-top">
+                <ul class="list-group list-group-flush">
+                    <li id="selector-perfil" class="list-group-item  active"><a href="{% url 'user-profile' pk=request.user.id %}">PERFIL</a></li>
+                    <li id="selector-usuario" class="list-group-item"><a href="{% url 'user-list' %}">USUARIO</a></li>                                        
+                    <li id="selector-parametro" class="list-group-item"><a href="{% url 'parametro-index' %}">PARAMETRO</a></li>                                        
+                </ul>
+            </div>
+        </div>
+        <div id="body-conf" data-url="{% url 'user-profile' pk=request.user.id %}" class="col-md-10">
+                    
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block js %}
+    <script src="{% static 'node_modules/vanillajs-datepicker/dist/js/datepicker-full.min.js' %}"></script>
+    <script src="{% static 'node_modules/vanillajs-datepicker/dist/js/locales/es.js' %}"></script>
+    <script src="{% static 'vendor/datatables/js/jquery-3.5.1.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/dataTables.bootstrap5.min.js'%}"></script>
+    <script src="{% static 'node_modules/spectrum-colorpicker/spectrum.js' %}"></script>
+    <script src="{% static 'js/user/index.js'%}"></script>
+{% endblock js %}

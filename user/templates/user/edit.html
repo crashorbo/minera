@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h5 class="modal-title">Editar Usuario</h5>
+</div>
+<div class="modal-body">
+    <form id="usuario-form" action="{% url 'user-edit' pk=object.id %}" method="post" autocomplete="off">
+        {% csrf_token %}                
+        <div class="row mb-2">
+            <div class="col-md-6 col-sm-12">
+                <label class="sr-only" for="">Rol</label>
+                {{ form.rol }}
+                {{ form.rol.help_text }}
+            </div>
+        </div>        
+        <div class="row mb-2">
+            <div class="col-md-12 col-sm-12">
+                <label class="sr-only" for="">Nombre de Usuario</label>
+                {{ form.username }}
+                <small class="form-text text-muted">
+                    {{ form.username.help_text }}
+                </small>            
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <label class="sr-only" for="">Nombres</label>
+                {{ form.first_name }}
+                {{ form.first_name.help_text }}
+            </div>
+        </div>        
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <label class="sr-only" for="">Apellidos</label>
+                {{ form.last_name }}
+                {{ form.last_name.help_text }}
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>

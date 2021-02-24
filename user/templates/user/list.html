@@ -1,0 +1,53 @@
+{% load static %}
+
+{% load usuario_tags %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <h5 class="card-title">
+                LISTA DE USUARIOS
+                </h5>
+            </div>
+            <div class="col-md-6 text-end">
+                <button id="user-register" class="btn btn-sm btn-primary" data-url="{% url 'user-create' %}">NUEVO</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="usuario-list" class="table table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Rol</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in object_list %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ usuario.username }}</td>
+                            <td>{{ usuario }}</td>
+                            <td>{{ usuario.rol|rol_usuario }}</td>
+                            <td class="cotizacion-options text-end"><i data-url="{% url 'user-edit' pk=usuario.id %}" class="bi bi-pencil-square"></i></td>
+                        </tr>                
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>

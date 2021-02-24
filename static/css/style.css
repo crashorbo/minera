@@ -194,6 +194,27 @@ li {
     top: 0;
 }
 
+.miner-header-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.user-logged {
+    display: flex;
+    align-items: center;
+}
+
+.user-logged li {
+    margin-right: 10px;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.user-logged li i {
+    font-size: 24px;
+}
+
 .miner-body {
     display: -ms-flexbox;
     display: flex;
@@ -227,6 +248,52 @@ li {
     background-color: #f0f3f5;
     border-color: #c8ced3;
 }
+
+small.form-text {
+    color: var(--primary) !important;
+    font-weight: 300;
+}
+
+label.sr-only {
+    font-weight: 500;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.page-link {
+    color: var(--primary);
+}
+
+.page-link:hover {
+    color: var(--primary);
+}
+
+.cotizacion-options i {
+    cursor: pointer;
+}
+
+.cotizacion-options .bi-pencil-square {
+    color: var(--warning);
+}
+
+.cotizacion-options .bi-trash {
+    color: var(--danger);
+}
+
+.dataTables_info {
+    color: var(--primary) !important;
+    font-weight: 400;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
 
 @media (min-width: 768px) {
 

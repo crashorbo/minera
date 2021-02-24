@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load usuario_tags %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,9 +10,10 @@
     <link rel="shortcut icon" type="image/jpg" href="{% static 'images/favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'node_modules/bootstrap-icons/font/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'node_modules/sweetalert2/dist/sweetalert2.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block css %}<link rel="stylesheet" href="{% static 'css/pesaje.css' %}">{% endblock css %}    
-    <title>{% block title %}{% endblock title %}</title>
+    <title>EMCOISA - {% block title %}{% endblock title %}</title>
 </head>
 <body class="miner-app miner-legacy-theme">
     <div class="contenedor">
@@ -19,18 +22,18 @@
                 <div class="menu-item logo">
                     <img src="{% static 'images/logo-blue.png' %}" class="img-fluid" alt="">
                 </div>
-                <div class="menu-item">
-                    <a href="#">
+                <div class="menu-item {% active 'proveedor-index' %}">
+                    <a href="{% url 'proveedor-index' %}">
                         <i class="bi bi-person"></i>
                     </a>
                 </div>
-                <div class="menu-item">
-                    <a href="#">
+                <div class="menu-item {% active 'vehiculo-list' %}">
+                    <a href="{% url 'vehiculo-list' %}">
                         <i class="bi bi-truck"></i>
                     </a>
                 </div>
-                <div class="menu-item active">
-                    <a href="#">
+                <div class="menu-item {% active 'pesaje-list' %}">
+                    <a href="{% url 'pesaje-list' %}">
                         <i class="bi bi-tv"></i>
                     </a>
                 </div>
@@ -55,8 +58,8 @@
                         </svg>
                     </a>
                 </div>
-                <div class="menu-item">
-                    <a href="#">
+                <div class="menu-item {% active 'user-configuracion' %}">
+                    <a href="{% url 'user-configuracion' %}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -77,12 +80,28 @@
         </div>
         <div class="cuerpo">
             <header class="miner-header miner-header-fixed">
+                <div class="miner-header-content">
+                    <ul class="user-logged">
+                        <li>
+                            {{request.user.username }} <i class="bi bi-person-circle"></i>
+                        </li>
+                    </ul>
+                </div>
                 {% block header %}{% endblock header %}
             </header>
-            {% block body %}{% endblock body %}
+            <div class="miner-body">
+                <div class="miner-main">
+                    <div class="container-fluid"> 
+                        {% block body %}{% endblock body %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'node_modules/axios/dist/axios.min.js' %}"></script>
+    <script src="{% static 'node_modules/sweetalert2/dist/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
     {% block js %}{% endblock js %}
 </body>
 </html>
