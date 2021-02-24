@@ -114,4 +114,4 @@ ENV/
 !**/migrations/__init__.py
 
 media/
-static/node_modules/
+staticfiles/
