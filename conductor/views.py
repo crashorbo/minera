@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, FormView, UpdateView
+from django.views.generic import TemplateView, FormView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_datatables_view.base_datatable_view import BaseDatatableView
 from django.utils.html import escape
@@ -108,3 +108,20 @@ class VehiculoEditView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         errors = form.errors.as_json()
         return JsonResponse({"message": errors}, status=400)
+
+
+class VehiculoAutocomplete(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        q = self.request.GET['q']
+        object_list = Vehiculo.objects.all()
+        filtered_object_list = object_list
+        if len(q) > 0:
+            filtered_object_list = object_list.filter_on_search(q)
+        qs = filtered_object_list
+        qs = self.get_results(qs)
+        return JsonResponse({
+            'results': qs
+        }, content_type='application/json')
+
+    def get_results(self, results):
+        return [dict(id=x.id, text='{} - {} {}'.format(x.placa, x.apellidos, x.nombres)) for x in results]

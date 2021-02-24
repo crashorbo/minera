@@ -24,7 +24,7 @@ class Carga(models.Model):
         decimal_places=3, max_digits=10, default=0.000)
     peso_neto = models.DecimalField(
         decimal_places=3, max_digits=10, default=0.000)
-    numero = models.IntegerField(default=0)
+    numero = models.CharField(max_length=20, default='')
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

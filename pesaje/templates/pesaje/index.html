@@ -24,8 +24,8 @@
             </div>  
             <div class="col-md-8 col-sm-12">
                 <div class="row">
-                    <div class="col-md-4"><input type="text" class="form-control form-control-sm date-picker"></div>
-                    <div class="col-md-4"><input type="text" class="form-control form-control-sm date-picker"></div>
+                    <div class="col-md-4"><input type="text" id="fecha-inicio" class="form-control form-control-sm"></div>
+                    <div class="col-md-4"><input type="text" id="fecha-fin" class="form-control form-control-sm"></div>
                     <div class="col-md-4 d-flex justify-content-end"><button id="pesaje-create" data-url="{% url 'pesaje-create' %}" class="btn btn-sm btn-primary">Nuevo</button></div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
             </div>
             <div class="options"></div>
         </div>     
-        <div id="items">
+        <div id="items" data-url="{% url 'pesaje-list' %}">
         <li class="miner-item">
             <div class="miner-item-info">
                 <div class="numero">

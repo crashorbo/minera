@@ -1,11 +1,40 @@
 import uuid
 from django.db import models
+from django.db.models import Q
+from django.db.models.query import QuerySet
 
 # Create your models here.
 TIPO_SERVICIO = (
     ('VEHICULO', 'VEHICULO'),
     ('CARGUIO', 'CARGUIO')
 )
+
+
+class MyModelMixin(object):
+
+    def q_for_search_word(self, word):
+        return Q(nombres__icontains=word) | Q(apellidos__icontains=word) | Q(placa__icontains=word)
+
+    def q_for_search(self, search):
+        q = Q()
+        if search:
+            searches = search.split()
+            for word in searches:
+                q = q & self.q_for_search_word(word)
+        return q
+
+    def filter_on_search(self, search):
+        return self.filter(self.q_for_search(search))
+
+
+class MyModelQuerySet(QuerySet, MyModelMixin):
+    pass
+
+
+class MyModelManager(models.Manager, MyModelMixin):
+
+    def get_queryset(self):
+        return MyModelQuerySet(self.model, using=self._db)
 
 
 class Vehiculo(models.Model):
@@ -23,6 +52,7 @@ class Vehiculo(models.Model):
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    objects = MyModelManager()
 
     def __str__(self):
         return '{} - {}'.format(self.placa, self.marca)

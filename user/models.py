@@ -15,6 +15,7 @@ TIPO_ROL = (
 
 TIPO_PARAMETRO = (
     (0, 'COLOR'),
+    (1, 'NUMERACION'),
 )
 
 
