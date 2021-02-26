@@ -94,8 +94,7 @@ vehiculoCreate.addEventListener("click", (e) => {
     });    
 });
 
-vehiculosTable.addEventListener("click", (e) => {
-    console.log(e.target);
+vehiculosTable.addEventListener("click", (e) => {    
     if (e.target.classList.contains("bi")) {
         e.preventDefault()
         getModal(e.target.dataset.url)

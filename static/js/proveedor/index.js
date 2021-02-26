@@ -94,8 +94,7 @@ proveedorCreate.addEventListener("click", (e) => {
     });    
 })
 
-proveedoresTable.addEventListener("click", (e) => {
-    console.log(e.target);
+proveedoresTable.addEventListener("click", (e) => {    
     if (e.target.classList.contains("bi")) {
         e.preventDefault()
         getModal(e.target.dataset.url)

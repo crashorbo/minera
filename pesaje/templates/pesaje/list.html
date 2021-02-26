@@ -1,43 +1,55 @@
-{% for carga in object_list %}
-<li class="miner-item">
-    <div class="miner-item-info">
-        <div class="numero">
-            {{ carga.numero }}
+{% load pesaje_tags %}
+
+{% if object_list.count > 0 %}
+    {% for carga in object_list %}
+    <li class="miner-item">
+        <div class="miner-item-info">
+            <div class="numero">
+                {{ carga.numero }}
+            </div>
+            <div class="fecha">
+                <span>{{ carga.created|date:"d/m/Y"}}</span>
+                <span>{{ carga.created|date:"H:i"}}</span>
+            </div>
+            <div class="conductor">
+                <span>{{ carga.vehiculo.apellidos|add:" "|add:carga.vehiculo.nombres}}</span>
+                <span>{{ carga.vehiculo.placa }}</span>
+            </div>
+            <div class="proveedor">
+                {{ carga.proveedor }}
+            </div>
+            <div class="origen">
+                {{ carga.origen }}
+            </div>
+            <div class="destino">
+                {{ carga.destino }}
+            </div>
+            <div class="peso-bruto">
+                {{ carga.peso_bruto|numero_decimal }}
+            </div>
+            <div class="peso-tara">
+                {{ carga.peso_tara|numero_decimal }}
+            </div>
+            <div class="peso-neto">
+                {{ carga.peso_neto_tn|numero_decimal }}
+            </div>
+            <div class="responsable">
+                {{ carga.usuario.username }}
+            </div>
+            <div class="options">
+                <i data-url="{% url 'pesaje-reporte' pk=carga.id %}" class="bi bi-printer"></i>
+                {% if not carga.pesaje %}
+                    <i data-url="{% url 'pesaje-tara' pk=carga.id %}" class="bi bi-pencil"></i>                                            
+                    <i class="bi bi-trash"></i>                                            
+                {% endif %}
+            </div>
         </div>
-        <div class="fecha">
-            <span>{{ carga.created|date:"d/m/Y"}}</span>
-            <span>{{ carga.created|date:"H:i"}}</span>
-        </div>
-        <div class="conductor">
-            <span>{{ carga.vehiculo.apellidos|add:" "|add:carga.vehiculo.nombres}}</span>
-            <span>{{ carga.vehiculo.placa }}</span>
-        </div>
-        <div class="proveedor">
-            {{ carga.proveedor }}
-        </div>
-        <div class="origen">
-            {{ carga.origen }}
-        </div>
-        <div class="destino">
-            {{ carga.destino }}
-        </div>
-        <div class="peso-bruto">
-            {{ carga.peso_bruto }}
-        </div>
-        <div class="peso-tara">
-            {{ carga.peso_tara }}
-        </div>
-        <div class="peso-neto">
-            {{ carga.peso_neto }}
-        </div>
-        <div class="responsable">
-            mansd
-        </div>
-        <div class="options">
-            <i class="bi bi-printer"></i>
-            <i class="bi bi-pencil"></i>                                            
-            <i class="bi bi-trash"></i>                                            
-        </div>
-    </div>
-</li>
-{% endfor %}
+    </li>
+    {% endfor %}
+{% else %}
+    <li class="text-center">
+        <span class="dataTables_info">No se han encontrado resultados</span> 
+    </li>
+{% endif %}
+
+

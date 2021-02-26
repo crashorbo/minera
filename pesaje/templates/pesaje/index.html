@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'vendor/select2/dist/css/select2.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/select2/dist/css/select2-bootstrap4.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/vanillajs-datepicker/css/datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/printJS/print.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/pesaje/index.css' %}">
 {% endblock css %}
 
@@ -68,91 +69,11 @@
             <div class="options"></div>
         </div>     
         <div id="items" data-url="{% url 'pesaje-list' %}">
-        <li class="miner-item">
-            <div class="miner-item-info">
-                <div class="numero">
-                    99999
-                </div>
-                <div class="fecha">
-                    <span>28/12/2022</span>
-                    <span>22:00</span>
-                </div>
-                <div class="conductor">
-                    <span>Flores Mancilla Filemon</span>
-                    <span>2343-kxs</span>
-                </div>
-                <div class="proveedor">
-                    Flores Mancilla Filemon
-                </div>
-                <div class="origen">
-                    Maria
-                </div>
-                <div class="destino">
-                    Cancha Mina
-                </div>
-                <div class="peso-bruto">
-                    28.620
-                </div>
-                <div class="peso-tara">
-                    6.234
-                </div>
-                <div class="peso-neto">
-                    22.64
-                </div>
-                <div class="responsable">
-                    mansd
-                </div>
-                <div class="options">
-                    <i class="bi bi-printer"></i>
-                    <i class="bi bi-pencil"></i>                                            
-                    <i class="bi bi-trash"></i>                                            
-                </div>
-            </div>
-        </li>                            
-        <li class="miner-item">
-            <div class="miner-item-info">
-                <div class="numero">
-                    99999
-                </div>
-                <div class="fecha">
-                    <span>28/12/2022</span>
-                    <span>22:00</span>
-                </div>
-                <div class="conductor">
-                    <span>Flores Mancilla Filemon</span>
-                    <span>2343-kxs</span>
-                </div>
-                <div class="proveedor">
-                    Flores Mancilla Filemon
-                </div>
-                <div class="origen">
-                    Maria
-                </div>
-                <div class="destino">
-                    Cancha Mina
-                </div>
-                <div class="peso-bruto">
-                    28.620
-                </div>
-                <div class="peso-tara">
-                    6.234
-                </div>
-                <div class="peso-neto">
-                    22.64
-                </div>
-                <div class="responsable">
-                    mansd
-                </div>
-                <div class="options">
-                    <i class="bi bi-printer"></i>
-                    <i class="bi bi-pencil"></i>                                            
-                    <i class="bi bi-trash"></i>                                            
-                </div>
-            </div>
-        </li>   
+        
         </div>                                            
     </ul>                           
-</div>                             
+</div>                        
+<div id="notSupported"></div>     
             
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -170,5 +91,6 @@
     <script src="{% static 'vendor/vanillajs-datepicker/js/locales/es.js' %}"></script>
     <script src="{% static 'vendor/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'vendor/select2/dist/js/i18n/es.js' %}"></script>
+    <script src="{% static 'vendor/printJS/print.min.js' %}"></script>
     <script src="{% static 'js/pesaje/index.js' %}"></script>
 {% endblock js %}

@@ -1,6 +1,6 @@
-<form id="pesaje-form" action="{% url 'pesaje-create' %}" method="post">
+<form id="pesaje-form" action="{% url 'pesaje-tara' pk=object.id %}" method="post">
     <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE PESO BRUTO</h5>
+    <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE PESO TARA</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
@@ -9,11 +9,11 @@
             <div class="col-md-6 balanza-marcador d-flex flex-row align-items-center justify-content-center">2345,56</div>
             <div class="col-md-3">
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" checked id="flexSwitchCheckDefault1" onclick="return false;">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault1" onclick="return false;">
                     <label class="form-check-label" for="flexSwitchCheckDefault1">PESO BRUTO</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault2" onclick="return false;">
+                    <input class="form-check-input" type="checkbox" checked id="flexSwitchCheckDefault2" onclick="return false;">
                     <label class="form-check-label" for="flexSwitchCheckDefault2">PESO TARA</label>
                 </div>
             </div>
