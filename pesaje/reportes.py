@@ -1,7 +1,7 @@
-from datetime import datetime
 from io import BytesIO
 import re
 import locale
+from datetime import datetime
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
