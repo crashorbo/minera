@@ -1,5 +1,7 @@
 const bodyConf = document.querySelector("#body-conf");
 const ulMenu = document.querySelector(".list-group-flush");
+const modalContent = document.querySelector(".modal-content");
+const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));       
 
 let url, selector = '';
 
@@ -53,7 +55,14 @@ ulMenu.addEventListener("click", (e) => {
         subMenuReset(selector);        
         cargarParametro(url);
     }
-
+    if (selector.getAttribute("id") == "selector-ubicacion") {
+        subMenuReset(selector);        
+        cargarUbicacion(url);
+    }
+    if (selector.getAttribute("id") == "selector-laboratorio") {
+        subMenuReset(selector);        
+        cargarLaboratorio(url);
+    }
 })
 
 const cargarPerfil = async (url) => {
@@ -96,11 +105,9 @@ const cargarPerfil = async (url) => {
 const cargarUsuario = async (url) => {
     await axios(url)    
     .then(res => {
-        bodyConf.innerHTML = res.data;        
-        const modalContent = document.querySelector(".modal-content");
+        bodyConf.innerHTML = res.data;                
         const userRegister = document.querySelector("#user-register"); 
-        const usuarioList = document.querySelector("#usuario-list");
-        const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));       
+        const usuarioList = document.querySelector("#usuario-list");        
         userRegister.addEventListener("click", async () => {
             myModal.show();
             await axios(userRegister.getAttribute("data-url"))            
@@ -170,23 +177,19 @@ const cargarUsuario = async (url) => {
 const cargarParametro = async (url) => {
     await axios(url)
     .then(res => {
-        bodyConf.innerHTML = res.data;
-        const modalContent = document.querySelector(".modal-content");
+        bodyConf.innerHTML = res.data;        
         const btnCotizacion = document.querySelector("#cotizacion-register");
-        const btnColor = document.querySelector("#color-register");
-        const btnDestino =document.querySelector("#destino-register");
-        const cotizaciones = document.querySelector("#cotizaciones");
-        const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));               
+        const btnFactor = document.querySelector("#factor-register");        
+        const cotizaciones = document.querySelector("#cotizaciones");        
         const datatable = $('#cotizaciones').DataTable({
             "language" : {
                 "thousands":      ".",
                 "decimal":        ",",
-                "emptyTable":     "No data available in table",
+                "emptyTable":     "Ningún dato disponible en esta tabla",
                 "info":           "Mostrando del _START_ al _END_ de _TOTAL_ registros",
-                "infoEmpty":      "Showing 0 to 0 of 0 entries",
-                "infoFiltered":   "(filtered from _MAX_ total entries)",
-                "infoPostFix":    "",
-                "thousands":      ",",
+                "infoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "infoPostFix":    "",                
                 "lengthMenu":     "Ver _MENU_ entradas",
                 "loadingRecords": "Cargando...",
                 "processing":     "Procesando...",
@@ -205,6 +208,7 @@ const cargarParametro = async (url) => {
             },
             "processing": true,
             "serverSide": true,
+            "scrollX": true,
             "ajax": "/user/parametro/cotizacion/json/",
             "columnDefs": [ 
                 {
@@ -215,6 +219,48 @@ const cargarParametro = async (url) => {
             "searching": false,            
         });       
         
+        const factores = async () => {
+            const factorBody = document.querySelector("#factores");
+            await axios(factorBody.getAttribute('data-url'))
+            .then(res => {
+                factorBody.innerHTML = res.data
+                const editores = factorBody.querySelectorAll('i');
+                editores.forEach(editor => {
+                    editor.addEventListener("click", async () => {
+                        await axios(editor.getAttribute("data-url"))
+                        .then(res => {                            
+                            modalContent.innerHTML = res.data;
+                            const formRegister = document.querySelector("#factor-form");                            
+                            myModal.show();
+                            formRegister.addEventListener("submit", async (e) => {
+                                e.preventDefault();
+                                await axios(formRegister.getAttribute("action"), {
+                                    method: "post",
+                                    data: new FormData(formRegister)
+                                })
+                                .then(res => {                
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.data.message
+                                    });                          
+                                    factores();
+                                    myModal.hide();
+                                })
+                                .catch(error => {
+                                    const parseado = JSON.parse(error.response.data.message)                        
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: JSON.stringify(parseado)
+                                    })
+                                })
+                            })
+                        })
+                    })
+                });
+            })
+        }
+        factores();
+
         cotizaciones.addEventListener("click", async (e) => {
             if (e.target.classList.contains("bi")){
                 await axios(e.target.getAttribute("data-url"))
@@ -262,122 +308,17 @@ const cargarParametro = async (url) => {
                     });
                 })
             }
-        })
+        })        
 
-        const colores = async () => {
-            const colorBody = document.querySelector("#colores");
-            await axios(colorBody.getAttribute('data-url'))
-            .then(res => {
-                colorBody.innerHTML = res.data
-                const editores = colorBody.querySelectorAll('i');
-                editores.forEach(editor => {
-                    editor.addEventListener("click", async () => {
-                        await axios(editor.getAttribute("data-url"))
-                        .then(res => {                            
-                            modalContent.innerHTML = res.data;
-                            const formRegister = document.querySelector("#color-form");
-                            $(".color-picker").spectrum({
-                                preferredFormat: "hex",
-                                color: "#fff",
-                                chooseText: 'OK',
-                                cancelText: 'Cancelar',
-                                hideAfterPaletteSelect:true,
-                            })
-                            myModal.show();
-                            formRegister.addEventListener("submit", async (e) => {
-                                e.preventDefault();
-                                await axios(formRegister.getAttribute("action"), {
-                                    method: "post",
-                                    data: new FormData(formRegister)
-                                })
-                                .then(res => {                
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: res.data.message
-                                    });                          
-                                    colores();
-                                    myModal.hide();
-                                })
-                                .catch(error => {
-                                    const parseado = JSON.parse(error.response.data.message)                        
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: JSON.stringify(parseado)
-                                    })
-                                })
-                            })
-                        })
-                    })
-                });
-            })
-        }
-        colores();
-
-        const destinos = async () => {
-            const destinoBody = document.querySelector("#destinos");
-            await axios(destinoBody.getAttribute('data-url'))
-            .then(res => {
-                destinoBody.innerHTML = res.data
-                const editores = destinoBody.querySelectorAll('i');
-                editores.forEach(editor => {
-                    editor.addEventListener("click", async () => {
-                        await axios(editor.getAttribute("data-url"))
-                        .then(res => {                            
-                            modalContent.innerHTML = res.data;
-                            const formRegister = document.querySelector("#destino-form");
-                            $(".color-picker").spectrum({
-                                preferredFormat: "hex",
-                                color: "#fff",
-                                chooseText: 'OK',
-                                cancelText: 'Cancelar',
-                                hideAfterPaletteSelect:true,
-                            })
-                            myModal.show();
-                            formRegister.addEventListener("submit", async (e) => {
-                                e.preventDefault();
-                                await axios(formRegister.getAttribute("action"), {
-                                    method: "post",
-                                    data: new FormData(formRegister)
-                                })
-                                .then(res => {                
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: res.data.message
-                                    });                          
-                                    destinos();
-                                    myModal.hide();
-                                })
-                                .catch(error => {
-                                    const parseado = JSON.parse(error.response.data.message)                        
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: JSON.stringify(parseado)
-                                    })
-                                })
-                            })
-                        })
-                    })
-                });
-            })
-        }
-        destinos();
-        
-        btnColor.addEventListener("click", async (e) => {
+        btnFactor.addEventListener("click", async (e) => {
             await axios(e.target.getAttribute("data-url"))
-            .then(res => {
-                modalContent.innerHTML = res.data;
-                const formRegister = document.querySelector("#color-form");
-                $(".color-picker").spectrum({
-                    preferredFormat: "hex",
-                    color: "#fff",
-                    chooseText: 'OK',
-                    cancelText: 'Cancelar',
-                    hideAfterPaletteSelect:true,
-                })
+            .then( res => {
+                modalContent.innerHTML = res.data;                
+                const formRegister = document.querySelector("#factor-form");                
                 myModal.show();
                 formRegister.addEventListener("submit", async (e) => {
                     e.preventDefault();
-                    await axios(formRegister.getAttribute("action"), {
+                    await axios(formRegister.getAttribute('action'), {
                         method: "post",
                         data: new FormData(formRegister)
                     })
@@ -386,7 +327,7 @@ const cargarParametro = async (url) => {
                             icon: 'success',
                             title: res.data.message
                         });                          
-                        colores();
+                        factores()
                         myModal.hide();
                     })
                     .catch(error => {
@@ -396,45 +337,7 @@ const cargarParametro = async (url) => {
                             title: JSON.stringify(parseado)
                         })
                     })
-                })
-            })
-        })
-
-        btnDestino.addEventListener("click", async (e) => {
-            await axios(e.target.getAttribute("data-url"))
-            .then(res => {
-                modalContent.innerHTML = res.data;
-                const formRegister = document.querySelector("#destino-form");
-                $(".color-picker").spectrum({
-                    preferredFormat: "hex",
-                    color: "#fff",
-                    chooseText: 'OK',
-                    cancelText: 'Cancelar',
-                    hideAfterPaletteSelect:true,
-                })
-                myModal.show();
-                formRegister.addEventListener("submit", async (e) => {
-                    e.preventDefault();
-                    await axios(formRegister.getAttribute("action"), {
-                        method: "post",
-                        data: new FormData(formRegister)
-                    })
-                    .then(res => {                
-                        Toast.fire({
-                            icon: 'success',
-                            title: res.data.message
-                        });                          
-                        destinos();
-                        myModal.hide();
-                    })
-                    .catch(error => {
-                        const parseado = JSON.parse(error.response.data.message)                        
-                        Toast.fire({
-                            icon: 'error',
-                            title: JSON.stringify(parseado)
-                        })
-                    })
-                })
+                });
             })
         })
 
@@ -481,4 +384,321 @@ const cargarParametro = async (url) => {
             })
         })
     })
+}
+const cargarUbicacion = async (url) => {
+    await axios(url)
+    .then(res => {
+        bodyConf.innerHTML = res.data;        
+        const btnDestino = document.querySelector("#destino-register");
+        const btnOrigen = document.querySelector("#origen-register");
+        const destinos = async () => {
+            const destinoBody = document.querySelector("#destinos");
+            await axios(destinoBody.getAttribute('data-url'))
+            .then(res => {
+                destinoBody.innerHTML = res.data
+                const editores = destinoBody.querySelectorAll('i');
+                editores.forEach(editor => {
+                    editor.addEventListener("click", async () => {
+                        await axios(editor.getAttribute("data-url"))
+                        .then(res => {                            
+                            modalContent.innerHTML = res.data;
+                            const formRegister = document.querySelector("#destino-form");                            
+                            myModal.show();
+                            formRegister.addEventListener("submit", async (e) => {
+                                e.preventDefault();
+                                await axios(formRegister.getAttribute("action"), {
+                                    method: "post",
+                                    data: new FormData(formRegister)
+                                })
+                                .then(res => {                
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.data.message
+                                    });                          
+                                    destinos();
+                                    myModal.hide();
+                                })
+                                .catch(error => {
+                                    const parseado = JSON.parse(error.response.data.message)                        
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: JSON.stringify(parseado)
+                                    })
+                                })
+                            })
+                        })
+                    })
+                });
+            })
+        }
+        destinos();
+
+        const origenes = async () => {
+            const origenBody = document.querySelector("#origenes");
+            await axios(origenBody.getAttribute('data-url'))
+            .then(res => {
+                origenBody.innerHTML = res.data
+                const editores = origenBody.querySelectorAll('i');
+                editores.forEach(editor => {
+                    editor.addEventListener("click", async () => {
+                        await axios(editor.getAttribute("data-url"))
+                        .then(res => {                            
+                            modalContent.innerHTML = res.data;
+                            const formRegister = document.querySelector("#origen-form");                            
+                            myModal.show();
+                            formRegister.addEventListener("submit", async (e) => {
+                                e.preventDefault();
+                                await axios(formRegister.getAttribute("action"), {
+                                    method: "post",
+                                    data: new FormData(formRegister)
+                                })
+                                .then(res => {                
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.data.message
+                                    });                          
+                                    origenes();
+                                    myModal.hide();
+                                })
+                                .catch(error => {
+                                    const parseado = JSON.parse(error.response.data.message)                        
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: JSON.stringify(parseado)
+                                    })
+                                })
+                            })
+                        })
+                    })
+                });
+            })
+        }
+        origenes();
+
+        btnDestino.addEventListener("click", async (e) => {
+            await axios(e.target.getAttribute("data-url"))
+            .then(res => {
+                modalContent.innerHTML = res.data;
+                const formRegister = document.querySelector("#destino-form");                
+                myModal.show();
+                formRegister.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    await axios(formRegister.getAttribute("action"), {
+                        method: "post",
+                        data: new FormData(formRegister)
+                    })
+                    .then(res => {                
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.message
+                        });                          
+                        destinos();
+                        myModal.hide();
+                    })
+                    .catch(error => {
+                        const parseado = JSON.parse(error.response.data.message)                        
+                        Toast.fire({
+                            icon: 'error',
+                            title: JSON.stringify(parseado)
+                        })
+                    })
+                })
+            })
+        });
+        btnOrigen.addEventListener("click", async (e) => {
+            await axios(e.target.getAttribute("data-url"))
+            .then(res => {
+                modalContent.innerHTML = res.data;
+                const formRegister = document.querySelector("#origen-form");                
+                myModal.show();
+                formRegister.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    await axios(formRegister.getAttribute("action"), {
+                        method: "post",
+                        data: new FormData(formRegister)
+                    })
+                    .then(res => {                
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.message
+                        });                          
+                        origenes();
+                        myModal.hide();
+                    })
+                    .catch(error => {
+                        const parseado = JSON.parse(error.response.data.message)                        
+                        Toast.fire({
+                            icon: 'error',
+                            title: JSON.stringify(parseado)
+                        })
+                    })
+                })
+            })
+        });
+    });
+}
+
+const cargarLaboratorio = async (url) => {
+    await axios(url)
+    .then(res => {
+        bodyConf.innerHTML = res.data;
+        const btnGenerador = document.querySelector("#generador-register");        
+        const btnLaboratorio =document.querySelector("#laboratorio-register");
+        const generadorBody = document.querySelector("#generador");      
+        const generador = $('#generador').DataTable({
+            "language" : {
+                "thousands":      ".",
+                "decimal":        ",",
+                "emptyTable":     "Ningún dato disponible en esta tabla",
+                "info":           "Mostrando del _START_ al _END_ de _TOTAL_ registros",
+                "infoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "infoPostFix":    "",                
+                "lengthMenu":     "Ver _MENU_ entradas",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "Buscar:",
+                "zeroRecords":    "No se encontraron resultados",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Ultimo",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                },
+                "aria": {
+                    "sortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+            "processing": true,
+            "serverSide": true,
+            "ajax": "/user/parametro/generador/json/",     
+            "columnDefs": [ 
+                {
+                    "targets": 2,
+                    "orderable": false
+                } 
+            ],             
+            "searching": false,            
+        });       
+        
+        generadorBody.addEventListener("click", async (e) => {
+            e.preventDefault();
+            if (e.target.classList.contains("bi-printer")) {
+                window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
+            }
+        })  
+
+        const laboratorios = async () => {
+            const laboratorioBody = document.querySelector("#laboratorios");
+            await axios(laboratorioBody.getAttribute('data-url'))
+            .then(res => {
+                laboratorioBody.innerHTML = res.data
+                const editores = laboratorioBody.querySelectorAll('i');
+                editores.forEach(editor => {
+                    editor.addEventListener("click", async () => {
+                        await axios(editor.getAttribute("data-url"))
+                        .then(res => {                            
+                            modalContent.innerHTML = res.data;
+                            const formRegister = document.querySelector("#laboratorio-form");
+                            $(".color-picker").spectrum({
+                                preferredFormat: "hex",
+                                color: "#fff",
+                                chooseText: 'OK',
+                                cancelText: 'Cancelar',
+                                hideAfterPaletteSelect:true,
+                            })
+                            myModal.show();
+                            formRegister.addEventListener("submit", async (e) => {
+                                e.preventDefault();
+                                await axios(formRegister.getAttribute("action"), {
+                                    method: "post",
+                                    data: new FormData(formRegister)
+                                })
+                                .then(res => {                
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.data.message
+                                    });                          
+                                    laboratorios();
+                                    myModal.hide();
+                                })
+                                .catch(error => {
+                                    const parseado = JSON.parse(error.response.data.message)                        
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: JSON.stringify(parseado)
+                                    })
+                                })
+                            })
+                        })
+                    })
+                });
+            })
+        }
+        laboratorios(); 
+
+        btnLaboratorio.addEventListener("click", async (e) => {
+            await axios(e.target.getAttribute("data-url"))
+            .then(res => {
+                modalContent.innerHTML = res.data;
+                const formRegister = document.querySelector("#laboratorio-form");                
+                myModal.show();
+                formRegister.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    await axios(formRegister.getAttribute("action"), {
+                        method: "post",
+                        data: new FormData(formRegister)
+                    })
+                    .then(res => {                
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.message
+                        });                          
+                        laboratorios();
+                        myModal.hide();
+                    })
+                    .catch(error => {
+                        const parseado = JSON.parse(error.response.data.message)                        
+                        Toast.fire({
+                            icon: 'error',
+                            title: JSON.stringify(parseado)
+                        })
+                    })
+                })
+            })
+        })
+
+        btnGenerador.addEventListener("click", async (e) => {
+            await axios(e.target.getAttribute("data-url"))
+            .then( res => {
+                modalContent.innerHTML =res.data;
+                const formRegister = document.querySelector("#generador-form");
+                myModal.show();
+                formRegister.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    await axios(formRegister.getAttribute('action'), {
+                        method: "post",
+                        data:  new FormData(formRegister)
+                    })
+                    .then(res => {                
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.data.message
+                        });                          
+                        generador.ajax.reload( null, false);                                              
+                        myModal.hide();
+                    })
+                    .catch(error => {
+                        const parseado = JSON.parse(error.response.data.message)                        
+                        Toast.fire({
+                            icon: 'error',
+                            title: JSON.stringify(parseado)
+                        })
+                    })
+                })
+
+            })
+        })
+    });
 }

@@ -1,0 +1,26 @@
+{% load static %}
+
+{% load pesaje_tags %}
+
+<table class="table table-hover table-responsive display nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th scope="col">Rango Inferior</th>
+            <th scope="col">Rango Superior</th>                            
+            <th scope="col">Factor Recup.</th>                            
+            <th scope="col">Sugerencia</th>                            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody >                      
+    {% for factor in object_list %}
+        <tr>
+            <td class="text-end">{{ factor.rango_inferior | numero_decimal }}</td>
+            <td class="text-end">{{ factor.rango_superior | numero_decimal }}</td>
+            <td class="text-end">{{ factor.factor_recuperacion | numero_decimal }}</td>
+            <td class="text-end">{{ factor.sugerencia | numero_decimal }}</td>
+            <td class="cotizacion-options text-end"><i class="bi bi-pencil-square" data-url={% url 'factor-edit' pk=factor.id %}></i></td>
+        </tr>
+    {% endfor %}           
+    </tbody>
+</table>

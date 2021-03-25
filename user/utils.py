@@ -2,16 +2,16 @@ from .models import Parametro
 import datetime
 
 
-def get_numeracion():
+def get_numeracion(tipo):
     today = datetime.date.today()
     try:
-        parametro = Parametro.objects.get(tipo=1, nombre=today.year)
-    except Parametro.DoesNotExist:
-        parametro = Parametro(tipo=1, nombre=today.year, valor=0)
+        parametro = Parametro.objects.get(tipo=tipo, nombre=today.year)
+        parametro.valor = int(parametro.valor)+1
         parametro.save()
-    parametro.valor = int(parametro.valor)+1
-    parametro.save()
-    return transformar_numeracion(parametro.nombre, parametro.valor)
+    except Parametro.DoesNotExist:
+        parametro = Parametro(tipo=tipo, nombre=today.year, valor=1)
+        parametro.save()
+    return transformar_numeracion(str(parametro.nombre), parametro.valor)
 
 
 def transformar_numeracion(nombre, valor):

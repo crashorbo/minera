@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h5 class="modal-title">Editar Laboratorio</h5>
+</div>
+<div class="modal-body">
+    <form id="laboratorio-form" action="{% url 'laboratorio-edit' pk=object.id %}" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <label for="" class="sr-only">Nombre</label>
+                {{ form.nombre }}
+            </div>            
+        </div>        
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>

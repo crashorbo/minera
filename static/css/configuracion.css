@@ -66,6 +66,10 @@
     color: var(--danger);
 }
 
+.cotizacion-options .bi-printer {
+    color: var(--primary);
+}
+
 .dataTables_info {
     color: var(--primary) !important;
     font-weight: 400;

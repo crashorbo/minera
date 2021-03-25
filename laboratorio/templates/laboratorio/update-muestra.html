@@ -1,0 +1,39 @@
+
+<form id="form-muestra" action="{% url 'muestra-update' pk=object.id %}" method="post">
+    <div class="modal-header {{ object.css_class }}">
+        <h6 id="exampleModalLabel">MUESTRA {{ object.nombre }} - {{ object.codigo }}</h6>    
+    </div>
+    <div class="modal-body">
+        {% csrf_token %}
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label class="form-label" for="">MALLA +150</label>
+                {{ form.malla_mas }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="">MALLA -150</label>
+                {{ form.malla_menos }}
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label class="form-label" for="">LEY PONDERADA</label>
+                {{ form.ley_ponderada }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="">NRO. CERTIFICADO</label>
+                {{ form.nro_certif }}
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <label class="form-label" for="">MALLA -150</label>
+                {{ form.laboratorio }}
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancelar</button>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+    </div>
+</form>

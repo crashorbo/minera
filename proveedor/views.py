@@ -72,8 +72,8 @@ class ProveedorListJson(LoginRequiredMixin, BaseDatatableView):
                 '{} {}'.format(item.apellidos, item.nombres),
                 item.numero_documento,
                 # escape HTML for security reasons
-                escape(item.telefono),
-                escape(item.direccion),
+                escape(item.telefono) if item.telefono else '',
+                escape(item.direccion) if item.direccion else '',
                 '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-pencil-square"></i><i data-url="{}" class="bi bi-trash ms-2"></i></div>'.format(
                     reverse('proveedor-edit', kwargs={'pk': item.id}), 'test2')
             ])

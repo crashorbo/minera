@@ -25,5 +25,8 @@ urlpatterns = [
     path('pesaje/', include('pesaje.urls')),
     path('proveedor/', include('proveedor.urls')),
     path('conductor/', include('conductor.urls')),
+    path('paleta/', include('paleta.urls')),
+    path('laboratorio/', include('laboratorio.urls')),
+    path('contabilidad/', include('contabilidad.urls')),
     path('', include('frontend.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

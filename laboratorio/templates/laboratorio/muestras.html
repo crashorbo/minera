@@ -1,0 +1,28 @@
+
+{% for muestra in muestras %}
+    <div class="text-center muestra-title">MUESTRA {{ muestra.nombre }}</div>
+    <table class="table table-bordered table-sm table-muestra">        
+        <thead class="{{ muestra.css_class }}">
+            <tr>
+                <th>COD. LAB.</th>
+                <th>MALLA +150</th>
+                <th>MALLA -150</th>
+                <th>LEY POND.</th>
+                <th>NRO. CERT.</th>
+                <th>LABORATORIO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-url="{% url 'muestra-update' pk=muestra.id %}">
+                <td class="text-center">{{ muestra.codigo }}</td>
+                <td class="text-end">{{ muestra.malla_mas }}</td>
+                <td class="text-end">{{ muestra.malla_menos }}</td>
+                <td class="text-end">{{ muestra.ley_ponderada }}</td>
+                <td class="text-center">{{ muestra.nro_certif }}</td>
+                <td class="text-center">{% if muestra.laboratorio %}{{ muestra.laboratorio }}{% endif %}   </td>
+            </tr>
+        </tbody>
+    </table>      
+{% endfor %}
+
+

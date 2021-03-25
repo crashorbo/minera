@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Vehiculo
+from .models import Vehiculo, Conductor
 
 
 class VehiculoCreateForm(forms.ModelForm):
@@ -18,4 +18,16 @@ class VehiculoCreateForm(forms.ModelForm):
             'modelo': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
             'descripcion': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
             'tipo': forms.Select(attrs={'class': 'form-select form-select-sm'}),
+        }
+
+
+class ConductorCreateForm(forms.ModelForm):
+    class Meta:
+        model = Conductor
+        fields = ('nombres', 'apellidos', 'numero_documento', 'telefono')
+        widgets = {
+            'nombres': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
+            'apellidos': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
+            'numero_documento': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
         }

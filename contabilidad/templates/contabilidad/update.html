@@ -1,0 +1,182 @@
+{% load pesaje_tags %}
+<div class="col-md-12">
+    <form id="contabilidad-form" action="{% url 'contabilidad-update' pk=object.id %}" method="post">
+        <table class="table table-bordered table-sm">
+            <tbody>
+                <tr>
+                    <td class="primary-row">
+                        NUMERO:
+                    </td>
+                    <td class="text-end">
+                        <strong>{{ object.numero }}</strong>
+                    </td>
+                </tr>      
+                <tr>
+                    <td class="primary-row">
+                        NUMERO PALETA:
+                    </td>
+                    <td class="text-end">
+                        <strong>{{ object.numero_paleta }}</strong>
+                    </td>           
+                </tr>      
+                <tr>
+                    <td class="primary-row">
+                        FECHA:
+                    </td>
+                    <td class="text-center">
+                        {% now "d/m/Y" %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="primary-row">
+                        PROVEEDOR:
+                    </td>
+                    <td class="text-center">
+                        {{ object.proveedor.apellidos }} {{ object.proveedor.nombres }}
+                    </td>
+                </tr>            
+                <tr>
+                    <td class="primary-row">
+                        TON HUMEDA:
+                    </td>
+                    <td class="text-end">
+                        {{ object.peso_neto_tn | numero_decimal }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="primary-row">
+                        HUMEDAD:
+                    </td>
+                    <td class="text-end">
+                        {{ object.h2o | numero_decimal }}
+                    </td>
+                <tr>
+                <tr>
+                    <td class="primary-row">
+                        TON SECO:
+                    </td>
+                    <td class="text-end">
+                        {{ object.tms_pagar | numero_decimal }}
+                    </td>
+                <tr>
+                <tr>
+                    <td class="primary-row">
+                        FINOS RECUP. Gr. - 60:
+                    </td>
+                    <td class="text-end">
+                        {{ object.finos_gr_recup | numero_decimal }}
+                    </td>
+                <tr>
+                <tr>
+                    <td class="total-row">
+                        VALOR REPOSICION:
+                    </td>
+                    <td id="valor-reposicion" class="text-end">
+                        <strong>{{ object.valor_reposicion | numero_decimal }}</strong>
+                    </td>
+                <tr>
+                <tr>
+                    <td class="primary-row">
+                        COBRE SOLUBLE CN:
+                    </td>
+                    <td id="cobre-soluble" class="text-end">
+                        {{ object.penalizacion_cu_soluble | numero_decimal }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="primary-row">
+                        ANTICIPOS:
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                            
+                            <div class="col-md-6">{{ form.anticipo }}</div>                            
+                        </div>                     
+                    </td>
+                </tr>            
+                <tr>
+                    <td class="primary-row">
+                        PALA(CARGUIO):
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                            
+                            <div class="col-md-6">{{ form.equipo_pesado }}</div>                            
+                        </div>                     
+                    </td>
+                </tr>            
+                <tr>
+                    <td class="primary-row">
+                        BALANZA(PESO):
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                            
+                            <div class="col-md-6">{{ form.balanza }}</div>                            
+                        </div>                     
+                    </td>
+                </tr>            
+                <tr>
+                    <td class="primary-row">
+                        VOLQUETA(ACARREO):
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                            
+                            <div class="col-md-6">{{ form.volqueta }}</div>                            
+                        </div>                     
+                    </td>
+                </tr>            
+                <tr>
+                    <td class="primary-row">
+                        LABORATORIO(ANALISIS):
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                            
+                            <div class="col-md-6">{{ form.analisis_laboratorio }}</div>                            
+                        </div>                     
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="primary-row">
+                        DESCUENTOS P/TERCEROS:
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                            
+                            <div class="col-md-6">{{ form.otros_descuentos }}</div>                            
+                        </div>                     
+                    </td>
+                </tr>                      
+                 <tr>
+                    <td class="total-row">
+                        VALOR DESCUENTOS:
+                    </td>
+                    <td class="text-end">
+                        <strong id="total-descuentos">{{ object.total_descuento | numero_decimal }}</strong>
+                    </td>
+                <tr>
+                </tr>                      
+                 <tr>
+                    <td class="liquido-row">
+                        LIQUIDO PAGABLE:
+                    </td>
+                    <td class="text-end">
+                        <strong id="liquido-pagable">{{ object.liquido_pagable | numero_decimal }}</strong>
+                    </td>
+                <tr>                
+                <tr>
+                    <td>                        
+                    </td>
+                    <td class="text-center">
+                        <div class="row">
+                            {% csrf_token %}                            
+                            {% if object.valor_reposicion %}
+                                <div class="col-md-12 text-end"><button type="button" class="btn btn-sm btn-primary">PAGAR</button></div>                            
+                            {% else %}
+                                <div class="col-md-12 text-center no-pagar">
+                                    <strong >NO PAGAR</strong>
+                                </div>
+                            {% endif %}                                                   
+                        </div>                     
+                    </td>
+                </tr>                            
+            </tbody>
+        </table>    
+    </form>
+</div>

@@ -24,7 +24,7 @@ class PesajeCreateView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         model = form.save(commit=False)
-        model.numero = get_numeracion()
+        model.numero = get_numeracion(1)
         model.usuario = self.request.user
         model.save()
         return JsonResponse({"message": "Datos de Pesaje registrado con exito"}, status=200)
@@ -76,7 +76,6 @@ class PesajeListView(LoginRequiredMixin, ListView):
             'fecha_inicio', today)
         fecha_fin = self.request.GET.get(
             'fecha_fin', today)
-        print(fecha_inicio, fecha_fin)
         return Carga.objects.filter(created__date__range=(fecha_inicio, fecha_fin))
 
 

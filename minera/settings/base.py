@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'pesaje.apps.PesajeConfig',
     'proveedor.apps.ProveedorConfig',
     'conductor.apps.ConductorConfig',
+    'paleta.apps.PaletaConfig',
+    'laboratorio.apps.LaboratorioConfig',
+    'contabilidad.apps.ContabilidadConfig',
 ]
 
 MIDDLEWARE = [

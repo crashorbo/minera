@@ -2,35 +2,8 @@
     <h5 class="modal-title">Registro de Vehiculo</h5>
 </div>
 <div class="modal-body">
-    <form id="vehiculo-form" action="{% url 'vehiculo-create' %}" method="post" autocomplete="off">
-        {% csrf_token %}
-        <div class="row mb-2">
-            <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Tipo</label>
-                {{ form.tipo }}
-            </div>            
-            <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Placa</label>
-                {{ form.placa }}
-            </div>            
-        </div>
-        <div class="row mb-2">
-            <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Marca</label>
-                {{ form.marca }}
-            </div>            
-            <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Modelo</label>
-                {{ form.modelo }}
-            </div>            
-        </div>
-        <div class="row mb-2">
-            <div class="col-md-12">
-                <label for="" class="sr-only">Descripcion</label>
-                {{ form.descripcion }}
-            </div>            
-        </div>
-        <hr>
+    <form id="conductor-form" action="{% url 'conductor-create' %}" method="post" autocomplete="off">
+        {% csrf_token %}        
         <div class="row mb-2">
             <div class="col-md-12">
                 <label for="" class="sr-only">Nombres</label>

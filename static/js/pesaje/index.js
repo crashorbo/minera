@@ -146,6 +146,41 @@ items.addEventListener("click", async (e) => {
                 minimumInputLength: 3,
                 
             });
+            $('#id_conductor_vehiculo').select2({
+                language: 'es',      
+                theme: "bootstrap4",   
+                width: "100%",
+                ajax: {
+                    url: "/conductor/conductor-autocomplete/",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function(markup) {
+                    return markup;
+                }, // let our custom formatter work
+                minimumInputLength: 3,
+                
+            });
             $('#id_carguio').select2({
                 language: 'es',      
                 theme: "bootstrap4",   
@@ -181,6 +216,12 @@ items.addEventListener("click", async (e) => {
                 minimumInputLength: 3,
                 
             });    
+            $('#id_origen').select2({
+                language: 'es',      
+                theme: "bootstrap4",   
+                width: "100%",
+                placeholder: "Seleccionar Origen",
+            });
             $('#id_destino').select2({
                 language: 'es',      
                 theme: "bootstrap4",   
@@ -276,6 +317,41 @@ pesajeCreate.addEventListener("click", async () => {
             minimumInputLength: 3,
             
         });
+        $('#id_conductor_vehiculo').select2({
+            language: 'es',      
+            theme: "bootstrap4",   
+            width: "100%",
+            ajax: {
+                url: "/conductor/conductor-autocomplete/",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            }, // let our custom formatter work
+            minimumInputLength: 3,
+            
+        });
         $('#id_carguio').select2({
             language: 'es',      
             theme: "bootstrap4",   
@@ -310,6 +386,12 @@ pesajeCreate.addEventListener("click", async () => {
             }, // let our custom formatter work
             minimumInputLength: 3,
             
+        });
+        $('#id_origen').select2({
+            language: 'es',      
+            theme: "bootstrap4",   
+            width: "100%",
+            placeholder: "Seleccionar Origen",
         });    
         $('#id_destino').select2({
             language: 'es',      

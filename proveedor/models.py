@@ -51,4 +51,7 @@ class Proveedor(models.Model):
     def clean(self):
         self.nombres = self.nombres.upper()
         self.apellidos = self.apellidos.upper()
-        self.direccion = self.direccion.upper()
+        try:
+            self.direccion = self.direccion.upper()
+        except:
+            self.direccion = self.direccion

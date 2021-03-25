@@ -5,7 +5,7 @@ import datetime
 from django import forms
 from django.forms import widgets
 
-from .models import Cotizacion, CustomUser, Destino, Parametro
+from .models import Cotizacion, CustomUser, Destino, Factor, Generador, Laboratorio, Parametro, Origen
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -34,8 +34,8 @@ class CustomUserUpdateForm(forms.ModelForm):
                   'email', 'photo', 'telefono')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
             'email': forms.EmailInput(attrs={'class': 'form-control form-control-sm'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
         }
@@ -56,43 +56,19 @@ class CustomUserEditForm(forms.ModelForm):
 class CotizacionForm(forms.ModelForm):
     class Meta:
         model = Cotizacion
-        fields = ('fecha_inicio', 'fecha_fin', 'valor')
+        fields = ('fecha_inicio', 'fecha_fin',
+                  'valor_oficial', 'valor_pagable')
         widgets = {
             'fecha_inicio': forms.DateInput(attrs={'class': 'fecha form-control form-control-sm'}),
             'fecha_fin': forms.DateInput(attrs={'class': 'fecha form-control form-control-sm'}),
-            'valor': forms.NumberInput(attrs={'class': 'form-control form-control-sm'})
+            'valor_oficial': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
+            'valor_pagable': forms.NumberInput(attrs={'class': 'form-control form-control-sm'})
         }
 
     def __init__(self, *args, **kwargs):
         super(CotizacionForm, self).__init__(*args, **kwargs)
         self.fields['fecha_inicio'].initial = datetime.datetime.now()
         self.fields['fecha_fin'].initial = datetime.datetime.now()
-
-
-TIPO_MESES = (
-    (1, 'Enero'),
-    (2, 'Febrero'),
-    (3, 'Marzo'),
-    (4, 'Abril'),
-    (5, 'Mayo'),
-    (6, 'Junio'),
-    (7, 'Julio'),
-    (8, 'Agosto'),
-    (9, 'Septiembre'),
-    (10, 'Octubre'),
-    (11, 'Noviembre'),
-    (12, 'Diciembre'),
-)
-
-
-class ColorForm(forms.ModelForm):
-    class Meta:
-        model = Parametro
-        fields = ('nombre', 'valor')
-        widgets = {
-            'nombre': forms.Select(choices=TIPO_MESES, attrs={'class': 'form-select form-select-sm'}),
-            'valor': forms.TextInput(attrs={'class': 'form-control form-control-sm color-picker'})
-        }
 
 
 class ColorEditForm(forms.ModelForm):
@@ -111,4 +87,44 @@ class DestinoCreateForm(forms.ModelForm):
         fields = ('nombre',)
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'})
+        }
+
+
+class OrigenCreateForm(forms.ModelForm):
+    class Meta:
+        model = Origen
+        fields = ('nombre',)
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'})
+        }
+
+
+class LaboratorioCreateForm(forms.ModelForm):
+    class Meta:
+        model = Laboratorio
+        fields = ('nombre',)
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'})
+        }
+
+
+class GeneradorCreateForm(forms.ModelForm):
+    class Meta:
+        model = Generador
+        fields = ('cantidad',)
+        widgets = {
+            'cantidad': forms.NumberInput(attrs={'class': 'form-control form-control-sm'})
+        }
+
+
+class FactorCreateForm(forms.ModelForm):
+    class Meta:
+        model = Factor
+        fields = ('rango_inferior', 'rango_superior',
+                  'factor_recuperacion', 'sugerencia')
+        widgets = {
+            'rango_inferior': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
+            'rango_superior': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
+            'factor_recuperacion': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
+            'sugerencia': forms.NumberInput(attrs={'class': 'form-control form-control-sm'})
         }

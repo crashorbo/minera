@@ -54,7 +54,7 @@ class ReporteCarga:
         locale.setlocale(locale.LC_TIME, "es_ES")
         pdf.drawString(75, 210, self.__carga.created.strftime("%A, %d %B %Y"))
         pdf.drawString(75, 190, '{} {}'.format(
-            self.__carga.vehiculo.apellidos, self.__carga.vehiculo.nombres))
+            self.__carga.conductor_vehiculo.apellidos, self.__carga.conductor_vehiculo.nombres))
         pdf.drawString(75, 170, self.__carga.vehiculo.placa)
         pdf.drawString(75, 150, str(self.__carga.peso_bruto))
         pdf.drawString(75, 130, str(self.__carga.origen))

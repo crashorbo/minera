@@ -1,0 +1,18 @@
+.primary-row {
+    background-color: var(--primary) !important;
+    color: #fff;
+}
+
+.total-row {
+    background-color: #0B3861 !important;
+    color: #fff;
+}
+
+.liquido-row {
+    background-color: #86B404 !important;
+    color: #fff;
+}
+
+.no-pagar {
+    color: #842029;
+}

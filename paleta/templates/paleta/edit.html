@@ -1,0 +1,96 @@
+{% load pesaje_tags %}
+<div class="col-md-12">
+    <form action="{% url 'paleta-edit' pk=object.id %}" method="post">
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td class="primary-row">
+                    NUMERO:
+                </td>
+                <td class="text-end">
+                    <strong>{{ object.numero }}</strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="primary-row">
+                    FECHA:
+                </td>
+                <td class="text-center">
+                    {{ object.created }}
+                </td>
+            </tr>
+            <tr>
+                <td class="primary-row">
+                    Nº PLACA VEHIC.:
+                </td>
+                <td class="text-center">
+                    {{ object.vehiculo.placa }}
+                </td>
+            </tr>
+            <tr>
+                <td class="primary-row">
+                    CONDUCTOR:
+                </td>
+                <td class="text-center">
+                    {{ object.vehiculo.apellidos }} {{ object.vehiculo.nombres }}
+                </td>
+            </tr>            
+            <tr>
+                <td class="primary-row">
+                    ORIGEN:
+                </td>
+                <td class="text-center">
+                    {{ object.origen }}
+                </td>
+            </tr>
+            <tr>
+                <td class="primary-row">
+                    DESTINO:
+                </td>
+                <td class="text-center">
+                    {{ object.destino }}
+                </td>
+            </tr>            
+            {% if object.numero_paleta and object.color %}
+            <tr>
+                <td class="primary-row">
+                    COLOR:
+                </td>                
+                <td class="text-center">
+                    {{ object.color }}
+                </td>                            
+            </tr>
+            <tr>
+                <td class="primary-row">
+                    NUMERO PALETA:
+                </td>                
+                <td class="text-end">
+                    <strong>{{ object.numero_paleta }}</strong>
+                </td>            
+            </tr>
+            {% else %}        
+            <tr>
+                <td class="primary-row">COLOR:</td>
+                <td>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ form.color }}
+                        </div>
+                    </div>
+                </td>
+            </tr>                            
+            <tr>
+                <td class="primary-row">NUMERO PALETA:</td>
+                <td>
+                    <div class="row">
+                        {% csrf_token %}
+                        <div class="col-md-6">{{ form.numero_paleta }}</div>
+                        <div class="col-md-6 d-grid gap-2"><button type="submit" class="btn btn-sm btn-primary">Guardar</button></div>
+                    </div>                
+                </td>
+            </tr>                    
+            {% endif %}
+        </tbody>
+    </table>
+    </form>      
+</div>

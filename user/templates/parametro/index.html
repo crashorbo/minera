@@ -1,47 +1,7 @@
 {% load static %}
 
 {% load usuario_tags %}
-<div class="row">
-    <div class="col-md-6"> 
-        <div class="card">
-            <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <h5 class="card-title">
-                        COLORES
-                        </h5>
-                    </div>
-                    <div class="col-md-6 text-end">    
-                        {% if request.user.is_superuser %}<button id="color-register" class="btn btn-sm btn-primary" data-url="{% url 'color-create' %}">NUEVO</button>{% endif %}
-                    </div>
-                </div>
-                <div class="row">
-                    <div id="colores" class="col-md-12" data-url="{% url 'color-list' %}">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>  
-        <div class="card mt-2">
-            <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <h5 class="card-title">
-                        DESTINO DE LA CARGA
-                        </h5>
-                    </div>
-                    <div class="col-md-6 text-end">    
-                        <button id="destino-register" class="btn btn-sm btn-primary" data-url="{% url 'destino-create' %}">NUEVO</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div id="destinos" class="col-md-12" data-url="{% url 'destino-list' %}">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>      
-    </div>
+<div class="row">    
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
@@ -57,12 +17,13 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="cotizaciones" class="table table-hover table-responsive">
+                        <table id="cotizaciones" class="table table-hover display nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th scope="col">Fecha Inicio</th>
                                     <th scope="col">Fecha Fin</th>
-                                    <th scope="col">Valor</th>                    
+                                    <th scope="col">Valor Pagable</th>                    
+                                    <th scope="col">Valor Oficial</th>                    
                                     <th></th>
                                 </tr>
                             </thead>
@@ -72,6 +33,27 @@
                     </div>
                 </div>
             </div>
-        </div>                        
+        </div>                              
     </div>    
+    <div class="col-md-6"> 
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-8">
+                        <h5 class="card-title">
+                        FACTOR RECUPERACION
+                        </h5>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button id="factor-register" class="btn btn-sm btn-primary" data-url="{% url 'factor-create' %}">NUEVO</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="factores" class="col-md-12" data-url="{% url 'factor-list' %}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>                   
+    </div>
 </div>

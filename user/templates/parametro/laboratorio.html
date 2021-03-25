@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <h5 class="card-title">
+                        LABORATORIOS
+                        </h5>
+                    </div>
+                    <div class="col-md-6 text-end">    
+                        <button id="laboratorio-register" class="btn btn-sm btn-primary" data-url="{% url 'laboratorio-create' %}">NUEVO</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="laboratorios" class="col-md-12" data-url="{% url 'laboratorio-list' %}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <h5 class="card-title">
+                            CODIGOS MUESTREO
+                        </h5>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button id="generador-register" class="btn btn-sm btn-primary" data-url="{% url 'generador-create' %}">NUEVO</button>                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="generador" class="table table-hover table-responsive">
+                            <thead>
+                                <tr>                                    
+                                    <th scope="col">Fecha</th>                                    
+                                    <th scope="col">Cantidad</th>                                    
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}    
+    <link rel="stylesheet" href="{% static 'vendor/datatables/css/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/conductor/index.css' %}">
+{% endblock css %}
+
+{% block title %}Vehiculo{% endblock title %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <h5 class="card-title">LISTA DE VEHICULOS</h5>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button id="vehiculo-create" class="btn btn-primary" data-url="{% url 'vehiculo-create' %}">Nuevo</button>
+                    </div>            
+                </div>        
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <table id="vehiculos" class="table table-hover display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Placa</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>                            
+                                    <th>Propietario</th>
+                                    <th>Nro. Doc.</th>
+                                    <th>Telefono</th>                            
+                                    <th></th>                            
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <h5 class="card-title">LISTA DE CONDUCTORES</h5>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button id="conductor-create" class="btn btn-primary" data-url="{% url 'conductor-create' %}">Nuevo</button>
+                    </div>            
+                </div>        
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <table id="conductores" class="table table-hover display nowrap" style="width:100%">
+                            <thead>
+                                <tr>                                    
+                                    <th>Conductor</th>
+                                    <th>Nro. Doc.</th>
+                                    <th>Telefono</th>                            
+                                    <th></th>                            
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block js %}
+    <script src="{% static 'vendor/datatables/js/jquery-3.5.1.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/dataTables.bootstrap5.min.js'%}"></script>
+    <script src="{% static 'js/conductor/index.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,115 @@
+{% load pesaje_tags %}
+<div class="col-md-12">
+    <form id="laboratorio-form" action="{% url 'laboratorio-update' pk=object.id %}" method="post">
+        <table class="table table-bordered table-sm">
+            <tbody>
+                <tr>
+                    <td class="primary-row">
+                        NUMERO:
+                    </td>
+                    <td class="text-end">
+                        <strong>{{ object.numero }}</strong>
+                    </td>
+                </tr>      
+                <tr>
+                    <td class="primary-row">
+                        NUMERO PALETA:
+                    </td>
+                    <td class="text-end">
+                        <strong>{{ object.numero_paleta }}</strong>
+                    </td>           
+                </tr>      
+                <tr>
+                    <td class="primary-row">
+                        ORIGEN:
+                    </td>
+                    <td class="text-center">
+                        {{ object.origen }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="primary-row">
+                        DESTINO:
+                    </td>
+                    <td class="text-center">
+                        {{ object.destino }}
+                    </td>
+                </tr>            
+                <tr>
+                    <td class="primary-row">
+                        PESO NETO (Tn):
+                    </td>
+                    <td class="text-end">
+                        {{ object.peso_neto_tn | numero_decimal }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="primary-row">
+                        Au (g/t):
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                        
+                            <div class="col-md-6">{{ form.au }}</div>                        
+                        </div>                     
+                    </td class="primary-row">
+                <tr>
+                <tr>
+                    <td class="primary-row">
+                        H2O (%):
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                        
+                            <div class="col-md-6">{{ form.h2o }}</div>                        
+                        </div>                     
+                    </td class="primary-row">
+                <tr>
+                <tr>
+                    <td class="primary-row">
+                        % DE SOBRE TAMAÑOS:
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                        
+                            <div class="col-md-6">{{ form.porcentaje_tamanos }}</div>                        
+                        </div>                     
+                    </td class="primary-row">
+                <tr>
+                <tr>
+                    <td class="primary-row">
+                        COBRE SOLUBLE CN:
+                    </td>
+                    <td class="text-center">
+                        <div class="row">                        
+                            <div class="col-md-6">{{ form.cobre_soluble }}</div>                        
+                        </div>                     
+                    </td class="primary-row">
+                <tr>
+                    <td class="primary-row">
+                        TIPO CARGA:
+                    </td>
+                    <td class="text-center">
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-md-6">{{ form.tipo_carga }}</div>
+                            <div class="col-md-6 d-grid gap-2"><button type="submit" class="btn btn-sm btn-primary">Guardar</button></div>
+                        </div>                     
+                    </td class="primary-row">
+                </tr>            
+            </tbody>
+        </table>    
+    </form>
+</div>
+<form id="laboratorios-form" action="{% url 'laboratorios-generar' pk=object.id %}">  
+    <div class="row">
+        {% csrf_token %}
+        <div class="col-md-6 text-end">
+            <button type="submit" class="btn btn-sm btn-primary">AGREGAR LABORATORIOS</button>
+        </div>
+        <div class="col-md-3">
+            <select name="codigo" id="id_codigo_generado" class="form-select form-select-sm" required></select>
+        </div>        
+    </div>
+</form>
+<hr class="mt-2">
+<div id="muestras-list" class="col-md-12 container-muestras" data-url="{% url 'muestras-list' pk=object.id %}">
+    
+</div>

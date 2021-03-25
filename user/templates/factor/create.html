@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h5 class="modal-title">Registrar Factor Recuperacion</h5>
+</div>
+<div class="modal-body">
+    <form id="factor-form" action="{% url 'factor-create' %}" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label for="" class="sr-only">Rango Inferior</label>
+                {{ form.rango_inferior }}
+            </div>            
+            <div class="col-md-6">
+                <label for="" class="sr-only">Rango Superior</label>
+                {{ form.rango_superior }}
+            </div>            
+        </div>        
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label for="" class="sr-only">Factor Recuperacion</label>
+                {{ form.factor_recuperacion }}
+            </div>            
+            <div class="col-md-6">
+                <label for="" class="sr-only">Sugerencia</label>
+                {{ form.sugerencia }}
+            </div>            
+        </div>        
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>

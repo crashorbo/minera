@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}laboratorio{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'vendor/select2/dist/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/select2/dist/css/select2-bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/datatables/css/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/vanillajs-datepicker/css/datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/laboratorio/index.css' %}">
+{% endblock css %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-5 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">LISTA CARGAS</h5>
+                    <table id="cargas" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Numero</th>                            
+                                <th>Paleta</th>                                
+                                <th>Fecha</th>                            
+                            </tr>
+                        </thead>
+                    </table>                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">DETALLE CARGA</h5>
+                    <div id="detalle" class="row"> 
+                        <div class="col-md-12 text-center">
+                            <p class="dataTables_info">Seleccionar Item para Visualizar</p>
+                        </div>                                                                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block js %}
+    <script src="{% static 'vendor/datatables/js/jquery-3.5.1.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/dataTables.bootstrap5.min.js'%}"></script>
+    <script src="{% static 'vendor/vanillajs-datepicker/js/datepicker-full.min.js' %}"></script>    
+    <script src="{% static 'vendor/vanillajs-datepicker/js/locales/es.js' %}"></script>
+    <script src="{% static 'vendor/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'vendor/select2/dist/js/i18n/es.js' %}"></script>
+    <script src="{% static 'js/laboratorio/index.js' %}"></script>
+{% endblock js %}

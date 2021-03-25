@@ -1,0 +1,41 @@
+.primary-row {
+    background-color: var(--primary) !important;
+    color: #fff;
+}
+
+.table-muestra {
+    margin: 0;
+}
+
+.table-muestra tr>td {
+    cursor: pointer;
+}
+
+.muestra-ext {
+    background-color: #FF8000;
+    color: #fff;
+}
+
+.muestra-prov {
+    background-color: #86B404;
+    color: #fff;
+}
+
+.muestra-test {
+    background-color: #0B3861;
+    color: #fff;
+}
+
+.muestra-bol {
+    background-color: #0489B1;
+    color: #fff;
+}
+
+.muestra-title {
+    color: #2E2E2E;
+    font-weight: 700;
+}
+
+.modal-header {
+    padding: 10px;
+}
