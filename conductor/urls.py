@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls import url
 
 from .views import CarguioAutocomplete, VehiculoTemplateView, VehiculoListJson, VehiculoCreateView, VehiculoEditView, VehiculoAutocomplete, ConductorCreateView, \
-    ConductorEditView, ConductorListJson, ConductorAutocomplete
+    ConductorEditView, ConductorListJson, ConductorAutocomplete, VehiculoDeleteView, ConductorDeleteView
 
 urlpatterns = [
     path('', VehiculoTemplateView.as_view(), name='vehiculo-list'),
@@ -14,6 +14,7 @@ urlpatterns = [
         name='carguio-autocomplete'),
     path('create/', VehiculoCreateView.as_view(), name='vehiculo-create'),
     path('edit/<pk>/', VehiculoEditView.as_view(), name='vehiculo-edit'),
+    path('delete/<pk>', VehiculoDeleteView.as_view(), name='vehiculo-delete'),
     path('conductor/create/', ConductorCreateView.as_view(),
          name='conductor-create'),
     path('conductor/edit/<pk>/', ConductorEditView.as_view(), name='conductor-edit'),
@@ -21,4 +22,6 @@ urlpatterns = [
         ConductorListJson.as_view(), name='conductor-json'),
     url(r'^conductor-autocomplete/$', ConductorAutocomplete.as_view(),
         name='conductor-autocomplete'),
+    path('conductor/delete/<pk>', ConductorDeleteView.as_view(),
+         name='conductor-delete'),
 ]

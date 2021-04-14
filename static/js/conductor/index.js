@@ -140,6 +140,19 @@ vehiculoCreate.addEventListener("click", (e) => {
 vehiculosTable.addEventListener("click", (e) => {    
     if (e.target.classList.contains("bi-pencil-square")) {
         e.preventDefault()
+        console.log(e.target.dataset.url);
+        getModal(e.target.dataset.url)
+        .then(() => {
+            const vehiculoForm = document.querySelector("#vehiculo-form");
+            vehiculoForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                postModal(e.target, vehiculos);
+            })
+        });
+    }
+    if (e.target.classList.contains("bi-trash")) {
+        e.preventDefault();
+        console.log(e.target.dataset.url);
         getModal(e.target.dataset.url)
         .then(() => {
             const vehiculoForm = document.querySelector("#vehiculo-form");
@@ -165,6 +178,17 @@ conductorCreate.addEventListener("click", (e) => {
 
 conductoresTable.addEventListener("click", (e) => {    
     if (e.target.classList.contains("bi-pencil-square")) {
+        e.preventDefault()
+        getModal(e.target.dataset.url)
+        .then(() => {
+            const vehiculoForm = document.querySelector("#conductor-form");
+            vehiculoForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                postModal(e.target, conductores);
+            })
+        });
+    }
+    if (e.target.classList.contains("bi-trash")) {
         e.preventDefault()
         getModal(e.target.dataset.url)
         .then(() => {

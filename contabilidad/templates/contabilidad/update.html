@@ -88,7 +88,8 @@
                         ANTICIPOS:
                     </td>
                     <td class="text-center">
-                        <div class="row">                            
+                        <div class="row">               
+                            <div class="col-md-6"></div>             
                             <div class="col-md-6">{{ form.anticipo }}</div>                            
                         </div>                     
                     </td>
@@ -98,7 +99,8 @@
                         PALA(CARGUIO):
                     </td>
                     <td class="text-center">
-                        <div class="row">                            
+                        <div class="row">               
+                            <div class="col-md-6"></div>             
                             <div class="col-md-6">{{ form.equipo_pesado }}</div>                            
                         </div>                     
                     </td>
@@ -108,7 +110,8 @@
                         BALANZA(PESO):
                     </td>
                     <td class="text-center">
-                        <div class="row">                            
+                        <div class="row">    
+                            <div class="col-md-6"></div>                        
                             <div class="col-md-6">{{ form.balanza }}</div>                            
                         </div>                     
                     </td>
@@ -118,7 +121,8 @@
                         VOLQUETA(ACARREO):
                     </td>
                     <td class="text-center">
-                        <div class="row">                            
+                        <div class="row">       
+                            <div class="col-md-6"></div>                     
                             <div class="col-md-6">{{ form.volqueta }}</div>                            
                         </div>                     
                     </td>
@@ -128,7 +132,8 @@
                         LABORATORIO(ANALISIS):
                     </td>
                     <td class="text-center">
-                        <div class="row">                            
+                        <div class="row">               
+                            <div class="col-md-6"></div>             
                             <div class="col-md-6">{{ form.analisis_laboratorio }}</div>                            
                         </div>                     
                     </td>
@@ -138,7 +143,8 @@
                         DESCUENTOS P/TERCEROS:
                     </td>
                     <td class="text-center">
-                        <div class="row">                            
+                        <div class="row">               
+                            <div class="col-md-6"></div>             
                             <div class="col-md-6">{{ form.otros_descuentos }}</div>                            
                         </div>                     
                     </td>
@@ -160,14 +166,12 @@
                         <strong id="liquido-pagable">{{ object.liquido_pagable | numero_decimal }}</strong>
                     </td>
                 <tr>                
-                <tr>
-                    <td>                        
-                    </td>
-                    <td class="text-center">
+                <tr>                    
+                    <td colspan="2" class="text-center">
                         <div class="row">
                             {% csrf_token %}                            
                             {% if object.valor_reposicion %}
-                                <div class="col-md-12 text-end"><button type="button" class="btn btn-sm btn-primary">PAGAR</button></div>                            
+                                <div class="col-md-12 text-end"><button id="carga-pagar" type="button" data-url="{% url 'contabilidad-pagar' pk=object.id %}" class="btn btn-sm btn-primary">PAGAR</button></div>                            
                             {% else %}
                                 <div class="col-md-12 text-center no-pagar">
                                     <strong >NO PAGAR</strong>

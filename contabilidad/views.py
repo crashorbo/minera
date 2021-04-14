@@ -1,7 +1,7 @@
-from pesaje.forms import CargaContabilidadForm
-from django.shortcuts import render
+from pesaje.forms import CargaContabilidadForm, CargaPagarForm
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, DetailView, View
 from django_datatables_view.base_datatable_view import BaseDatatableView
 from django.http.response import JsonResponse
 from django.utils.html import escape
@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 import datetime
 from django.db.models import Q
 
+from .reportes import ReporteContabilidad
 from pesaje.templatetags.pesaje_tags import numero_decimal
 from pesaje.models import Carga
 # Create your views here.
@@ -26,7 +27,8 @@ class ContabilidadListJson(LoginRequiredMixin, BaseDatatableView):
     # order is important and should be same as order of columns
     # displayed by datatables. For non sortable columns use empty
     # value like ''
-    order_columns = ['numero', 'numero_paleta', 'created', 'proveedor']
+    order_columns = ['numero', 'numero_paleta',
+                     'created', 'proveedor', 'pagado']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
@@ -86,7 +88,9 @@ class ContabilidadListJson(LoginRequiredMixin, BaseDatatableView):
                 item.numero_paleta,
                 item.created.strftime("%d/%m/%Y"),
                 '{} {}'.format(item.proveedor.apellidos,
-                               item.proveedor.nombres)
+                               item.proveedor.nombres),
+                '<span class="pagado">PAGADO</span>' if (
+                    item.pagado) else '<span class="por-pagar">POR PAGAR</span>'
             ])
         return json_data
 
@@ -95,6 +99,12 @@ class ContabilidadUpdateView(LoginRequiredMixin, UpdateView):
     model = Carga
     form_class = CargaContabilidadForm
     template_name = 'contabilidad/update.html'
+
+    def get(self, request, *args, **kwargs):
+        carga = Carga.objects.get(id=self.kwargs['pk'])
+        if carga.pagado:
+            return redirect('contabilidad-carga-view', pk=carga.id)
+        return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         model = form.save(commit=False)
@@ -108,3 +118,32 @@ class ContabilidadUpdateView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         errors = form.errors.as_json()
         return JsonResponse({"message": errors}, status=400)
+
+
+class ContabilidadPagarView(LoginRequiredMixin, UpdateView):
+    model = Carga
+    form_class = CargaPagarForm
+    template_name = 'contabilidad/pagar.html'
+
+    def form_valid(self, form):
+        model = form.save(commit=False)
+        model.pagado = True
+        model.save()
+        return redirect('contabilidad-carga-view', pk=model.id)
+
+    def form_invalid(self, form):
+        errors = form.errors.as_json()
+        return JsonResponse({"message": errors}, status=400)
+
+
+class ContabilidadCargaView(LoginRequiredMixin, DetailView):
+    model = Carga
+    template_name = 'contabilidad/detail.html'
+
+
+class ReporteBoletaView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        carga = Carga.objects.get(id=self.kwargs['pk'])
+        if carga.pesaje:
+            return ReporteContabilidad(carga).reporte_boleta()
+        return ReporteContabilidad(carga).reporte_boleta()

@@ -1,0 +1,18 @@
+<form id="form-pagar-carga" action="{% url 'contabilidad-pagar' pk=object.id %}" method="post">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">PAGAR CARGA</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                Esta Seguro que desea realizar el pago de la Carga: <strong>{{ object.numero }}</strong>
+            </div>
+            {% csrf_token %}        
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancelar</button>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+    </div>
+</form>

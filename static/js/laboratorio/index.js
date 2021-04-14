@@ -93,7 +93,8 @@ $('#cargas').on( 'click', 'tbody tr', async (e) =>  {
 } );
 
 detalle.addEventListener("submit", async (e) => {
-    e.preventDefault();        
+    e.preventDefault();     
+    const containerList = document.querySelector("#muestras-list");   
     await axios(e.target.getAttribute("action"), {
         method: "post",
         data: new FormData(e.target)
@@ -103,6 +104,7 @@ detalle.addEventListener("submit", async (e) => {
             icon: 'success',
             title: res.data.message
         });                          
+        muestrasList(containerList.getAttribute("data-url"), containerList)
         datatable.ajax.reload( null, false);                        
         $("#id_codigo_generado").empty().trigger('change')        
     })
@@ -124,6 +126,7 @@ const muestrasList = async (url, container) => {
             await axios(url)
             .then(res => {
                 modalContent.innerHTML = res.data;
+                const containerList = document.querySelector("#muestras-list");
                 myModal.show();
                 const formMuestra = document.querySelector("#form-muestra");
                 formMuestra.addEventListener("submit", async (e) => {
@@ -136,7 +139,8 @@ const muestrasList = async (url, container) => {
                         Toast.fire({
                             icon: 'success',
                             title: res.data.message
-                        });                                                  
+                        });   
+                        muestrasList(containerList.getAttribute("data-url"), containerList)                                               
                         myModal.hide();
                     })
                     .catch(error => {

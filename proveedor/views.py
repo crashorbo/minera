@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, FormView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import DeleteView
 from django_datatables_view.base_datatable_view import BaseDatatableView
 from django.utils.html import escape
 from django.urls import reverse
@@ -9,6 +10,8 @@ from django.http.response import JsonResponse
 
 from .models import Proveedor
 from .forms import ProovedorCreateForm
+
+from pesaje.models import Carga
 # Create your views here.
 
 
@@ -18,19 +21,26 @@ class ProveedorTemplateView(LoginRequiredMixin, TemplateView):
 
 class ProveedorListJson(LoginRequiredMixin, BaseDatatableView):
     model = Proveedor
-    columns = ['nombres', 'apellidos',
+    columns = ['apellidos', 'nombres',
                'numero_documento', 'telefono', 'direccion']
 
     # define column names that will be used in sorting
     # order is important and should be same as order of columns
     # displayed by datatables. For non sortable columns use empty
     # value like ''
-    order_columns = ['nombres', 'apellidos',
+    order_columns = ['apellidos', 'nombres',
                      'numero_documento', 'telefono', 'direccion']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
     max_display_length = 50
+
+    def get_initial_queryset(self):
+        # return queryset used as base for futher sorting/filtering
+        # these are simply objects displayed in datatable
+        # You should not filter data returned here by any filter values entered by user. This is because
+        # we need some base queryset to count total number of records.
+        return Proveedor.objects.filter(deleted=False)
 
     def render_column(self, row, column):
         # We want to render user as a custom column
@@ -74,8 +84,8 @@ class ProveedorListJson(LoginRequiredMixin, BaseDatatableView):
                 # escape HTML for security reasons
                 escape(item.telefono) if item.telefono else '',
                 escape(item.direccion) if item.direccion else '',
-                '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-pencil-square"></i><i data-url="{}" class="bi bi-trash ms-2"></i></div>'.format(
-                    reverse('proveedor-edit', kwargs={'pk': item.id}), 'test2')
+                '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-pencil-square"></i><i data-url="{}" class="bi bi-trash ms-2"></i>'.format(
+                    reverse('proveedor-edit', kwargs={'pk': item.id}), reverse('proveedor-delete', kwargs={'pk': item.id}))
             ])
         return json_data
 
@@ -107,10 +117,26 @@ class ProveedorEditView(LoginRequiredMixin, UpdateView):
         return JsonResponse({"message": errors}, status=400)
 
 
+class ProveedorDeleteView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        proveedor = Proveedor.objects.get(id=kwargs['pk'])
+        return render(self.request, 'proveedor/delete.html', {'proveedor': proveedor})
+
+    def post(self, *args, **kwargs):
+        proveedor = Proveedor.objects.get(id=kwargs['pk'])
+        pesajes = Carga.objects.filter(proveedor=proveedor.id)
+        if pesajes:
+            proveedor.deleted = True
+            proveedor.save()
+            return JsonResponse({"message": "Se ha dado de baja al proveedor con exito"}, status=200)
+        proveedor.delete()
+        return JsonResponse({"message": "Se ha eliminado al proveedor con exito"}, status=200)
+
+
 class ProveedorAutocomplete(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         q = self.request.GET['q']
-        object_list = Proveedor.objects.all()
+        object_list = Proveedor.objects.filter(deleted=False)
         filtered_object_list = object_list
         if len(q) > 0:
             filtered_object_list = object_list.filter_on_search(q)

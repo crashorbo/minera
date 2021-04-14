@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.db.models import Q
 from django.http.response import JsonResponse
 
+from pesaje.models import Carga
 from .models import Vehiculo, Conductor
 from .forms import ConductorCreateForm, VehiculoCreateForm
 # Create your views here.
@@ -31,6 +32,13 @@ class VehiculoListJson(LoginRequiredMixin, BaseDatatableView):
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
     max_display_length = 50
+
+    def get_initial_queryset(self):
+        # return queryset used as base for futher sorting/filtering
+        # these are simply objects displayed in datatable
+        # You should not filter data returned here by any filter values entered by user. This is because
+        # we need some base queryset to count total number of records.
+        return Vehiculo.objects.filter(deleted=False)
 
     def render_column(self, row, column):
         # We want to render user as a custom column
@@ -78,7 +86,7 @@ class VehiculoListJson(LoginRequiredMixin, BaseDatatableView):
                 # escape HTML for security reasons
                 escape(item.telefono) if item.telefono else '',
                 '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-pencil-square"></i><i data-url="{}" class="bi bi-trash ms-2"></i></div>'.format(
-                    reverse('vehiculo-edit', kwargs={'pk': item.id}), 'test2')
+                    reverse('vehiculo-edit', kwargs={'pk': item.id}), reverse('vehiculo-delete', kwargs={'pk': item.id}))
             ])
         return json_data
 
@@ -127,6 +135,23 @@ class VehiculoAutocomplete(LoginRequiredMixin, View):
         return [dict(id=x.id, text='{} - {} {}'.format(x.placa, x.apellidos, x.nombres)) for x in results]
 
 
+class VehiculoDeleteView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        vehiculo = Vehiculo.objects.get(id=kwargs['pk'])
+        return render(self.request, 'vehiculo/delete.html', {'object': vehiculo})
+
+    def post(self, *args, **kwargs):
+        vehiculo = Vehiculo.objects.get(id=kwargs['pk'])
+        vehiculos = Carga.objects.filter(vehiculo=vehiculo.id)
+        equipos = Carga.objects.filter(equipo_carguio=vehiculo.id)
+        if not vehiculos and not equipos:
+            vehiculo.delete()
+            return JsonResponse({"message": "Se ha eliminado el vehiculo con exito"}, status=200)
+        vehiculo.deleted = True
+        vehiculo.save()
+        return JsonResponse({"message": "Se ha dado de baja el vehiculo con exito"}, status=200)
+
+
 class CarguioAutocomplete(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         q = self.request.GET['q']
@@ -141,7 +166,7 @@ class CarguioAutocomplete(LoginRequiredMixin, View):
         }, content_type='application/json')
 
     def get_results(self, results):
-        return [dict(id=x.id, text='{} {}'.format(x.apellidos, x.nombres)) for x in results]
+        return [dict(id=x.id, text='{} - {} {}'.format(x.placa, x.apellidos, x.nombres)) for x in results]
 
 
 class ConductorCreateView(LoginRequiredMixin, FormView):
@@ -171,6 +196,13 @@ class ConductorListJson(LoginRequiredMixin, BaseDatatableView):
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
     max_display_length = 50
+
+    def get_initial_queryset(self):
+        # return queryset used as base for futher sorting/filtering
+        # these are simply objects displayed in datatable
+        # You should not filter data returned here by any filter values entered by user. This is because
+        # we need some base queryset to count total number of records.
+        return Conductor.objects.filter(deleted=False)
 
     def render_column(self, row, column):
         # We want to render user as a custom column
@@ -214,7 +246,7 @@ class ConductorListJson(LoginRequiredMixin, BaseDatatableView):
                 # escape HTML for security reasons
                 escape(item.telefono) if item.telefono else '',
                 '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-pencil-square"></i><i data-url="{}" class="bi bi-trash ms-2"></i></div>'.format(
-                    reverse('conductor-edit', kwargs={'pk': item.id}), 'test2')
+                    reverse('conductor-edit', kwargs={'pk': item.id}), reverse('conductor-delete', kwargs={'pk': item.id}))
             ])
         return json_data
 
@@ -231,6 +263,22 @@ class ConductorEditView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         errors = form.errors.as_json()
         return JsonResponse({"message": errors}, status=400)
+
+
+class ConductorDeleteView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        conductor = Conductor.objects.get(id=kwargs['pk'])
+        return render(self.request, 'conductor/delete.html', {'object': conductor})
+
+    def post(self, *args, **kwargs):
+        conductor = Conductor.objects.get(id=kwargs['pk'])
+        conductores = Carga.objects.filter(conductor_vehiculo=conductor.id)
+        if not conductores:
+            conductor.delete()
+            return JsonResponse({"message": "Se ha eliminado el vehiculo con exito"}, status=200)
+        conductor.deleted = True
+        conductor.save()
+        return JsonResponse({"message": "Se ha dado de baja el vehiculo con exito"}, status=200)
 
 
 class ConductorAutocomplete(LoginRequiredMixin, View):

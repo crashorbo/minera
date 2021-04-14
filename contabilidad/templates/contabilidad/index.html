@@ -14,7 +14,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-5 col-sm-12">
+        <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">LISTA CARGAS</h5>
@@ -24,14 +24,15 @@
                                 <th>Numero</th>                            
                                 <th>Paleta</th>                                
                                 <th>Fecha</th>
-                                <th>Proveedor</th>                         
+                                <th>Proveedor</th>
+                                <th>Estado</th>                        
                             </tr>
                         </thead>
                     </table>                    
                 </div>
             </div>
         </div>
-        <div class="col-md-7 col-sm-12">
+        <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">DETALLE CARGA</h5>
@@ -62,5 +63,6 @@
     <script src="{% static 'vendor/vanillajs-datepicker/js/locales/es.js' %}"></script>
     <script src="{% static 'vendor/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'vendor/select2/dist/js/i18n/es.js' %}"></script>
+    <script src="{% static 'vendor/printJS/print.min.js' %}"></script>
     <script src="{% static 'js/contabilidad/index.js' %}"></script>
 {% endblock js %}

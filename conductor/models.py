@@ -7,7 +7,7 @@ from django.utils.html import escape
 # Create your models here.
 TIPO_SERVICIO = (
     ('VEHICULO', 'VEHICULO'),
-    ('CARGUIO', 'CARGUIO')
+    ('EQUIPO CARGUIO', 'EQUIPO CARGUIO')
 )
 
 

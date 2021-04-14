@@ -1,5 +1,6 @@
 from django import forms
 from dal import autocomplete
+from django.forms import widgets
 
 from .models import Carga, Muestra
 from proveedor.models import Proveedor
@@ -18,7 +19,7 @@ class CargaForm(forms.ModelForm):
 
     class Meta:
         model = Carga
-        fields = ('proveedor', 'vehiculo', 'carguio', 'peso_bruto', 'conductor_vehiculo',
+        fields = ('proveedor', 'vehiculo', 'equipo_carguio', 'peso_bruto', 'conductor_vehiculo',
                   'peso_neto', 'peso_tara', 'peso_neto_tn', 'origen', 'destino')
         widgets = {
             'origen': forms.Select(attrs={'class': 'form-control'}),
@@ -42,7 +43,7 @@ class CargaTaraForm(forms.ModelForm):
 
     class Meta:
         model = Carga
-        fields = ('proveedor', 'vehiculo', 'carguio', 'peso_bruto', 'conductor_vehiculo',
+        fields = ('proveedor', 'vehiculo', 'equipo_carguio', 'peso_bruto', 'conductor_vehiculo',
                   'peso_neto', 'peso_tara', 'peso_neto_tn', 'origen', 'destino')
         widgets = {
             'origen': forms.Select(attrs={'class': 'form-control'}),
@@ -90,6 +91,15 @@ class CargaContabilidadForm(forms.ModelForm):
             'volqueta': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
             'analisis_laboratorio': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
             'otros_descuentos': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
+        }
+
+
+class CargaPagarForm(forms.ModelForm):
+    class Meta:
+        model = Carga
+        fields = ('pagado',)
+        widgets = {
+            'pagado': forms.HiddenInput(),
         }
 
 

@@ -16,3 +16,8 @@
 .no-pagar {
     color: #842029;
 }
+
+.text-pagar {
+    color: darkgreen;
+    font-weight: 700;
+}

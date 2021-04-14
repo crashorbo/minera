@@ -44,7 +44,7 @@ const Toast = Swal.mixin({
 const getModal = async (url) => {
     await axios(url)
     .then( res => {
-        modalContent.innerHTML = res.data
+        modalContent.innerHTML = res.data        
     });
     myModal.show();
 } 
@@ -75,7 +75,7 @@ items.addEventListener("click", async (e) => {
     if (e.target.classList.contains("bi-pencil")) {
         await axios(e.target.dataset.url)
         .then(res => {
-            modalContent.innerHTML =res.data;        
+            modalContent.innerHTML =res.data;                    
             $('#id_proveedor').select2({
                 language: 'es',      
                 theme: "bootstrap4",   
@@ -228,7 +228,7 @@ items.addEventListener("click", async (e) => {
                 width: "100%",
                 placeholder: "Seleccionar Destino",
             });
-            myModal.show();
+            myModal.show();            
             const pesajeForm = document.querySelector("#pesaje-form");
             pesajeForm.addEventListener("submit", (e) => {
                 e.preventDefault();
@@ -243,11 +243,24 @@ items.addEventListener("click", async (e) => {
     }
 });
 
+const calculoPesaje = (bruto, tara) => {
+    let calculo = [0,0];    
+    calculo[0] = bruto - tara;    
+    calculo[1] = calculo[0]/1000
+    return calculo;
+}
+
 pesajeCreate.addEventListener("click", async () => {    
     await axios(pesajeCreate.getAttribute("data-url"))
     .then(res => {
-        modalContent.innerHTML =res.data;        
+        modalContent.innerHTML =res.data;    
+        const pesoBruto = document.querySelector("#id_peso_bruto");
+        const pesoTara = document.querySelector("#id_peso_tara");        
+        pesoBruto.addEventListener("keyup", (e) => {
+            calculoPesaje(pesoBruto.value, pesoTara.value)
+        })    
         $('#id_proveedor').select2({
+
             language: 'es',      
             theme: "bootstrap4",   
             width: "100%",

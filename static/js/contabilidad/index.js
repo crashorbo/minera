@@ -1,4 +1,6 @@
 const containerDetalle = document.querySelector("#detalle");
+const modalContent = document.querySelector(".modal-content");
+const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));
 const datatable = $('#cargas').DataTable({
     "language" : {
         "thousands":      ".",
@@ -74,3 +76,38 @@ containerDetalle.addEventListener("change", async (e) => {
         })
     })
 });
+
+containerDetalle.addEventListener("click", async (e) => {
+    e.preventDefault()
+    if (e.target.getAttribute("id") === "carga-pagar"){
+        await axios(e.target.getAttribute("data-url"))
+        .then(res => {
+            modalContent.innerHTML = res.data;
+            const pagarForm = document.querySelector("#form-pagar-carga");
+            myModal.show();
+            pagarForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                await axios(pagarForm.getAttribute("action"), {
+                    method: "post",
+                    data: new FormData(pagarForm)
+                })
+                .then(res => {              
+                    containerDetalle.innerHTML = res.data;                    
+                    myModal.hide();
+                })
+                .catch(error => {
+                    const parseado = JSON.parse(error.response.data.message)                        
+                    Toast.fire({
+                        icon: 'error',
+                        title: JSON.stringify(parseado)
+                    })
+                })
+            })
+        })
+    } 
+    if (e.target.getAttribute("id") === "generar-boleta") {
+        e.preventDefault();
+        //printJS(e.target.dataset.url);
+        window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+})

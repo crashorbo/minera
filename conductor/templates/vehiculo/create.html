@@ -1,62 +1,62 @@
 <div class="modal-header">
-    <h5 class="modal-title">Registro de Vehiculo</h5>
+    <h5 class="modal-title">REGISTRO DE VEHICULO</h5>
 </div>
 <div class="modal-body">
     <form id="vehiculo-form" action="{% url 'vehiculo-create' %}" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="row mb-2">
             <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Tipo</label>
+                <label for="" class="sr-only">TIPO</label>
                 {{ form.tipo }}
             </div>            
             <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Placa</label>
+                <label for="" class="sr-only">PLACA/CODIGO</label>
                 {{ form.placa }}
             </div>            
         </div>
         <div class="row mb-2">
             <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Marca</label>
+                <label for="" class="sr-only">MARCA</label>
                 {{ form.marca }}
             </div>            
             <div class="col-md-6 col-sm-12">
-                <label for="" class="sr-only">Modelo</label>
+                <label for="" class="sr-only">MODELO</label>
                 {{ form.modelo }}
             </div>            
         </div>
         <div class="row mb-2">
             <div class="col-md-12">
-                <label for="" class="sr-only">Descripcion</label>
+                <label for="" class="sr-only">DESCRIPCION</label>
                 {{ form.descripcion }}
             </div>            
         </div>
         <hr>
         <div class="row mb-2">
             <div class="col-md-12">
-                <label for="" class="sr-only">Nombres</label>
+                <label for="" class="sr-only">NOMBRES</label>
                 {{ form.nombres }}
             </div>            
         </div>
         <div class="row mb-2">
             <div class="col-md-12">
-                <label for="" class="sr-only">Apellidos</label>
+                <label for="" class="sr-only">APELLIDOS</label>
                 {{ form.apellidos }}
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-md-6">
-                <label for="" class="sr-only">Numero Documento</label>
+                <label for="" class="sr-only">NUMERO DOCUMENTO</label>
                 {{ form.numero_documento }}
             </div>
             <div class="col-md-6">
-                <label for="" class="sr-only">Telefono</label>
+                <label for="" class="sr-only">TELEFONO</label>
                 {{ form.telefono }}
             </div>
         </div>                
         <div class="row">
             <div class="col-md-12 text-end">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                <button type="submit" class="btn btn-sm btn-primary">GUARDAR</button>
             </div>
         </div>
     </form>

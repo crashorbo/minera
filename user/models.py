@@ -51,10 +51,8 @@ class Cotizacion(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
-    valor_oficial = models.DecimalField(
-        decimal_places=2, max_digits=10, default=0)
-    valor_pagable = models.DecimalField(
-        decimal_places=2, max_digits=10, default=0)
+    valor_oficial = models.FloatField(default=0)
+    valor_pagable = models.FloatField(default=0)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -154,14 +152,10 @@ class Codigo(models.Model):
 
 class Factor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    rango_inferior = models.DecimalField(
-        decimal_places=2, max_digits=10, default=0)
-    rango_superior = models.DecimalField(
-        decimal_places=2, max_digits=10, default=0)
-    factor_recuperacion = models.DecimalField(
-        decimal_places=2, max_digits=10, default=0)
-    sugerencia = models.DecimalField(
-        decimal_places=2, max_digits=10, default=0)
+    rango_inferior = models.FloatField(default=0)
+    rango_superior = models.FloatField(default=0)
+    factor_recuperacion = models.FloatField(default=0)
+    sugerencia = models.FloatField(default=0)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
