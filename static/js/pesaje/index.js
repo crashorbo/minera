@@ -75,7 +75,17 @@ items.addEventListener("click", async (e) => {
     if (e.target.classList.contains("bi-pencil")) {
         await axios(e.target.dataset.url)
         .then(res => {
-            modalContent.innerHTML =res.data;                    
+            modalContent.innerHTML =res.data;   
+            const pesoBruto = document.querySelector("#id_peso_bruto");
+            const pesoTara = document.querySelector("#id_peso_tara");                
+            const pesoNeto = document.querySelector("#id_peso_neto");
+            const pesoNetoTn = document.querySelector("#id_peso_neto_tn");                 
+            const handleInput = (e) => {
+                pesoNeto.value = pesoBruto.value - pesoTara.value;
+                pesoNetoTn.value = pesoNeto.value/1000;
+            };
+            pesoBruto.oninput = handleInput;
+            pesoTara.oninput = handleInput;
             $('#id_proveedor').select2({
                 language: 'es',      
                 theme: "bootstrap4",   
@@ -181,7 +191,7 @@ items.addEventListener("click", async (e) => {
                 minimumInputLength: 3,
                 
             });
-            $('#id_carguio').select2({
+            $('#id_equipo_carguio').select2({
                 language: 'es',      
                 theme: "bootstrap4",   
                 width: "100%",
@@ -255,10 +265,15 @@ pesajeCreate.addEventListener("click", async () => {
     .then(res => {
         modalContent.innerHTML =res.data;    
         const pesoBruto = document.querySelector("#id_peso_bruto");
-        const pesoTara = document.querySelector("#id_peso_tara");        
-        pesoBruto.addEventListener("keyup", (e) => {
-            calculoPesaje(pesoBruto.value, pesoTara.value)
-        })    
+        const pesoTara = document.querySelector("#id_peso_tara");                
+        const pesoNeto = document.querySelector("#id_peso_neto");
+        const pesoNetoTn = document.querySelector("#id_peso_neto_tn");
+        const handleInput = (e) => {
+            pesoNeto.value = pesoBruto.value - pesoTara.value;
+            pesoNetoTn.value = pesoNeto.value/1000;
+        };
+        pesoBruto.oninput = handleInput;
+        pesoTara.oninput = handleInput;
         $('#id_proveedor').select2({
 
             language: 'es',      
@@ -365,7 +380,7 @@ pesajeCreate.addEventListener("click", async () => {
             minimumInputLength: 3,
             
         });
-        $('#id_carguio').select2({
+        $('#id_equipo_carguio').select2({
             language: 'es',      
             theme: "bootstrap4",   
             width: "100%",
