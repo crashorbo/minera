@@ -155,7 +155,8 @@ class VehiculoDeleteView(LoginRequiredMixin, View):
 class CarguioAutocomplete(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         q = self.request.GET['q']
-        object_list = Vehiculo.objects.filter(tipo='CARGUIO', deleted=False)
+        object_list = Vehiculo.objects.filter(
+            tipo='EQUIPO CARGUIO', deleted=False)
         filtered_object_list = object_list
         if len(q) > 0:
             filtered_object_list = object_list.filter_on_search(q)
