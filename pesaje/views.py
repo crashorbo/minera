@@ -34,10 +34,10 @@ class PesajeCreateView(LoginRequiredMixin, FormView):
         return JsonResponse({"message": errors}, status=400)
 
 
-class PesajeTaraView(LoginRequiredMixin, UpdateView):
+class PesajeEditView(LoginRequiredMixin, UpdateView):
     model = Carga
     form_class = CargaTaraForm
-    template_name = 'pesaje/tara.html'
+    template_name = 'pesaje/edit.html'
 
     def form_valid(self, form):
         model = form.save(commit=False)
@@ -45,20 +45,6 @@ class PesajeTaraView(LoginRequiredMixin, UpdateView):
         model.peso_neto = model.peso_bruto - model.peso_tara
         model.peso_neto_tn = model.peso_neto/1000
         model.save()
-        return JsonResponse({"message": "Datos de Pesaje editado con exito"}, status=200)
-
-    def form_invalid(self, form):
-        errors = form.errors.as_json()
-        return JsonResponse({"message": errors}, status=400)
-
-
-class PesajeEditView(LoginRequiredMixin, FormView):
-    model = Carga
-    form_class = CargaForm
-    template_name = 'pesaje/edit.html'
-
-    def form_valid(self, form):
-        form.save()
         return JsonResponse({"message": "Datos de Pesaje editado con exito"}, status=200)
 
     def form_invalid(self, form):

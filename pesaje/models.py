@@ -30,6 +30,8 @@ class Carga(models.Model):
     peso_neto_tn = models.FloatField(default=0)
     numero = models.CharField(max_length=20, unique=True)
     pesaje = models.BooleanField(default=False)
+    pesaje_bruto = models.BooleanField(default=True)
+    pesaje_tara = models.BooleanField(default=False)
     numero_paleta = models.CharField(max_length=10, default='')
     color = models.CharField(max_length=50, default='')
     paleta = models.BooleanField(default=False)

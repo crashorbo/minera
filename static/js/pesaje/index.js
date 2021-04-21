@@ -1,6 +1,10 @@
 const pesajeCreate = document.querySelector("#pesaje-create");
 const modalContent = document.querySelector(".modal-content");
+var myModalEl = document.querySelector('#exampleModal');
 const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));
+myModalEl.addEventListener('hidden.bs.modal', function (event) {
+    detenerWebSocket();
+})
 const items = document.querySelector("#items");
 
 window.addEventListener('DOMContentLoaded', (e) => {
@@ -79,13 +83,14 @@ items.addEventListener("click", async (e) => {
             const pesoBruto = document.querySelector("#id_peso_bruto");
             const pesoTara = document.querySelector("#id_peso_tara");                
             const pesoNeto = document.querySelector("#id_peso_neto");
-            const pesoNetoTn = document.querySelector("#id_peso_neto_tn");                 
+            const pesoNetoTn = document.querySelector("#id_peso_neto_tn");            
             const handleInput = (e) => {
                 pesoNeto.value = pesoBruto.value - pesoTara.value;
                 pesoNetoTn.value = pesoNeto.value/1000;
             };
             pesoBruto.oninput = handleInput;
             pesoTara.oninput = handleInput;
+
             $('#id_proveedor').select2({
                 language: 'es',      
                 theme: "bootstrap4",   
@@ -264,16 +269,54 @@ pesajeCreate.addEventListener("click", async () => {
     await axios(pesajeCreate.getAttribute("data-url"))
     .then(res => {
         modalContent.innerHTML =res.data;    
+        // variables temporales
+        const serialUno = document.querySelector("#serial1");
+        const serialDos = document.querySelector("#serial2");
+        //*****/
+        const elIndicador = document.querySelector("#indicador-pesaje");
+        const visorPesaje = document.querySelector("#visor-pesaje");
+        elwebsocketIndicador = elIndicador;
+        elwebsocketVisor = visorPesaje;
+        elwebsocket = serialUno;        
+        iniciarWebSocket();
         const pesoBruto = document.querySelector("#id_peso_bruto");
         const pesoTara = document.querySelector("#id_peso_tara");                
         const pesoNeto = document.querySelector("#id_peso_neto");
         const pesoNetoTn = document.querySelector("#id_peso_neto_tn");
+        const pesajeBruto = document.querySelector("#id_pesaje_bruto");
+        const pesajeTara = document.querySelector("#id_pesaje_tara");
         const handleInput = (e) => {
             pesoNeto.value = pesoBruto.value - pesoTara.value;
             pesoNetoTn.value = pesoNeto.value/1000;
         };
+
+        const handlePesoBruto = (e) => {
+            if (e.target.checked) {
+                pesajeTara.checked = false;
+                pesoTara.classList.remove('input-selected');
+                pesoBruto.classList.add('input-selected');
+                elwebsocket = serialUno;
+                pesoBruto.readOnly = false;
+                pesoTara.readOnly = true;                
+            }
+        }
+
+        const handlePesoTara = (e) => {
+            if (e.target.checked) {
+                pesajeBruto.checked = false;
+                pesoBruto.classList.remove('input-selected');
+                pesoTara.classList.add('input-selected');
+                elwebsocket = serialDos;
+                pesoTara.readOnly = false;
+                pesoBruto.readOnly = true;                
+            }
+        }
+
         pesoBruto.oninput = handleInput;
         pesoTara.oninput = handleInput;
+        pesajeBruto.onchange = handlePesoBruto;
+        pesajeTara.onchange = handlePesoTara;
+
         $('#id_proveedor').select2({
 
             language: 'es',      
@@ -435,3 +478,77 @@ pesajeCreate.addEventListener("click", async () => {
         });
     });    
 })
+
+/**
+ * Inicio del servicio 
+ */
+var webSocket   = null;
+var ws_protocol = 'ws';
+var ws_hostname = 'localhost';
+var ws_port     = '1337';
+var ws_endpoint = '';
+var elwebsocket = null;
+var elwebsocketIndicador = null;
+var elwebsocketVisor = null
+/**
+ * Event handler for clicking on button "Connect"
+ */
+function iniciarWebSocket() {        
+    openWSConnection(ws_protocol, ws_hostname, ws_port, ws_endpoint);
+}
+/**
+ * Event handler for clicking on button "Disconnect"
+ */
+function detenerWebSocket() {
+    webSocket.close();
+}
+/**
+ * Open a new WebSocket connection using the given parameters
+ */
+function openWSConnection(protocol, hostname, port, endpoint) {
+    var webSocketURL = null;
+    webSocketURL = protocol + "://" + hostname + ":" + port + endpoint;
+    console.log("openWSConnection::Connecting to: " + webSocketURL);
+    try {
+        webSocket = new WebSocket(webSocketURL);
+        webSocket.onopen = function(openEvent) {
+            console.log("WebSocket OPEN: " + JSON.stringify(openEvent, null, 4));            
+        };
+        webSocket.onclose = function (closeEvent) {
+            console.log("WebSocket CLOSE: " + JSON.stringify(closeEvent, null, 4));
+            // document.getElementById("btnSend").disabled       = true;
+            // document.getElementById("btnConnect").disabled    = false;
+            // document.getElementById("btnDisconnect").disabled = true;
+        };
+        webSocket.onerror = function (errorEvent) {
+            console.log("WebSocket ERROR: " + JSON.stringify(errorEvent, null, 4));
+            elwebsocketIndicador.classList.add("off");
+        };
+        webSocket.onmessage = function (messageEvent) {
+            var wsMsg = messageEvent.data;
+            console.log("WebSocket MESSAGE: " + wsMsg);
+            if (wsMsg.indexOf("error") > 0) {
+                document.getElementById("incomingMsgOutput").value += "error: " + wsMsg.error + "\r\n";
+            } else {
+                // document.getElementById("incomingMsgOutput").value += "message: " + wsMsg + "\r\n";
+                // document.getElementById("serial-message").value = "message: " + wsMsg + "\r\n";
+                elwebsocket.value = wsMsg;
+                elwebsocketVisor.innerHTML = wsMsg;
+                console.log("message: " + wsMsg + "\r\n")
+            }
+        };
+    } catch (exception) {
+        console.error(exception);
+    }
+}
+/**
+ * Send a message to the WebSocket server
+ */
+function onSendClick() {
+    if (webSocket.readyState != WebSocket.OPEN) {
+        console.error("webSocket is not open: " + webSocket.readyState);
+        return;
+    }
+    var msg = document.getElementById("message").value;
+    webSocket.send(msg);
+}

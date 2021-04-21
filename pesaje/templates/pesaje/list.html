@@ -39,7 +39,7 @@
             <div class="options">
                 <i data-url="{% url 'pesaje-reporte' pk=carga.id %}" class="bi bi-printer"></i>
                 {% if not carga.pesaje %}
-                    <i data-url="{% url 'pesaje-tara' pk=carga.id %}" class="bi bi-pencil"></i>                                            
+                    <i data-url="{% url 'pesaje-edit' pk=carga.id %}" class="bi bi-pencil"></i>                                            
                     <i class="bi bi-trash"></i>                                            
                 {% endif %}
             </div>

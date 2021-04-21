@@ -395,6 +395,16 @@ label.sr-only {
     color: darkgreen;
     font-weight: 700;
 }
+.input-selected {
+    background-color: var(--primary);
+    color: #fff;
+    font-weight: 400;
+    border: 1px solid var(--primary);
+}
+
+.balanza-active > .off {
+    color: red;
+}
 
 @keyframes spin {
     to {

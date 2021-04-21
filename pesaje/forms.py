@@ -20,11 +20,13 @@ class CargaForm(forms.ModelForm):
     class Meta:
         model = Carga
         fields = ('proveedor', 'vehiculo', 'equipo_carguio', 'peso_bruto', 'conductor_vehiculo',
-                  'peso_neto', 'peso_tara', 'peso_neto_tn', 'origen', 'destino')
+                  'peso_neto', 'peso_tara', 'peso_neto_tn', 'origen', 'destino', 'pesaje_bruto', 'pesaje_tara')
         widgets = {
+            'pesaje_bruto': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'pesaje_tara': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'origen': forms.Select(attrs={'class': 'form-control'}),
             'destino': forms.Select(attrs={'class': 'form-control'}),
-            'peso_bruto': forms.NumberInput(attrs={'class': 'form-control'}),
+            'peso_bruto': forms.NumberInput(attrs={'class': 'form-control input-selected'}),
             'peso_tara': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto_tn': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
@@ -46,6 +48,8 @@ class CargaTaraForm(forms.ModelForm):
         fields = ('proveedor', 'vehiculo', 'equipo_carguio', 'peso_bruto', 'conductor_vehiculo',
                   'peso_neto', 'peso_tara', 'peso_neto_tn', 'origen', 'destino')
         widgets = {
+            'pesaje_bruto': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'pesaje_tara': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'origen': forms.Select(attrs={'class': 'form-control'}),
             'destino': forms.Select(attrs={'class': 'form-control'}),
             'peso_bruto': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
