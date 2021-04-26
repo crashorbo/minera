@@ -51,7 +51,7 @@ class ReporteCarga:
         pdf.drawString(15, 150, "PESO BRUTO:")
         pdf.drawString(15, 130, "ORIGEN:")
         pdf.drawString(15, 110, "UBICACION:")
-        locale.setlocale(locale.LC_TIME, "es_ES")
+        locale.setlocale(locale.LC_TIME, "es_ES.utf-8")
         pdf.drawString(75, 210, self.__carga.created.strftime("%A, %d %B %Y"))
         pdf.drawString(75, 190, '{} {}'.format(
             self.__carga.conductor_vehiculo.apellidos, self.__carga.conductor_vehiculo.nombres))
@@ -110,7 +110,7 @@ class ReporteCarga:
         pdf.drawString(15, 460, "PESO BRUTO (Kg):")
         pdf.drawString(15, 450, "PESO TARA  (Kg):")
         pdf.drawString(15, 440, "PESO NETO  (Tn):")
-        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+        locale.setlocale(locale.LC_TIME, 'es_ES.utf-8')
         pdf.drawString(85, 530, self.__carga.created.strftime(
             "%d/%m/%Y  %H:%M:%S"))
         pdf.drawString(85, 520, self.__carga.vehiculo.placa)

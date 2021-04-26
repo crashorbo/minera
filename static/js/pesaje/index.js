@@ -2,15 +2,23 @@ const pesajeCreate = document.querySelector("#pesaje-create");
 const modalContent = document.querySelector(".modal-content");
 var myModalEl = document.querySelector('#exampleModal');
 const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));
+const user_rol = JSON.parse(document.getElementById('user_rol').textContent);
+
 myModalEl.addEventListener('hidden.bs.modal', function (event) {
     detenerWebSocket();
 })
 const items = document.querySelector("#items");
 
-window.addEventListener('DOMContentLoaded', (e) => {
-    cargarItems();
-});
-
+const userpermission = (rol) => {
+    switch(rol) {
+        case 0: 
+            return true;            
+        case 1: 
+            return true;            
+        default:
+            return false;            
+    }
+}
 
 const fechaInicio = new Datepicker(document.querySelector("#fecha-inicio"), {
     language: 'es',
@@ -24,15 +32,42 @@ const fechaFin = new Datepicker(document.querySelector("#fecha-fin"), {
     format:'DD - MM dd, yyyy',
     autohide: true,
 });
+
 fechaFin.setDate(new Date());
 
-const cargarItems = async () => {
-    await axios(items.getAttribute("data-url"))
+const filtrarItems = async (fi, ff) => {
+    data = {
+        fi: fi,
+        ff: ff
+    }
+    await axios('/pesaje/list/?' + new URLSearchParams(data))
     .then( res => {
         items.innerHTML = res.data;
     })
 }
 
+const filtrarSearchItems = async (search) => {
+    data = {
+        search: search
+    }
+    await axios('/pesaje/list/search/?' + new URLSearchParams(data))
+    .then( res => {
+        items.innerHTML = res.data;
+    })
+}
+
+document.querySelector("#fecha-inicio").addEventListener("changeDate", e => {
+    filtrarItems(fechaInicio.getDate('yyyy-mm-dd'), fechaFin.getDate('yyyy-mm-dd'));
+});
+
+document.querySelector("#fecha-fin").addEventListener("changeDate", e => {
+    filtrarItems(fechaInicio.getDate('yyyy-mm-dd'), fechaFin.getDate('yyyy-mm-dd'));
+}) 
+
+document.querySelector("#search-pesaje").addEventListener("change", e => {
+    if (e.target.value !== '')
+        filtrarSearchItems(e.target.value);
+})
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -80,10 +115,44 @@ items.addEventListener("click", async (e) => {
         await axios(e.target.dataset.url)
         .then(res => {
             modalContent.innerHTML =res.data;   
+
             const pesoBruto = document.querySelector("#id_peso_bruto");
             const pesoTara = document.querySelector("#id_peso_tara");                
             const pesoNeto = document.querySelector("#id_peso_neto");
-            const pesoNetoTn = document.querySelector("#id_peso_neto_tn");            
+            const pesoNetoTn = document.querySelector("#id_peso_neto_tn");    
+            
+            const handleInitPeso = () => {                
+
+                if(pesoBruto.value > 0) {
+                    elwebsocket = pesoTara;
+                    if (userpermission(user_rol)) {
+                        pesoBruto.readOnly = true;
+                        pesoTara.readOnly = false;       
+                    }
+                    pesoBruto.classList.remove('input-selected');
+                    pesoTara.classList.add('input-selected');
+                } else {
+                    elwebsocket = pesoBruto;
+                    if (userpermission(user_rol)) {
+                        pesoBruto.readOnly = false;
+                        pesoTara.readOnly = true;       
+                    }                    
+                    pesoBruto.classList.add('input-selected');
+                    pesoTara.classList.remove('input-selected');
+                }
+            };
+    
+            handleInitPeso(); 
+
+            const elIndicador = document.querySelector("#indicador-pesaje");
+            const visorPesaje = document.querySelector("#visor-pesaje");
+            const visorButton = document.querySelector("#socket-button");
+            elwebsocketIndicador = elIndicador;
+            elwebsocketVisor = visorPesaje;            
+            elwebsocketButton = visorButton;   
+            iniciarWebSocket();
+            
+            
             const handleInput = (e) => {
                 pesoNeto.value = pesoBruto.value - pesoTara.value;
                 pesoNetoTn.value = pesoNeto.value/1000;
@@ -123,7 +192,7 @@ items.addEventListener("click", async (e) => {
                 escapeMarkup: function(markup) {
                     return markup;
                 }, // let our custom formatter work
-                minimumInputLength: 3,
+                minimumInputLength: 1,
                 
             });
             $('#id_vehiculo').select2({
@@ -158,7 +227,7 @@ items.addEventListener("click", async (e) => {
                 escapeMarkup: function(markup) {
                     return markup;
                 }, // let our custom formatter work
-                minimumInputLength: 3,
+                minimumInputLength: 1,
                 
             });
             $('#id_conductor_vehiculo').select2({
@@ -193,7 +262,7 @@ items.addEventListener("click", async (e) => {
                 escapeMarkup: function(markup) {
                     return markup;
                 }, // let our custom formatter work
-                minimumInputLength: 3,
+                minimumInputLength: 1,
                 
             });
             $('#id_equipo_carguio').select2({
@@ -228,7 +297,7 @@ items.addEventListener("click", async (e) => {
                 escapeMarkup: function(markup) {
                     return markup;
                 }, // let our custom formatter work
-                minimumInputLength: 3,
+                minimumInputLength: 1,
                 
             });    
             $('#id_origen').select2({
@@ -269,35 +338,50 @@ pesajeCreate.addEventListener("click", async () => {
     await axios(pesajeCreate.getAttribute("data-url"))
     .then(res => {
         modalContent.innerHTML =res.data;    
-        // variables temporales
-        const serialUno = document.querySelector("#serial1");
-        const serialDos = document.querySelector("#serial2");
-        //*****/
+
         const elIndicador = document.querySelector("#indicador-pesaje");
         const visorPesaje = document.querySelector("#visor-pesaje");
+        const visorButton = document.querySelector("#socket-button");
+        const pesoBruto = document.querySelector("#id_peso_bruto");
         elwebsocketIndicador = elIndicador;
         elwebsocketVisor = visorPesaje;
-        elwebsocket = serialUno;        
+        elwebsocket = pesoBruto;
+        elwebsocketButton = visorButton;   
         iniciarWebSocket();
-        const pesoBruto = document.querySelector("#id_peso_bruto");
+
+        
         const pesoTara = document.querySelector("#id_peso_tara");                
         const pesoNeto = document.querySelector("#id_peso_neto");
         const pesoNetoTn = document.querySelector("#id_peso_neto_tn");
         const pesajeBruto = document.querySelector("#id_pesaje_bruto");
         const pesajeTara = document.querySelector("#id_pesaje_tara");
-        const handleInput = (e) => {
+        const handleInput = () => {
+            console.log('ingresa');
             pesoNeto.value = pesoBruto.value - pesoTara.value;
             pesoNetoTn.value = pesoNeto.value/1000;
         };
 
+        const handleInitPesoBruto = () => {
+            if(pesajeBruto.checked) {
+                if (userpermission(user_rol)) {
+                    pesoBruto.readOnly = false;
+                    pesoTara.readOnly = true;       
+                }
+            }
+        };
+
+        handleInitPesoBruto();        
+        
         const handlePesoBruto = (e) => {
-            if (e.target.checked) {
+            if (e.target.checked) {                
                 pesajeTara.checked = false;
                 pesoTara.classList.remove('input-selected');
                 pesoBruto.classList.add('input-selected');
-                elwebsocket = serialUno;
-                pesoBruto.readOnly = false;
-                pesoTara.readOnly = true;                
+                elwebsocket = pesoBruto;
+                if (userpermission(user_rol)) {
+                    pesoBruto.readOnly = false;
+                    pesoTara.readOnly = true;       
+                }         
             }
         }
 
@@ -306,14 +390,16 @@ pesajeCreate.addEventListener("click", async () => {
                 pesajeBruto.checked = false;
                 pesoBruto.classList.remove('input-selected');
                 pesoTara.classList.add('input-selected');
-                elwebsocket = serialDos;
-                pesoTara.readOnly = false;
-                pesoBruto.readOnly = true;                
+                elwebsocket = pesoTara;
+                if (userpermission(user_rol)) {
+                    pesoTara.readOnly = false;
+                    pesoBruto.readOnly = true;
+                }
             }
         }
 
         pesoBruto.oninput = handleInput;
-        pesoTara.oninput = handleInput;
+        pesoTara.oninput = handleInput;        
         pesajeBruto.onchange = handlePesoBruto;
         pesajeTara.onchange = handlePesoTara;
 
@@ -350,7 +436,7 @@ pesajeCreate.addEventListener("click", async () => {
             escapeMarkup: function(markup) {
                 return markup;
             }, // let our custom formatter work
-            minimumInputLength: 3,
+            minimumInputLength: 1,
             
         });
         $('#id_vehiculo').select2({
@@ -385,7 +471,7 @@ pesajeCreate.addEventListener("click", async () => {
             escapeMarkup: function(markup) {
                 return markup;
             }, // let our custom formatter work
-            minimumInputLength: 3,
+            minimumInputLength: 1,
             
         });
         $('#id_conductor_vehiculo').select2({
@@ -420,7 +506,7 @@ pesajeCreate.addEventListener("click", async () => {
             escapeMarkup: function(markup) {
                 return markup;
             }, // let our custom formatter work
-            minimumInputLength: 3,
+            minimumInputLength: 1,
             
         });
         $('#id_equipo_carguio').select2({
@@ -455,7 +541,7 @@ pesajeCreate.addEventListener("click", async () => {
             escapeMarkup: function(markup) {
                 return markup;
             }, // let our custom formatter work
-            minimumInputLength: 3,
+            minimumInputLength: 1,
             
         });
         $('#id_origen').select2({
@@ -488,6 +574,7 @@ var ws_hostname = 'localhost';
 var ws_port     = '1337';
 var ws_endpoint = '';
 var elwebsocket = null;
+var elwebsocketButton = null;
 var elwebsocketIndicador = null;
 var elwebsocketVisor = null
 /**
@@ -523,6 +610,9 @@ function openWSConnection(protocol, hostname, port, endpoint) {
         webSocket.onerror = function (errorEvent) {
             console.log("WebSocket ERROR: " + JSON.stringify(errorEvent, null, 4));
             elwebsocketIndicador.classList.add("off");
+            if (!userpermission(user_rol)) {
+                elwebsocketButton.disabled = true;
+            }            
         };
         webSocket.onmessage = function (messageEvent) {
             var wsMsg = messageEvent.data;
@@ -533,7 +623,8 @@ function openWSConnection(protocol, hostname, port, endpoint) {
                 // document.getElementById("incomingMsgOutput").value += "message: " + wsMsg + "\r\n";
                 // document.getElementById("serial-message").value = "message: " + wsMsg + "\r\n";
                 elwebsocket.value = wsMsg;
-                elwebsocketVisor.innerHTML = wsMsg;
+                elwebsocketVisor.innerHTML = wsMsg;      
+                handleInput();          
                 console.log("message: " + wsMsg + "\r\n")
             }
         };
@@ -552,3 +643,7 @@ function onSendClick() {
     var msg = document.getElementById("message").value;
     webSocket.send(msg);
 }
+
+window.addEventListener('DOMContentLoaded', (e) => {
+    filtrarItems(fechaInicio.getDate('yyyy-mm-dd'), fechaFin.getDate('yyyy-mm-dd'));    
+});

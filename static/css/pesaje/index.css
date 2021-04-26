@@ -84,7 +84,7 @@
 }
 
 .list-header .conductor {
-    width: 20%;
+    width: 18%;
 }
 
 .list-header .proveedor {
@@ -120,7 +120,7 @@
 }
 
 .list-header .options {
-    width: 6%;
+    width: 8%;
 }
 
 .miner-item {
@@ -177,7 +177,7 @@
 }
 
 .miner-item-info .conductor {
-    width: 20%;
+    width: 18%;
     display: flex;
     flex-direction: column;
     font-size: 10px;
@@ -253,7 +253,7 @@
 .miner-item-info .options {
     font-size: 14px;
     text-align: right;
-    width: 6%;
+    width: 8%;
     display: none;
 }
 
@@ -274,6 +274,21 @@
     color: var(--warning);
 }
 
-.options .bi-printer {
+.options .pesaje-bruto {
     color: #20a8d8;
+}
+
+.options .pesaje-tara {
+    color: #444;
+}
+.form-control:focus,
+.input-selected {
+    background-color: var(--primary) !important;
+    color: #fff;
+    font-weight: 400;
+    border: 1px solid var(--primary);
+}
+
+.balanza-active > .off {
+    color: red;
 }

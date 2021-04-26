@@ -13,13 +13,15 @@
 {% endblock css %}
 
 {% block body %}
-      
+
+{{ request.user.rol|json_script:"user_rol" }}
+
 <div class="card mb-2">
     <div class="card-body">
         <div class="row">
             <div class="col-md-4 col-sm-12">
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Buscar Proveedor y/o num. pesaje">
+                    <input type="text" id="search-pesaje"class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Buscar Proveedor y/o num. pesaje">
                     <span class="input-group-text" id="inputGroup-sizing-sm"><i class="bi bi-search"></i></span>                                            
                 </div>                                        
             </div>  
@@ -68,12 +70,11 @@
             </div>
             <div class="options"></div>
         </div>     
-        <div id="items" data-url="{% url 'pesaje-list' %}">
+        <div id="items">
         
         </div>                                            
     </ul>                           
 </div>                        
-<div id="notSupported"></div>     
             
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">

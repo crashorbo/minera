@@ -1,5 +1,6 @@
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.query_utils import Q
 from django.http.response import JsonResponse
 from django.views.generic import TemplateView, FormView, ListView, View, DetailView, UpdateView
 # Create your views here.
@@ -26,6 +27,12 @@ class PesajeCreateView(LoginRequiredMixin, FormView):
         model = form.save(commit=False)
         model.numero = get_numeracion(1)
         model.usuario = self.request.user
+        if model.peso_bruto > 0:
+            model.pesaje_bruto = True
+        if model.peso_tara > 0:
+            model.pesaje_tara = True
+        if model.pesaje_bruto and model.pesaje_tara:
+            model.pesaje = True
         model.save()
         return JsonResponse({"message": "Datos de Pesaje registrado con exito"}, status=200)
 
@@ -41,9 +48,6 @@ class PesajeEditView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         model = form.save(commit=False)
-        model.pesaje = True
-        model.peso_neto = model.peso_bruto - model.peso_tara
-        model.peso_neto_tn = model.peso_neto/1000
         model.save()
         return JsonResponse({"message": "Datos de Pesaje editado con exito"}, status=200)
 
@@ -59,16 +63,32 @@ class PesajeListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         today = datetime.date.today()
         fecha_inicio = self.request.GET.get(
-            'fecha_inicio', today)
+            'fi', today)
         fecha_fin = self.request.GET.get(
-            'fecha_fin', today)
-        return Carga.objects.filter(created__date__range=(fecha_inicio, fecha_fin))
+            'ff', today)
+        return Carga.objects.filter(created__date__range=(fecha_inicio, fecha_fin)).order_by('-created')
 
 
-class PesajeReporteView(LoginRequiredMixin, View):
+class PesajeSearchListView(LoginRequiredMixin, ListView):
+    model = Carga
+    template_name = 'pesaje/list.html'
+
+    def get_queryset(self):
+        search = self.request.GET.get(
+            'search', '')
+
+        return Carga.objects.filter(Q(proveedor__nombres__icontains=search) | Q(proveedor__apellidos__icontains=search) | Q(proveedor__numero_documento__icontains=search) | Q(numero__icontains=search)).order_by('-created')
+
+
+class PesajeReporteBrutoView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
         carga = Carga.objects.get(id=self.kwargs['pk'])
-        if carga.pesaje:
-            return ReporteCarga(carga).reporte_peso_neto()
         return ReporteCarga(carga).reporte_peso_bruto()
+
+
+class PesajeReporteNetoView(LoginRequiredMixin, View):
+
+    def get(self, *args, **kwargs):
+        carga = Carga.objects.get(id=self.kwargs['pk'])
+        return ReporteCarga(carga).reporte_peso_neto()

@@ -26,7 +26,7 @@ class CargaForm(forms.ModelForm):
             'pesaje_tara': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'origen': forms.Select(attrs={'class': 'form-control'}),
             'destino': forms.Select(attrs={'class': 'form-control'}),
-            'peso_bruto': forms.NumberInput(attrs={'class': 'form-control input-selected'}),
+            'peso_bruto': forms.NumberInput(attrs={'class': 'form-control input-selected', 'readonly': True}),
             'peso_tara': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto_tn': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),

@@ -37,11 +37,16 @@
                 {{ carga.usuario.username }}
             </div>
             <div class="options">
-                <i data-url="{% url 'pesaje-reporte' pk=carga.id %}" class="bi bi-printer"></i>
-                {% if not carga.pesaje %}
-                    <i data-url="{% url 'pesaje-edit' pk=carga.id %}" class="bi bi-pencil"></i>                                            
-                    <i class="bi bi-trash"></i>                                            
+                {% if carga.pesaje_bruto %}
+                    <i data-url="{% url 'reporte-pesaje-bruto' pk=carga.id %}" class="pesaje-bruto bi bi-printer"></i>
                 {% endif %}
+                {% if carga.pesaje_tara %}
+                    <i data-url="{% url 'reporte-pesaje-neto' pk=carga.id %}" class="pesaje-tara bi bi-printer"></i>
+                {% endif %}
+                {% if not carga.pesaje %}
+                    <i data-url="{% url 'pesaje-edit' pk=carga.id %}" class="bi bi-pencil"></i>                                                                
+                {% endif %}
+                <i class="bi bi-trash"></i>                                            
             </div>
         </div>
     </li>
