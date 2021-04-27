@@ -21,3 +21,40 @@
     color: darkgreen;
     font-weight: 700;
 }
+
+.proveedor-card {
+    background-color: #3c4b64;
+    color: #eee;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.proveedor-card .proveedor-card__total {    
+    font-size: 1.9rem;
+}
+
+.proveedor-id-hidden{
+    display: none;
+}
+
+.refresh-btn {
+    cursor: pointer;    
+}
+
+.opciones-card {
+    background-color: #E4E5E6;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.lista-card {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.btn-excel {
+    display: block;
+    width: 100%;
+}

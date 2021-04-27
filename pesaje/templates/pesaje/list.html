@@ -46,7 +46,9 @@
                 {% if not carga.pesaje %}
                     <i data-url="{% url 'pesaje-edit' pk=carga.id %}" class="bi bi-pencil"></i>                                                                
                 {% endif %}
-                <i class="bi bi-trash"></i>                                            
+                {% if not carga.pagado %}
+                    <i class="bi bi-trash"></i>                                            
+                {% endif %}
             </div>
         </div>
     </li>

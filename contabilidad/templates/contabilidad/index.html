@@ -13,12 +13,34 @@
 {% endblock css %}
 
 {% block body %}
-    <div class="row">
+    <div class="row">        
         <div class="col-md-6 col-sm-12">
-            <div class="card">
-                <div class="card-body">
+            <div class="card proveedor-card">
+                <div class="card-body ">
+                    <div class="row">
+                        <div class="col-md-3"><strong>Proveedor:</strong></div>
+                        <div class="col-md-7 proovedor-card__nombre"></div>
+                        <div class="col-md-2 text-end"><i id="btn-refresh" class="refresh-btn bi bi-arrow-counterclockwise"></i></div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3"><strong>Total:</strong></div>
+                        <div class="col-md-5 proveedor-card__montos"></div>
+                        <div class="col-md-4 proveedor-card__total text-end">0.00 Bs.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card opciones-card">
+                <div class="row">
+                    {% comment %} <div class="col-md-6"><button class="btn-excel"><object type="image/svg+xml" data="{% static 'images/excel.svg' %}"></object></button></div> {% endcomment %}
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6"><button class="btn-excel"> POR PAGAR <object type="image/svg+xml" data="{% static 'images/excel.svg' %}"></object></button></div>
+                </div>                                
+            </div>
+            <div class="card lista-card">
+                <div class="card-body ">
                     <h5 class="card-title">LISTA CARGAS</h5>
-                    <table id="cargas" class="table table-hover">
+                    <table id="cargas" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th>Numero</th>                            
@@ -30,12 +52,12 @@
                         </thead>
                     </table>                    
                 </div>
-            </div>
+            </div>            
         </div>
+        
         <div class="col-md-6 col-sm-12">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">DETALLE CARGA</h5>
+                <div class="card-body">                    
                     <div id="detalle" class="row"> 
                         <div class="col-md-12 text-center">
                             <p class="dataTables_info">Seleccionar Item para Visualizar</p>

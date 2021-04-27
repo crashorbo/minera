@@ -4,7 +4,7 @@ const datatable = $('#cargas').DataTable({
         "thousands":      ".",
         "decimal":        ",",
         "emptyTable":     "Ningún dato disponible en esta tabla",
-        "info":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "info":           "(_START_ - _END_) total: _TOTAL_ registros",
         "infoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
         "infoFiltered":   "(filtrado de un total de _MAX_ registros)",
         "infoPostFix":    "",
@@ -49,7 +49,13 @@ $('#cargas').on( 'click', 'tbody tr', async (e) =>  {
     await axios(url)
     .then(res => {
         detalle.innerHTML = res.data;
-        
+        if (document.querySelector("#id_fecha_paleta")) {
+            const fechaPaleta = new Datepicker(document.querySelector("#id_fecha_paleta"), {
+                language: 'es',    
+                autohide: true,
+            });
+            fechaPaleta.setDate(new Date());
+        }
     })
 } );
 

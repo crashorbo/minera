@@ -48,6 +48,12 @@ class PesajeEditView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         model = form.save(commit=False)
+        if model.peso_bruto > 0:
+            model.pesaje_bruto = True
+        if model.peso_tara > 0:
+            model.pesaje_tara = True
+        if model.pesaje_bruto and model.pesaje_tara:
+            model.pesaje = True
         model.save()
         return JsonResponse({"message": "Datos de Pesaje editado con exito"}, status=200)
 
@@ -92,3 +98,16 @@ class PesajeReporteNetoView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         carga = Carga.objects.get(id=self.kwargs['pk'])
         return ReporteCarga(carga).reporte_peso_neto()
+
+
+class PesajeBuscarTara(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        today = datetime.date.today()
+        tara = 0
+        cargas = Carga.objects.filter(
+            vehiculo=self.request.GET.get('id', ''), created__date=today).order_by('-created')
+        if cargas:
+            tara = cargas[0].peso_tara
+        print(self.request.GET.get(
+            'id', ''), len(cargas))
+        return JsonResponse({"message": "Datos de Pesaje editado con exito", "tara": tara}, status=200)

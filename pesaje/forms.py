@@ -1,6 +1,6 @@
 from django import forms
 from dal import autocomplete
-from django.forms import widgets
+import datetime
 
 from .models import Carga, Muestra
 from proveedor.models import Proveedor
@@ -48,12 +48,10 @@ class CargaTaraForm(forms.ModelForm):
         fields = ('proveedor', 'vehiculo', 'equipo_carguio', 'peso_bruto', 'conductor_vehiculo',
                   'peso_neto', 'peso_tara', 'peso_neto_tn', 'origen', 'destino')
         widgets = {
-            'pesaje_bruto': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'pesaje_tara': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'origen': forms.Select(attrs={'class': 'form-control'}),
             'destino': forms.Select(attrs={'class': 'form-control'}),
             'peso_bruto': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
-            'peso_tara': forms.NumberInput(attrs={'class': 'form-control'}),
+            'peso_tara': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto_tn': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
         }
@@ -62,11 +60,16 @@ class CargaTaraForm(forms.ModelForm):
 class CargaPaletaForm(forms.ModelForm):
     class Meta:
         model = Carga
-        fields = ('numero_paleta', 'color')
+        fields = ('numero_paleta', 'color', 'fecha_paleta')
         widgets = {
+            'fecha_paleta': forms.DateInput(attrs={'class': 'form-control form-control-sm'}),
             'numero_paleta': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
             'color': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
         }
+
+        def __init__(self, *args, **kwargs):
+            self.fields['fecha_paleta'].required = False
+            super(CargaPaletaForm, self).__init__(*args, **kwargs)
 
 
 class CargaLaboratorioForm(forms.ModelForm):

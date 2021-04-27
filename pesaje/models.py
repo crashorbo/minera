@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-
+import datetime
 # Create your models here.
 from proveedor.models import Proveedor
 from conductor.models import Vehiculo, Conductor
@@ -34,6 +34,7 @@ class Carga(models.Model):
     pesaje_tara = models.BooleanField(default=False)
     numero_paleta = models.CharField(max_length=10, default='')
     color = models.CharField(max_length=50, default='')
+    fecha_paleta = models.DateField(null=True)
     paleta = models.BooleanField(default=False)
     laboratorio = models.BooleanField(default=False)
     au = models.FloatField(default=0)

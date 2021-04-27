@@ -14,4 +14,5 @@ urlpatterns = [
          views.PesajeReporteBrutoView.as_view(), name='reporte-pesaje-bruto'),
     path('resporte/pesaje-neto/<pk>/',
          views.PesajeReporteNetoView.as_view(), name='reporte-pesaje-neto'),
+    path('buscar-tara/', views.PesajeBuscarTara.as_view(), name='buscar-tara'),
 ]

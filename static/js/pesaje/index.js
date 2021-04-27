@@ -98,7 +98,7 @@ const postModal = async (datosForm) => {
             icon: 'success',
             title: res.data.message
         });                          
-        cargarItems();
+        filtrarItems(fechaInicio.getDate('yyyy-mm-dd'), fechaFin.getDate('yyyy-mm-dd'));
         myModal.hide();
     })
     .catch(error => {
@@ -355,8 +355,7 @@ pesajeCreate.addEventListener("click", async () => {
         const pesoNetoTn = document.querySelector("#id_peso_neto_tn");
         const pesajeBruto = document.querySelector("#id_pesaje_bruto");
         const pesajeTara = document.querySelector("#id_pesaje_tara");
-        const handleInput = () => {
-            console.log('ingresa');
+        const handleInput = () => {            
             pesoNeto.value = pesoBruto.value - pesoTara.value;
             pesoNetoTn.value = pesoNeto.value/1000;
         };
@@ -375,12 +374,14 @@ pesajeCreate.addEventListener("click", async () => {
         const handlePesoBruto = (e) => {
             if (e.target.checked) {                
                 pesajeTara.checked = false;
+                const peso = pesoTara.value;                
                 pesoTara.classList.remove('input-selected');
-                pesoBruto.classList.add('input-selected');
+                pesoBruto.classList.add('input-selected');                
                 elwebsocket = pesoBruto;
                 if (userpermission(user_rol)) {
                     pesoBruto.readOnly = false;
-                    pesoTara.readOnly = true;       
+                    pesoTara.readOnly = true;
+                    pesoTara.value = peso;
                 }         
             }
         }
@@ -388,12 +389,14 @@ pesajeCreate.addEventListener("click", async () => {
         const handlePesoTara = (e) => {
             if (e.target.checked) {
                 pesajeBruto.checked = false;
+                const peso = pesoBruto.value;                
                 pesoBruto.classList.remove('input-selected');
                 pesoTara.classList.add('input-selected');
                 elwebsocket = pesoTara;
                 if (userpermission(user_rol)) {
                     pesoTara.readOnly = false;
                     pesoBruto.readOnly = true;
+                    pesoBruto.value = peso;       
                 }
             }
         }
@@ -473,6 +476,15 @@ pesajeCreate.addEventListener("click", async () => {
             }, // let our custom formatter work
             minimumInputLength: 1,
             
+        });
+        $('#id_vehiculo').on("select2:selecting", async (e) => {            
+            data = {
+                id: e.params.args.data.id,
+            }
+            await axios('/pesaje/buscar-tara/?' + new URLSearchParams(data))
+            .then(res => {
+                pesoTara.value = res.data.tara;
+            })            
         });
         $('#id_conductor_vehiculo').select2({
             language: 'es',      

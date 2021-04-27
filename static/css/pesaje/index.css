@@ -281,8 +281,9 @@
 .options .pesaje-tara {
     color: #444;
 }
-.form-control:focus,
-.input-selected {
+
+.pesaje-datos .form-control:focus,
+.pesaje-datos .input-selected {
     background-color: var(--primary) !important;
     color: #fff;
     font-weight: 400;

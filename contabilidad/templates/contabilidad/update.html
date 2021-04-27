@@ -31,9 +31,12 @@
                     <td class="primary-row">
                         PROVEEDOR:
                     </td>
-                    <td class="text-center">
-                        {{ object.proveedor.apellidos }} {{ object.proveedor.nombres }}
+                    <td class="text-center proveedor-nombre">
+                        {{ object.proveedor.apellidos }} {{ object.proveedor.nombres }}                                                
                     </td>
+                    <div class="proveedor-id-hidden text-start">
+                        {{ object.proveedor.id }}
+                    </div>
                 </tr>            
                 <tr>
                     <td class="primary-row">
