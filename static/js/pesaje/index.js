@@ -355,11 +355,10 @@ items.addEventListener("click", async (e) => {
     }
 });
 
-const handleInputSerial = () => {
-    const pesoBruto = document.querySelector("#id_peso_bruto");
-    const pesoTara = document.querySelector("#id_peso_tara");
-    pesoNeto.value = pesoBruto.value - pesoTara.value;
-    pesoNetoTn.value = pesoNeto.value/1000;
+const handleInputSerial = (elBruto, elTara, elpNeto, elpNetoTn) => {
+    
+    elpNeto.value = elBruto.value - elTara.value;
+    elpNetoTn.value = elpNeto.value/1000;
 };
 
 
@@ -372,19 +371,24 @@ pesajeCreate.addEventListener("click", async () => {
         const elIndicador = document.querySelector("#indicador-pesaje");
         const visorPesaje = document.querySelector("#visor-pesaje");
         const visorButton = document.querySelector("#socket-button");
-        const pesoBruto = document.querySelector("#id_peso_bruto");
-        elwebsocketIndicador = elIndicador;
-        elwebsocketVisor = visorPesaje;
-        elwebsocket = pesoBruto;
-        elwebsocketButton = visorButton;   
-        iniciarWebSocket();
-
-        
+        const pesoBruto = document.querySelector("#id_peso_bruto");                
         const pesoTara = document.querySelector("#id_peso_tara");                
         const pesoNeto = document.querySelector("#id_peso_neto");
         const pesoNetoTn = document.querySelector("#id_peso_neto_tn");
         const pesajeBruto = document.querySelector("#id_pesaje_bruto");
         const pesajeTara = document.querySelector("#id_pesaje_tara");
+
+        elwebsocketIndicador = elIndicador;
+        elwebsocketVisor = visorPesaje;
+        elwebsocket = pesoBruto;
+        elwebsocketButton = visorButton;        
+        elBruto = pesoBruto;
+        elTara = pesoTara;
+        elpNeto = pesoNeto;
+        elpNetoTn = pesoNetoTn;
+
+        iniciarWebSocket();
+
         const handleInput = () => {            
             pesoNeto.value = pesoBruto.value - pesoTara.value;
             pesoNetoTn.value = pesoNeto.value/1000;
@@ -620,7 +624,11 @@ var ws_endpoint = '';
 var elwebsocket = null;
 var elwebsocketButton = null;
 var elwebsocketIndicador = null;
-var elwebsocketVisor = null
+var elwebsocketVisor = null;
+let elBruto = 0;
+let elTara = 0;
+let elpNeto = 0;
+let elpNetoTn = 0;
 /**
  * Event handler for clicking on button "Connect"
  */
@@ -670,7 +678,7 @@ function openWSConnection(protocol, hostname, port, endpoint) {
                 // document.getElementById("serial-message").value = "message: " + wsMsg + "\r\n";
                 elwebsocket.value = wsMsg;
                 elwebsocketVisor.innerHTML = wsMsg;      
-                handleInputSerial();          
+                handleInputSerial(elBruto, elTara, elpNeto, elpNetoTn);          
                 console.log("message: " + wsMsg + "\r\n")
             }
         };
