@@ -1,3 +1,4 @@
+const loader = document.querySelector('.loader');
 const datatable = $('#proveedores').DataTable({
     "language" : {
         "thousands":      ".",
@@ -53,14 +54,17 @@ const modalContent = document.querySelector(".modal-content");
 const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));
 
 const getModal = async (url) => {
+    loader.style.visibility = 'visible';
     await axios(url)
     .then( res => {
-        modalContent.innerHTML = res.data
+        modalContent.innerHTML = res.data,
+        loader.style.visibility = 'hidden';
     });
     myModal.show();
 } 
 
 const postModal = async (datosForm) => {
+    loader.style.visibility = 'visible';
     await axios(datosForm.getAttribute("action"), {
         method: "post",
         data: new FormData(datosForm)
@@ -71,6 +75,7 @@ const postModal = async (datosForm) => {
             title: res.data.message
         });                          
         datatable.ajax.reload( null, false);                                              
+        loader.style.visibility = 'hidden';
         myModal.hide();
     })
     .catch(error => {
@@ -107,3 +112,7 @@ proveedoresTable.addEventListener("click", (e) => {
         });
     }    
 })
+
+window.addEventListener('DOMContentLoaded', (e) => {
+    loader.style.visibility = 'hidden';
+});

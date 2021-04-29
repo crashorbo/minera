@@ -295,6 +295,7 @@ li {
     flex-grow: 1;
     min-width: 0;
     padding-top: 4rem;
+    height: 100%;
 }
 
 .container-fluid {
@@ -303,7 +304,7 @@ li {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
-    height: calc(100% - 40px);
+    height: 80vh;
 }
 
 .miner-legacy-theme .card-header {
@@ -365,7 +366,7 @@ label.sr-only {
     width: 100%;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
-    visibility: hidden;
+    visibility: visible;
 }
 
 .loader-container {

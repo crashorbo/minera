@@ -1,3 +1,4 @@
+const loader = document.querySelector('.loader');
 const pesajeCreate = document.querySelector("#pesaje-create");
 const modalContent = document.querySelector(".modal-content");
 var myModalEl = document.querySelector('#exampleModal');
@@ -36,6 +37,7 @@ const fechaFin = new Datepicker(document.querySelector("#fecha-fin"), {
 fechaFin.setDate(new Date());
 
 const filtrarItems = async (fi, ff) => {
+    loader.style.visibility = 'visible';
     data = {
         fi: fi,
         ff: ff
@@ -43,16 +45,19 @@ const filtrarItems = async (fi, ff) => {
     await axios('/pesaje/list/?' + new URLSearchParams(data))
     .then( res => {
         items.innerHTML = res.data;
+        loader.style.visibility = 'hidden';
     })
 }
 
 const filtrarSearchItems = async (search) => {
+    loader.style.visibility = 'visible';
     data = {
         search: search
     }
     await axios('/pesaje/list/search/?' + new URLSearchParams(data))
     .then( res => {
         items.innerHTML = res.data;
+        loader.style.visibility = 'hidden';
     })
 }
 
@@ -81,14 +86,17 @@ const Toast = Swal.mixin({
 });
 
 const getModal = async (url) => {
+    loader.style.visibility = 'visible';
     await axios(url)
     .then( res => {
-        modalContent.innerHTML = res.data        
+        modalContent.innerHTML = res.data     
+        loader.style.visibility = 'hidden';  
     });
     myModal.show();
 } 
 
 const postModal = async (datosForm) => {
+    loader.style.visibility = 'visible';
     await axios(datosForm.getAttribute("action"), {
         method: "post",
         data: new FormData(datosForm)
@@ -99,6 +107,7 @@ const postModal = async (datosForm) => {
             title: res.data.message
         });                          
         filtrarItems(fechaInicio.getDate('yyyy-mm-dd'), fechaFin.getDate('yyyy-mm-dd'));
+        loader.style.visibility = 'hidden';
         myModal.hide();
     })
     .catch(error => {
@@ -112,10 +121,11 @@ const postModal = async (datosForm) => {
 
 items.addEventListener("click", async (e) => {
     if (e.target.classList.contains("bi-pencil")) {
+        loader.style.visibility = 'visible';
         await axios(e.target.dataset.url)
         .then(res => {
             modalContent.innerHTML =res.data;   
-
+            loader.style.visibility = 'hidden';
             const pesoBruto = document.querySelector("#id_peso_bruto");
             const pesoTara = document.querySelector("#id_peso_tara");                
             const pesoNeto = document.querySelector("#id_peso_neto");
@@ -157,6 +167,7 @@ items.addEventListener("click", async (e) => {
                 pesoNeto.value = pesoBruto.value - pesoTara.value;
                 pesoNetoTn.value = pesoNeto.value/1000;
             };
+
             pesoBruto.oninput = handleInput;
             pesoTara.oninput = handleInput;
 
@@ -322,23 +333,42 @@ items.addEventListener("click", async (e) => {
     }
     if (e.target.classList.contains("bi-printer")) {
         e.preventDefault();
-        //printJS(e.target.dataset.url);
-        window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
+        printJS(e.target.dataset.url);
+        //window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+
+    if (e.target.classList.contains("bi-trash")) {
+        e.preventDefault();
+        loader.style.visibility = 'visible';
+        await axios(e.target.getAttribute("data-url"))
+        .then( res => {
+            modalContent.innerHTML =res.data;
+            loader.style.visibility = 'hidden';
+            myModal.show();
+            const cargaForm = document.querySelector("#carga-delete-form")
+            cargaForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                postModal(cargaForm);
+            })
+
+        })
     }
 });
 
-const calculoPesaje = (bruto, tara) => {
-    let calculo = [0,0];    
-    calculo[0] = bruto - tara;    
-    calculo[1] = calculo[0]/1000
-    return calculo;
-}
+const handleInputSerial = () => {
+    const pesoBruto = document.querySelector("#id_peso_bruto");
+    const pesoTara = document.querySelector("#id_peso_tara");
+    pesoNeto.value = pesoBruto.value - pesoTara.value;
+    pesoNetoTn.value = pesoNeto.value/1000;
+};
+
 
 pesajeCreate.addEventListener("click", async () => {    
+    loader.style.visibility = 'visible';
     await axios(pesajeCreate.getAttribute("data-url"))
     .then(res => {
         modalContent.innerHTML =res.data;    
-
+        loader.style.visibility = 'hidden';
         const elIndicador = document.querySelector("#indicador-pesaje");
         const visorPesaje = document.querySelector("#visor-pesaje");
         const visorButton = document.querySelector("#socket-button");
@@ -374,7 +404,8 @@ pesajeCreate.addEventListener("click", async () => {
         const handlePesoBruto = (e) => {
             if (e.target.checked) {                
                 pesajeTara.checked = false;
-                const peso = pesoTara.value;                
+                const peso = pesoTara.value;
+                pesoTara.value=0;             
                 pesoTara.classList.remove('input-selected');
                 pesoBruto.classList.add('input-selected');                
                 elwebsocket = pesoBruto;
@@ -390,6 +421,7 @@ pesajeCreate.addEventListener("click", async () => {
             if (e.target.checked) {
                 pesajeBruto.checked = false;
                 const peso = pesoBruto.value;                
+                pesoBruto.value = 0;
                 pesoBruto.classList.remove('input-selected');
                 pesoTara.classList.add('input-selected');
                 elwebsocket = pesoTara;
@@ -599,7 +631,9 @@ function iniciarWebSocket() {
  * Event handler for clicking on button "Disconnect"
  */
 function detenerWebSocket() {
-    webSocket.close();
+    if (webSocket) {
+        webSocket.close();
+    }    
 }
 /**
  * Open a new WebSocket connection using the given parameters
@@ -636,7 +670,7 @@ function openWSConnection(protocol, hostname, port, endpoint) {
                 // document.getElementById("serial-message").value = "message: " + wsMsg + "\r\n";
                 elwebsocket.value = wsMsg;
                 elwebsocketVisor.innerHTML = wsMsg;      
-                handleInput();          
+                handleInputSerial();          
                 console.log("message: " + wsMsg + "\r\n")
             }
         };
@@ -657,5 +691,6 @@ function onSendClick() {
 }
 
 window.addEventListener('DOMContentLoaded', (e) => {
-    filtrarItems(fechaInicio.getDate('yyyy-mm-dd'), fechaFin.getDate('yyyy-mm-dd'));    
+    loader.style.visibility = 'hidden';
+    filtrarItems(fechaInicio.getDate('yyyy-mm-dd'), fechaFin.getDate('yyyy-mm-dd'));        
 });

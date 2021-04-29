@@ -1,3 +1,4 @@
+const loader = document.querySelector('.loader');
 const detalle = document.querySelector("#detalle");
 const datatable = $('#cargas').DataTable({
     "language" : {
@@ -45,7 +46,8 @@ const Toast = Swal.mixin({
 const tabla = document.querySelector("#cargas");
 
 $('#cargas').on( 'click', 'tbody tr', async (e) =>  {    
-    const url = e.target.closest('tr').children[0].children[0].getAttribute("data-url");    
+    const url = e.target.closest('tr').children[0].children[0].getAttribute("data-url");
+    loader.style.visibility = 'visible';
     await axios(url)
     .then(res => {
         detalle.innerHTML = res.data;
@@ -56,6 +58,7 @@ $('#cargas').on( 'click', 'tbody tr', async (e) =>  {
             });
             fechaPaleta.setDate(new Date());
         }
+        loader.style.visibility = 'hidden';
     })
 } );
 
@@ -79,4 +82,8 @@ detalle.addEventListener("submit", async (e) => {
             title: JSON.stringify(parseado)
         })
     })
+});
+
+window.addEventListener('DOMContentLoaded', (e) => {
+    loader.style.visibility = 'hidden';   
 });

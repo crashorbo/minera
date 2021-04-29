@@ -293,3 +293,24 @@
 .balanza-active > .off {
     color: red;
 }
+
+.item-container {
+    height: 100%;
+}
+
+.item-container .card-body { 
+    overflow-y: auto;    
+    padding-top: 0;    
+}
+
+.card-header-container {
+    background-color: #3C4B64;
+}
+
+@media (min-width: 1400px) {
+    .container-fluid {
+        height: 84vh;
+    }
+}
+
+    

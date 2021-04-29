@@ -17,7 +17,7 @@
 {{ request.user.rol|json_script:"user_rol" }}
 
 <div class="card mb-2">
-    <div class="card-body">
+    <div class="card-body card-header-container">
         <div class="row">
             <div class="col-md-4 col-sm-12">
                 <div class="input-group input-group-sm">
@@ -35,7 +35,7 @@
         </div>
     </div>
 </div>    
-<div class="card">                            
+<div class="card item-container">                            
     <ul class="card-body">                                
         <div class="list-header">
             <div class="numero">
@@ -70,7 +70,7 @@
             </div>
             <div class="options"></div>
         </div>     
-        <div id="items">
+        <div id="items" class="list-items">
         
         </div>                                            
     </ul>                           

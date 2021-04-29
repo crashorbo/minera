@@ -2,7 +2,7 @@ import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query_utils import Q
 from django.http.response import JsonResponse
-from django.views.generic import TemplateView, FormView, ListView, View, DetailView, UpdateView
+from django.views.generic import TemplateView, FormView, ListView, View, DetailView, UpdateView, DeleteView
 # Create your views here.
 from user.utils import get_numeracion
 from .models import Carga
@@ -111,3 +111,14 @@ class PesajeBuscarTara(LoginRequiredMixin, View):
         print(self.request.GET.get(
             'id', ''), len(cargas))
         return JsonResponse({"message": "Datos de Pesaje editado con exito", "tara": tara}, status=200)
+
+
+class PesajeDeleteView(DeleteView):
+    model = Carga
+    template_name = 'pesaje/delete.html'
+
+    def post(self, *args, **kwargs):
+        carga = Carga.objects.get(id=self.kwargs['pk'])
+        carga.delete()
+        print(self.kwargs['pk'])
+        return JsonResponse({"message": "Se ha eliminado la carga con exito"}, status=200)

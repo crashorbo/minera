@@ -66,9 +66,17 @@ ulMenu.addEventListener("click", (e) => {
 })
 
 const cargarPerfil = async (url) => {
+    // loader
+    const loader = document.querySelector('.loader');            
+    loader.style.visibility = 'visible';
+    //
     await axios(url)
     .then(res => { 
         bodyConf.innerHTML = res.data;
+        // loader
+        const loader = document.querySelector('.loader');        
+        loader.style.visibility = 'hidden';
+        //
         const photo = document.querySelector("#id_photo");
         const formUpdate = document.querySelector("#edit-user-form")
         photo.addEventListener('change', e => {
@@ -103,9 +111,16 @@ const cargarPerfil = async (url) => {
 }
 
 const cargarUsuario = async (url) => {
-    await axios(url)    
+    // loader
+    const loader = document.querySelector('.loader');            
+    loader.style.visibility = 'visible';
+    //            
+    await axios(url)
     .then(res => {
-        bodyConf.innerHTML = res.data;                
+        bodyConf.innerHTML = res.data;    
+        // loader        
+        loader.style.visibility = 'hidden';
+        //            
         const userRegister = document.querySelector("#user-register"); 
         const usuarioList = document.querySelector("#usuario-list");        
         userRegister.addEventListener("click", async () => {
@@ -175,9 +190,16 @@ const cargarUsuario = async (url) => {
 }
 
 const cargarParametro = async (url) => {
+    // loader
+    const loader = document.querySelector('.loader');            
+    loader.style.visibility = 'visible';
+    //
     await axios(url)
     .then(res => {
-        bodyConf.innerHTML = res.data;        
+        bodyConf.innerHTML = res.data;    
+        // loader        
+        loader.style.visibility = 'hidden';
+        //    
         const btnCotizacion = document.querySelector("#cotizacion-register");
         const btnFactor = document.querySelector("#factor-register");        
         const cotizaciones = document.querySelector("#cotizaciones");        
@@ -386,9 +408,16 @@ const cargarParametro = async (url) => {
     })
 }
 const cargarUbicacion = async (url) => {
+    // loader
+    const loader = document.querySelector('.loader');            
+    loader.style.visibility = 'visible';
+    //
     await axios(url)
     .then(res => {
-        bodyConf.innerHTML = res.data;        
+        bodyConf.innerHTML = res.data;    
+        // loader        
+        loader.style.visibility = 'hidden';
+        //     
         const btnDestino = document.querySelector("#destino-register");
         const btnOrigen = document.querySelector("#origen-register");
         const destinos = async () => {
@@ -539,9 +568,15 @@ const cargarUbicacion = async (url) => {
 }
 
 const cargarLaboratorio = async (url) => {
+    // loader
+    const loader = document.querySelector('.loader');            
+    loader.style.visibility = 'visible';
     await axios(url)
     .then(res => {
         bodyConf.innerHTML = res.data;
+        // loader        
+        loader.style.visibility = 'hidden';
+        //
         const btnGenerador = document.querySelector("#generador-register");        
         const btnLaboratorio =document.querySelector("#laboratorio-register");
         const generadorBody = document.querySelector("#generador");      
@@ -585,7 +620,8 @@ const cargarLaboratorio = async (url) => {
         generadorBody.addEventListener("click", async (e) => {
             e.preventDefault();
             if (e.target.classList.contains("bi-printer")) {
-                window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
+                printJS(e.target.dataset.url);
+                // window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
             }
         })  
 
@@ -670,13 +706,16 @@ const cargarLaboratorio = async (url) => {
         })
 
         btnGenerador.addEventListener("click", async (e) => {
+            loader.style.visibility = 'visible';            
             await axios(e.target.getAttribute("data-url"))
             .then( res => {
                 modalContent.innerHTML =res.data;
+                loader.style.visibility = 'hidden';
                 const formRegister = document.querySelector("#generador-form");
                 myModal.show();
-                formRegister.addEventListener("submit", async (e) => {
+                formRegister.addEventListener("submit", async (e) => {                    
                     e.preventDefault();
+                    loader.style.visibility = 'visible';
                     await axios(formRegister.getAttribute('action'), {
                         method: "post",
                         data:  new FormData(formRegister)
@@ -686,7 +725,8 @@ const cargarLaboratorio = async (url) => {
                             icon: 'success',
                             title: res.data.message
                         });                          
-                        generador.ajax.reload( null, false);                                              
+                        generador.ajax.reload( null, false);
+                        loader.style.visibility = 'hidden';
                         myModal.hide();
                     })
                     .catch(error => {
@@ -701,4 +741,4 @@ const cargarLaboratorio = async (url) => {
             })
         })
     });
-}
+}    

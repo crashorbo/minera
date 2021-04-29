@@ -1,3 +1,4 @@
+const loader = document.querySelector('.loader');
 const containerDetalle = document.querySelector("#detalle");
 const modalContent = document.querySelector(".modal-content");
 const btnRefresh = document.querySelector("#btn-refresh");
@@ -172,4 +173,7 @@ btnRefresh.addEventListener('click', (e) => {
     proveedorMontos.innerHTML = '';
 })
 
-visorPagos();
+window.addEventListener('DOMContentLoaded', (e) => {
+    visorPagos();
+    loader.style.visibility = 'hidden';   
+});

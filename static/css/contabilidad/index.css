@@ -42,7 +42,7 @@
 }
 
 .opciones-card {
-    background-color: #E4E5E6;
+    background-color: #fff;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-left-radius: 0;
@@ -54,7 +54,13 @@
     border-top-right-radius: 0;
 }
 
-.btn-excel {
-    display: block;
-    width: 100%;
+.btn-excel {    
+    width: 50%;
+    align-self: flex-end;
+    background-color: #fff;
+    border-color: #1E7040;
+    color: #1E7040;  
+    font-weight: 500;  
+    margin: 4px 0;
+    margin-right: 4px;
 }

@@ -47,7 +47,9 @@
                     <i data-url="{% url 'pesaje-edit' pk=carga.id %}" class="bi bi-pencil"></i>                                                                
                 {% endif %}
                 {% if not carga.pagado %}
-                    <i class="bi bi-trash"></i>                                            
+                    {% if request.user.rol == 0 or request.user.rol == 1 %}
+                        <i data-url="{% url 'pesaje-delete' pk=carga.id %}" class="bi bi-trash"></i>                                            
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

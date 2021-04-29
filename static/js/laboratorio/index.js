@@ -1,3 +1,4 @@
+const loader = document.querySelector('.loader');
 const detalle = document.querySelector("#detalle");
 const addLaboratorios = document.querySelector("#laboratorios-form");
 const modalContent = document.querySelector(".modal-content");
@@ -49,10 +50,12 @@ const tabla = document.querySelector("#cargas");
 
 $('#cargas').on( 'click', 'tbody tr', async (e) =>  {    
     const url = e.target.closest('tr').children[0].children[0].getAttribute("data-url");    
+    loader.style.visibility = 'visible';   
     await axios(url)
     .then(res => {
         detalle.innerHTML = res.data;
         const containerList = document.querySelector("#muestras-list");
+        loader.style.visibility = 'hidden';   
         $('#id_codigo_generado').select2({
             language: 'es',      
             theme: "bootstrap4",   
@@ -95,6 +98,7 @@ $('#cargas').on( 'click', 'tbody tr', async (e) =>  {
 detalle.addEventListener("submit", async (e) => {
     e.preventDefault();     
     const containerList = document.querySelector("#muestras-list");   
+    loader.style.visibility = 'visible';   
     await axios(e.target.getAttribute("action"), {
         method: "post",
         data: new FormData(e.target)
@@ -105,7 +109,8 @@ detalle.addEventListener("submit", async (e) => {
             title: res.data.message
         });                          
         muestrasList(containerList.getAttribute("data-url"), containerList)
-        datatable.ajax.reload( null, false);                        
+        datatable.ajax.reload( null, false);
+        loader.style.visibility = 'hidden';   
         $("#id_codigo_generado").empty().trigger('change')        
     })
     .catch(error => {
@@ -118,9 +123,11 @@ detalle.addEventListener("submit", async (e) => {
 });
 
 const muestrasList = async (url, container) => {
+    loader.style.visibility = 'visible';   
     await axios(url)
     .then( res => {
         container.innerHTML = res.data;
+        loader.style.visibility = 'hidden';   
         $('#muestras-list').on( 'click', 'tbody tr', async (e) =>  {    
             const url = e.target.closest('tr').getAttribute("data-url");                
             await axios(url)
@@ -131,6 +138,7 @@ const muestrasList = async (url, container) => {
                 const formMuestra = document.querySelector("#form-muestra");
                 formMuestra.addEventListener("submit", async (e) => {
                     e.preventDefault();
+                    loader.style.visibility = 'visible';   
                     await axios(formMuestra.getAttribute("action"), {
                         method: "post",
                         data: new FormData(formMuestra)
@@ -141,6 +149,7 @@ const muestrasList = async (url, container) => {
                             title: res.data.message
                         });   
                         muestrasList(containerList.getAttribute("data-url"), containerList)                                               
+                        loader.style.visibility = 'hidden';   
                         myModal.hide();
                     })
                     .catch(error => {
@@ -156,4 +165,6 @@ const muestrasList = async (url, container) => {
     })
 }
 
-
+window.addEventListener('DOMContentLoaded', (e) => {
+    loader.style.visibility = 'hidden';   
+});
