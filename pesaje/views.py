@@ -27,6 +27,8 @@ class PesajeCreateView(LoginRequiredMixin, FormView):
         model = form.save(commit=False)
         model.numero = get_numeracion(1)
         model.usuario = self.request.user
+        model.peso_neto = model.peso_bruto - model.peso_tara
+        model.peso_neto_tn = model.peso_neto/1000
         if model.peso_bruto > 0:
             model.pesaje_bruto = True
         if model.peso_tara > 0:
@@ -48,6 +50,8 @@ class PesajeEditView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         model = form.save(commit=False)
+        model.peso_neto = model.peso_bruto - model.peso_tara
+        model.peso_neto_tn = model.peso_neto/1000
         if model.peso_bruto > 0:
             model.pesaje_bruto = True
         if model.peso_tara > 0:
