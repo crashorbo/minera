@@ -54,13 +54,31 @@
     border-top-right-radius: 0;
 }
 
-.btn-excel {    
-    width: 50%;
+.btn-excel {        
     align-self: flex-end;
     background-color: #fff;
     border-color: #1E7040;
     color: #1E7040;  
-    font-weight: 500;  
-    margin: 4px 0;
-    margin-right: 4px;
+    font-weight: 500;      
+    margin: 5px 5px;    
+    cursor: pointer;
+    height: 30px;    
+    opacity: 0.8;
+    transition: 0.3s all;
 }
+
+.btn-excel:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.btn-printer {
+    width: 100%;
+}
+
+.btn-title {
+    color: #3C4B64;
+    font-weight: 700;
+    align-self: baseline;
+}
+

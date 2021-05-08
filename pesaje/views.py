@@ -1,3 +1,4 @@
+from conductor.models import Vehiculo
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query_utils import Q
@@ -5,8 +6,8 @@ from django.http.response import JsonResponse
 from django.views.generic import TemplateView, FormView, ListView, View, DetailView, UpdateView, DeleteView
 # Create your views here.
 from user.utils import get_numeracion
-from .models import Carga
-from .forms import CargaForm, CargaTaraForm
+from .models import Carga, Destare
+from .forms import CargaForm, CargaTaraForm, DestareForm
 from .reportes import ReporteCarga
 
 
@@ -107,13 +108,12 @@ class PesajeReporteNetoView(LoginRequiredMixin, View):
 class PesajeBuscarTara(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         today = datetime.date.today()
-        tara = 0
-        cargas = Carga.objects.filter(
-            vehiculo=self.request.GET.get('id', ''), created__date=today).order_by('-created')
-        if cargas:
-            tara = cargas[0].peso_tara
-        print(self.request.GET.get(
-            'id', ''), len(cargas))
+        try:
+            destare = Destare.objects.get(
+                created__date=today, vehiculo=self.request.GET.get('id', ''))
+            tara = destare.peso
+        except Destare.DoesNotExist:
+            tara = 0
         return JsonResponse({"message": "Datos de Pesaje editado con exito", "tara": tara}, status=200)
 
 
@@ -126,3 +126,22 @@ class PesajeDeleteView(DeleteView):
         carga.delete()
         print(self.kwargs['pk'])
         return JsonResponse({"message": "Se ha eliminado la carga con exito"}, status=200)
+
+
+class DestareView(LoginRequiredMixin, FormView):
+    form_class = DestareForm
+    template_name = 'pesaje/destare.html'
+
+    def form_valid(self, form):
+        today = datetime.date.today()
+        model = form.save(commit=False)
+        try:
+            destare = Destare.objects.get(
+                created__date=today, vehiculo=model.vehiculo)
+            destare.peso = model.peso
+            destare.save()
+            print(destare.peso)
+        except model.DoesNotExist:
+            destare = None
+            model.save()
+        return JsonResponse({"message": "Datos de Pesaje editado con exito"}, status=200)

@@ -31,6 +31,8 @@ const datatable = $('#cargas').DataTable({
     },    
     "processing": true,
     "serverSide": true,
+    "scrollX": true,
+    "responsive": true,
     "ajax": "/contabilidad/list/json/",           
 });
 
@@ -69,6 +71,7 @@ containerDetalle.addEventListener("change", async (e) => {
     .then(res => {                                                    
         totalDescuentos.textContent = res.data.descuentos;
         liquidoPagable.textContent = res.data.pagable;
+        datatable.ajax.reload( null, false);
     })
     .catch(error => {
         const parseado = JSON.parse(error.response.data.message)                        
@@ -99,7 +102,8 @@ containerDetalle.addEventListener("click", async (e) => {
                 })
                 .then(res => {              
                     containerDetalle.innerHTML = res.data;
-                    sumarPagos(id_proveedor.trim(), proveedor_nombre.trim(), monto);                 
+                    sumarPagos(id_proveedor.trim(), proveedor_nombre.trim(), monto);
+                    datatable.ajax.reload( null, false);
                     myModal.hide();
                 })
                 .catch(error => {

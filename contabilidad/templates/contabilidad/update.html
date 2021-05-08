@@ -174,7 +174,9 @@
                         <div class="row">
                             {% csrf_token %}                            
                             {% if object.valor_reposicion %}
-                                <div class="col-md-12 text-end"><button id="carga-pagar" type="button" data-url="{% url 'contabilidad-pagar' pk=object.id %}" class="btn btn-sm btn-primary">PAGAR</button></div>                            
+                                <div class="col-md-6"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"><button id="carga-pagar" type="button" data-url="{% url 'contabilidad-pagar' pk=object.id %}" class="btn btn-sm btn-primary btn-printer">PAGAR</button></div>                            
                             {% else %}
                                 <div class="col-md-12 text-center no-pagar">
                                     <strong >NO PAGAR</strong>

@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 import datetime
 from django.db.models import Q
 
-from .reportes import ReporteContabilidad
+from .reportes import ReporteContabilidad, ReporteExcel
 from pesaje.templatetags.pesaje_tags import numero_decimal
 from pesaje.models import Carga
 # Create your views here.
@@ -85,12 +85,12 @@ class ContabilidadListJson(LoginRequiredMixin, BaseDatatableView):
                 # escape HTML for security reasons
                 '<div data-url="{}" class="itemid">{}</div>'.format(
                     reverse_lazy('contabilidad-update', kwargs={'pk': item.id}), item.numero),
-                item.numero_paleta,
                 item.created.strftime("%d/%m/%Y"),
                 '{} {}'.format(item.proveedor.apellidos,
                                item.proveedor.nombres),
-                '<span class="pagado">PAGADO</span>' if (
-                    item.pagado) else '<span class="por-pagar">POR PAGAR</span>'
+                '<div class="text-end">{}</div>'.format(item.liquido_pagable),
+                '<div class="pagado text-end">PAGADO</div>' if (
+                    item.pagado) else '<div class="por-pagar text-end">POR PAGAR</div>'
             ])
         return json_data
 
@@ -147,3 +147,9 @@ class ReporteBoletaView(LoginRequiredMixin, View):
         if carga.pesaje:
             return ReporteContabilidad(carga).reporte_boleta()
         return ReporteContabilidad(carga).reporte_boleta()
+
+
+class ReportePorPagar(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        carga = Carga.objects.filter(pagado=False)
+        return ReporteExcel(carga).reporte_por_pagar()

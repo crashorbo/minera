@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}laboratorio{% endblock title %}
+{% block title %}Contabilidad{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'vendor/select2/dist/css/select2.min.css' %}">
@@ -34,7 +34,8 @@
                 <div class="row">
                     {% comment %} <div class="col-md-6"><button class="btn-excel"><object type="image/svg+xml" data="{% static 'images/excel.svg' %}"></object></button></div> {% endcomment %}
                     <div class="col-md-6"></div>
-                    <div class="col-md-6 text-end"><button class="btn-excel"> POR PAGAR <object type="image/svg+xml" data="{% static 'images/excel.svg' %}"></object></button></div>
+                    {% comment %} <img class="btn-excel" src="{% static 'images/pdf.svg' %}" alt=""> {% endcomment %}
+                    <div class="col-md-6 text-end"><span class="btn-title">POR PAGAR</span> <a href="{% url 'reporte-por-pagar' %}"><img class="btn-excel" src="{% static 'images/excel.svg' %}" ></a></div> 
                 </div>                                
             </div>
             <div class="card lista-card">
@@ -44,9 +45,9 @@
                         <thead>
                             <tr>
                                 <th>Numero</th>                            
-                                <th>Paleta</th>                                
                                 <th>Fecha</th>
                                 <th>Proveedor</th>
+                                <th>Monto</th>                                
                                 <th>Estado</th>                        
                             </tr>
                         </thead>

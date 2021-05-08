@@ -21,4 +21,6 @@ urlpatterns = [
     #      name='muestras-list'),
     # path('muestra/update/<pk>/', views.MuestraUpdateView.as_view(),
     #      name='muestra-update')
+    path('reporte/por-pagar/', views.ReportePorPagar.as_view(),
+         name='reporte-por-pagar'),
 ]

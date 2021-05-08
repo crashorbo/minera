@@ -2,6 +2,10 @@ from io import BytesIO
 import re
 import locale
 from datetime import datetime
+from openpyxl import Workbook
+from openpyxl.styles import NamedStyle, Font, Border, Side, Alignment
+from openpyxl.utils import get_column_letter
+
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
@@ -134,4 +138,67 @@ class ReporteContabilidad:
         pdf = buffer.getvalue()
         buffer.close()
         response.write(pdf)
+        return response
+
+
+class ReporteExcel():
+
+    def __init__(self, carga):
+        self.__carga = carga
+
+    def reporte_por_pagar(self):
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', )
+        response['Content-Disposition'] = 'attachment; filename={date}-porpagar.xlsx'.format(
+            date=datetime.now().strftime('%Y%m%d'), )
+
+        titulo = NamedStyle(name="titulo")
+        titulo.font = Font(bold=True, size=14,)
+        titulo.alignment = Alignment(horizontal="center", vertical="center")
+
+        monto = NamedStyle(name="monto")
+        monto.font = Font(bold=True, size=14,)
+        monto.alignment = Alignment(horizontal="right", vertical="center")
+        wb = Workbook()
+
+        wb.add_named_style(titulo)
+
+        sheet = wb.active
+
+        sheet['A1'] = "Numero"
+        sheet['A1'].style = titulo
+        sheet['B1'] = "Fecha"
+        sheet['B1'].style = titulo
+        sheet['C1'] = "Proveedor"
+        sheet['C1'].style = titulo
+        sheet['D1'] = "Monto"
+        sheet['D1'].style = titulo
+
+        liquido_pagable = 0
+
+        for row in self.__carga:
+            if row.liquido_pagable > 0:
+                liquido_pagable = liquido_pagable + row.liquido_pagable
+                sheet.append((row.numero, row.created.strftime("%d/%m/%Y"), '{} {}'.format(
+                    row.proveedor.apellidos, row.proveedor.nombres), row.liquido_pagable))
+
+        max_row = sheet.max_row
+
+        total_liquido_pagable_descr_cell = sheet.cell(
+            row=max_row + 2, column=sheet.max_column - 1)
+        total_liquido_pagable_descr_cell.value = "Total"
+
+        total_liquido_pagable = sheet.cell(
+            row=max_row + 2, column=sheet.max_column)
+        total_liquido_pagable.value = liquido_pagable
+
+        total_liquido_pagable_descr_cell.style = titulo
+        total_liquido_pagable.style = monto
+
+        for i in range(1, sheet.max_column+1):
+            sheet.column_dimensions[get_column_letter(i)].bestFit = True
+            sheet.column_dimensions[get_column_letter(i)].auto_size = True
+
+        wb.save(response)
+
         return response

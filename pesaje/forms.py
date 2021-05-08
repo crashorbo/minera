@@ -2,7 +2,7 @@ from django import forms
 from dal import autocomplete
 import datetime
 
-from .models import Carga, Muestra
+from .models import Carga, Muestra, Destare
 from proveedor.models import Proveedor
 from conductor.models import Vehiculo, Conductor
 
@@ -14,7 +14,7 @@ class CargaForm(forms.ModelForm):
                                                 widget=autocomplete.ModelSelect2(url='proveedor-autocomplete', attrs={'class': 'form-control'}))
     vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), empty_label="Seleccionar Vehiculo", widget=autocomplete.ModelSelect2(
         url='vehiculo-autocomplete', attrs={'class': 'form-control'}))
-    carguio = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), empty_label="Seleccionar Carguio", widget=autocomplete.ModelSelect2(
+    equipo_carguio = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), empty_label="Seleccionar Carguio", widget=autocomplete.ModelSelect2(
         url='carguio-autocomplete', attrs={'class': 'form-control'}), required=False)
 
     class Meta:
@@ -121,4 +121,16 @@ class MuestraForm(forms.ModelForm):
             'ley_ponderada': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
             'nro_certif': forms.TextInput(attrs={'class': 'form-control form-control-sm text-center'}),
             'laboratorio': forms.Select(attrs={'class': 'form-select form-select-sm'}),
+        }
+
+
+class DestareForm(forms.ModelForm):
+    vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), empty_label="Seleccionar Vehiculo", widget=autocomplete.ModelSelect2(
+        url='vehiculo-autocomplete', attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Destare
+        fields = ('vehiculo', 'peso')
+        widgets = {
+            'peso': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
         }
