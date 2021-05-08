@@ -138,7 +138,7 @@ destareCreate.addEventListener("click", async(e) => {
             elwebsocketVisor = visorPesaje;            
             elwebsocketButton = visorButton;   
             elwebsocket = pesoTara;
-            
+
             iniciarWebSocket();
             if (userpermission(user_rol)) {
                 pesoTara.readOnly = false;                      
@@ -179,7 +179,14 @@ destareCreate.addEventListener("click", async(e) => {
                 minimumInputLength: 1,
                 
             });
+            const destareForm = document.querySelector("#destare-form");
+            destareForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                postModal(destareForm);
+            });
+
             myModal.show();
+
         })
 })
 

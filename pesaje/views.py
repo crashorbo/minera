@@ -144,4 +144,4 @@ class DestareView(LoginRequiredMixin, FormView):
         except model.DoesNotExist:
             destare = None
             model.save()
-        return JsonResponse({"message": "Datos de Pesaje editado con exito"}, status=200)
+        return JsonResponse({"message": "Datos de Destare guardado con exito"}, status=200)

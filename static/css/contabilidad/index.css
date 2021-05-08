@@ -82,3 +82,16 @@
     align-self: baseline;
 }
 
+.btn-detalle-carga {
+    cursor: pointer;        
+    transition: 0.3s all;
+}
+
+.btn-detalle-carga:hover {
+    color: #0B3861;        
+    transform: scale(1.2);
+}
+
+tr {
+    cursor: pointer;
+}
