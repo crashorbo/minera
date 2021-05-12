@@ -9,6 +9,11 @@ from openpyxl.utils import get_column_letter
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
+from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, Paragraph, Table, TableStyle, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.pagesizes import letter, portrait
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics.barcode.qr import QrCodeWidget
 from reportlab.graphics import renderPDF
@@ -17,6 +22,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 
 from pesaje.templatetags.pesaje_tags import numero_decimal
+from .utils import NumeroLiteral
 
 
 class ReporteContabilidad:
@@ -201,4 +207,124 @@ class ReporteExcel():
 
         wb.save(response)
 
+        return response
+
+
+class ReporteComprobante():
+    def __init__(self, carga):
+        self.__carga = carga
+
+    def __encabezado(self, canvas, doc):
+        canvas.saveState()
+        canvas.setFont('Helvetica', 10)
+        canvas.drawCentredString(4*cm, 26.5*cm, 'EMPRESA MINERA COMUNITARIA')
+        canvas.drawCentredString(4*cm, 26*cm, '"INCA SAYAÑA" S.A.')
+        canvas.setFont('Helvetica-Bold', 16)
+        canvas.drawCentredString(
+            10.5*cm, 25*cm, 'COMPROBANTE DE CAJA - EGRESOS')
+        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
+
+        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
+        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
+        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
+        canvas.restoreState()
+
+    def __pie(self, canvas, doc):
+        canvas.saveState()
+        canvas.restoreState()
+
+    def generar_comprobante(self):
+        hoy = datetime.now()
+        response = HttpResponse(content_type='application/pdf')
+        # se crea el nombre del archivo de la descarga pdf
+        pdf_name = 'comprobante_{}.pdf'.format(hoy.strftime("%Y%m%d"))
+        response['Content-Disposition'] = 'inline; filename={}'.format(
+            pdf_name)
+        # se crea el buffer de memoria para generar el documento
+        buffer = BytesIO()
+        # configuracion de documento base para la plantilla
+        doc = BaseDocTemplate(buffer,
+                              pagesize=letter,
+                              leftMargin=1*cm,
+                              rightMargin=1*cm,
+                              topMargin=1*cm,
+                              bottomMargin=1*cm
+                              )
+        frame0 = Frame(doc.leftMargin, doc.bottomMargin + 0.5*cm,
+                       doc.width, doc.height - 3*cm, showBoundary=0, id='bordeNormal')
+        doc.addPageTemplates([PageTemplate(
+            id='principal', frames=frame0, onPage=self.__encabezado, onPageEnd=self.__pie), ])
+
+        story = []
+
+        numero_literal = NumeroLiteral()
+
+        data0 = [['FECHA', '', '', 'Nro:', 'P{}'.format(self.__carga.numero)],
+                 ['{}'.format(hoy.day), '{}'.format(hoy.month), '{}'.format(hoy.year), '', '']]
+
+        t0 = Table(data0, [1.5*cm, 1.5*cm, 1.5*cm,
+                           12*cm, 2.9*cm], [0.8*cm, 0.8*cm])
+
+        t0.setStyle(TableStyle([
+            ('GRID', (0, 0), (2, 1), 0.5, colors.black),
+            ('SPAN', (0, 0), (2, 0)),
+            ('FONT', (0, 0), (2, 0), 'Helvetica-Bold', 10),
+            ('VALIGN', (0, 0), (4, 1), 'MIDDLE'),
+            ('ALIGN', (0, 0), (2, 1), 'CENTER'),
+            ('ALIGN', (3, 0), (3, 1), 'RIGHT'),
+            ('FONT', (3, 0), (3, 1), 'Helvetica-Bold', 14),
+            ('FONT', (4, 0), (4, 1), 'Helvetica', 14),
+            ('SPAN', (3, 0), (3, 1)),
+            ('SPAN', (4, 0), (4, 1)),
+        ]))
+
+        data1 = [['Pagado a:', '{} {}'.format(self.__carga.proveedor.apellidos, self.__carga.proveedor.nombres)],
+                 ['La Suma de:', '{} 00/100 BOLIVIANOS.'.format(
+                     numero_literal.main(int(self.__carga.liquido_pagable)))],
+                 ['Por Concepto:',
+                     'CARGA MINERALIZADA: P{} - {} - COT:{}'.format(self.__carga.numero, self.__carga.created.strftime("%d/%m/%Y"), int(self.__carga.cotizacion))],
+                 ['', 'TMH:{} - HUM%:{} - TMS:{} - LEY:{} -  Fi.Rec.:{} - V.REP:{}'.format(
+                     self.__carga.peso_neto_tn, int(self.__carga.h2o), self.__carga.tms_pagar, self.__carga.au, self.__carga.finos_gr_recup, int(self.__carga.valor_reposicion))],
+                 ['', 'PP:{} - ANT:{} - EQP:{} - BAL:{} - VOL:{} - LAB:{} DSC:{} - V.DSC:{}'.format(
+                     int(self.__carga.penalizacion_cu_soluble), int(
+                         self.__carga.anticipo), int(self.__carga.equipo_pesado),
+                     int(self.__carga.balanza), int(self.__carga.volqueta), int(self.__carga.analisis_laboratorio), int(self.__carga.otros_descuentos), int(self.__carga.total_descuento))],
+                 ]
+        t1 = Table(data1, [3.2*cm, 16.2*cm],
+                   [0.6*cm, 1.2*cm, 0.6*cm, 0.6*cm, 0.6*cm])
+
+        t1.setStyle(TableStyle([
+            ('VALIGN', (0, 0), (1, 0), 'MIDDLE'),
+            ('VALIGN', (0, 1), (4, 2), 'TOP'),
+            ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+            ('FONT', (0, 0), (0, 4), 'Helvetica-Bold', 10),
+        ]))
+
+        data2 = [['Bs:', '{}'.format(numero_decimal(self.__carga.liquido_pagable)), ''],
+                 ['Efectivo:', '', ''],
+                 ['Cheque No.:', '', ''],
+                 ['Banco:', '', ''],
+                 ['Cuenta Contable:', '', 'Firma Beneficiario'],
+                 ['', '', 'C.I./NIT:'],
+                 ]
+
+        t2 = Table(data2, [3.2*cm, 6.5*cm, 9.7*cm], 6*[0.6*cm])
+
+        t2.setStyle(TableStyle([
+            ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+            ('LINEBEFORE', (2, 0), (2, 6), 1, colors.black),
+            ('ALIGN', (2, 4), (2, 5), 'CENTER'),
+            ('RIGHTPADDING', (2, 5), (2, 5), 100),
+            ('FONT', (0, 0), (0, 4), 'Helvetica-Bold', 10),
+        ]))
+        story.append(t0)
+        story.append(Spacer(0, 5))
+        story.append(t1)
+        story.append(Spacer(0, 5))
+        story.append(t2)
+
+        doc.build(story)
+        pdf = buffer.getvalue()
+        buffer.close()
+        response.write(pdf)
         return response

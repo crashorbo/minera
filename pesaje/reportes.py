@@ -115,7 +115,7 @@ class ReporteCarga:
             "%d/%m/%Y  %H:%M:%S"))
         pdf.drawString(85, 520, self.__carga.vehiculo.placa)
         pdf.drawString(85, 510, '{} {}'.format(
-            self.__carga.vehiculo.apellidos, self.__carga.vehiculo.nombres))
+            self.__carga.conductor_vehiculo.apellidos, self.__carga.conductor_vehiculo.nombres))
         if self.__carga.equipo_carguio:
             pdf.drawString(85, 500, '{} {}'.format(
                 self.__carga.equipo_carguio.apellidos, self.__carga.equipo_carguio.nombres))

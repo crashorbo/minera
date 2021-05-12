@@ -15,6 +15,8 @@ urlpatterns = [
          name='contabilidad-carga-view'),
     path('resporte/boleta/<pk>/',
          views.ReporteBoletaView.as_view(), name='reporte-boleta'),
+    path('resporte/comprobante/<pk>/',
+         views.ReporteComprobanteView.as_view(), name='reporte-comprobante'),
     # path('generar/laboratorios/<pk>/', views.LaboratorioGenerarView.as_view(),
     #      name='laboratorios-generar'),
     # path('muestras/list/<pk>/', views.MuestrasListView.as_view(),

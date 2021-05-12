@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 import datetime
 from django.db.models import Q
 
-from .reportes import ReporteContabilidad, ReporteExcel
+from .reportes import ReporteContabilidad, ReporteExcel, ReporteComprobante
 from pesaje.templatetags.pesaje_tags import numero_decimal
 from pesaje.models import Carga
 # Create your views here.
@@ -147,6 +147,14 @@ class ReporteBoletaView(LoginRequiredMixin, View):
         if carga.pesaje:
             return ReporteContabilidad(carga).reporte_boleta()
         return ReporteContabilidad(carga).reporte_boleta()
+
+
+class ReporteComprobanteView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        carga = Carga.objects.get(id=self.kwargs['pk'])
+        if carga.pesaje:
+            return ReporteComprobante(carga).generar_comprobante()
+        return ReporteComprobante(carga).generar_comprobante()
 
 
 class ReportePorPagar(LoginRequiredMixin, View):

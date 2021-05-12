@@ -156,7 +156,7 @@
                 <td class="text-end">
                     <div class="row">                        
                         <div class="col-md-6"><button id="generar-boleta" class="btn btn-sm btn-primary btn-printer" data-url="{% url 'reporte-boleta' pk=object.id %}"><i class="bi bi-printer"></i> Boleta</button></div>
-                        <div class="col-md-6"><button id="generar-comprobante" class="btn btn-sm btn-secondary btn-printer"><i class="bi bi-printer"></i> Comprobante</button></div>
+                        <div class="col-md-6"><button id="generar-comprobante" class="btn btn-sm btn-secondary btn-printer" data-url="{% url 'reporte-comprobante' pk=object.id %}"><i class="bi bi-printer"></i> Comprobante</button></div>
                     </div>                                        
                 </td>
             </tr>                            

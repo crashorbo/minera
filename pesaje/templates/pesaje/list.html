@@ -43,7 +43,7 @@
                 {% if carga.pesaje_tara %}
                     <i data-url="{% url 'reporte-pesaje-neto' pk=carga.id %}" class="pesaje-tara bi bi-printer"></i>
                 {% endif %}
-                {% if not carga.pesaje %}
+                {% if not carga.pesaje or request.user.rol == 0 or request.user.rol == 1 %}
                     <i data-url="{% url 'pesaje-edit' pk=carga.id %}" class="bi bi-pencil"></i>                                                                
                 {% endif %}
                 {% if not carga.pagado %}

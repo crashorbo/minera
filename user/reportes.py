@@ -55,7 +55,7 @@ class ReporteGenerador:
 
         styles = getSampleStyleSheet()
         styles.add(ParagraphStyle(name='centered',
-                                  alignment=TA_CENTER, fontSize=12, fontName="Helvetica-Bold", leading=20,))
+                                  alignment=TA_CENTER, fontSize=11, fontName="Helvetica-Bold", leading=20,))
 
         data = []
         for codigo in self.__codigos:
