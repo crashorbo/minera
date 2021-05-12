@@ -275,8 +275,8 @@ class ReporteComprobante():
         ]))
 
         data1 = [['Pagado a:', '{} {}'.format(self.__carga.proveedor.apellidos, self.__carga.proveedor.nombres)],
-                 ['La Suma de:', '{} 00/100 BOLIVIANOS.'.format(
-                     numero_literal.main(int(self.__carga.liquido_pagable)))],
+                 ['La Suma de:', Paragraph('{} 00/100 BOLIVIANOS.'.format(
+                     numero_literal.main(int(self.__carga.liquido_pagable))))],
                  ['Por Concepto:',
                      'CARGA MINERALIZADA: P{} - {} - COT:{}'.format(self.__carga.numero, self.__carga.created.strftime("%d/%m/%Y"), int(self.__carga.cotizacion))],
                  ['', 'TMH:{} - HUM%:{} - TMS:{} - LEY:{} -  Fi.Rec.:{} - V.REP:{}'.format(
