@@ -217,16 +217,12 @@ class ReporteComprobante():
     def __encabezado(self, canvas, doc):
         canvas.saveState()
         canvas.setFont('Helvetica', 10)
-        canvas.drawCentredString(4*cm, 26.5*cm, 'EMPRESA MINERA COMUNITARIA')
-        canvas.drawCentredString(4*cm, 26*cm, '"INCA SAYAÑA" S.A.')
+        canvas.drawCentredString(6*cm, 26.5*cm, 'EMPRESA MINERA COMUNITARIA')
+        canvas.drawCentredString(6*cm, 26*cm, '"INCA SAYAÑA" S.A.')
         canvas.setFont('Helvetica-Bold', 16)
         canvas.drawCentredString(
-            10.5*cm, 25*cm, 'COMPROBANTE DE CAJA - EGRESOS')
-        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
-
-        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
-        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
-        canvas.line(5.3*cm, 24.9*cm, 15.7*cm, 24.9*cm)
+            12*cm, 25*cm, 'COMPROBANTE DE CAJA - EGRESOS')
+        canvas.line(6.8*cm, 24.9*cm, 17.2*cm, 24.9*cm)
         canvas.restoreState()
 
     def __pie(self, canvas, doc):
@@ -250,8 +246,8 @@ class ReporteComprobante():
                               topMargin=1*cm,
                               bottomMargin=1*cm
                               )
-        frame0 = Frame(doc.leftMargin, doc.bottomMargin + 0.5*cm,
-                       doc.width, doc.height - 3*cm, showBoundary=0, id='bordeNormal')
+        frame0 = Frame(doc.leftMargin + 2*cm, doc.bottomMargin + 0.5*cm,
+                       doc.width-2*cm, doc.height - 3*cm, showBoundary=0, id='bordeNormal')
         doc.addPageTemplates([PageTemplate(
             id='principal', frames=frame0, onPage=self.__encabezado, onPageEnd=self.__pie), ])
 
@@ -263,7 +259,7 @@ class ReporteComprobante():
                  ['{}'.format(hoy.day), '{}'.format(hoy.month), '{}'.format(hoy.year), '', '']]
 
         t0 = Table(data0, [1.5*cm, 1.5*cm, 1.5*cm,
-                           12*cm, 2.9*cm], [0.8*cm, 0.8*cm])
+                           10*cm, 2.9*cm], [0.8*cm, 0.8*cm])
 
         t0.setStyle(TableStyle([
             ('GRID', (0, 0), (2, 1), 0.5, colors.black),
@@ -290,7 +286,7 @@ class ReporteComprobante():
                          self.__carga.anticipo), int(self.__carga.equipo_pesado),
                      int(self.__carga.balanza), int(self.__carga.volqueta), int(self.__carga.analisis_laboratorio), int(self.__carga.otros_descuentos), int(self.__carga.total_descuento))],
                  ]
-        t1 = Table(data1, [3.2*cm, 16.2*cm],
+        t1 = Table(data1, [3.2*cm, 14.2*cm],
                    [0.6*cm, 1.2*cm, 0.6*cm, 0.6*cm, 0.6*cm])
 
         t1.setStyle(TableStyle([
@@ -308,7 +304,7 @@ class ReporteComprobante():
                  ['', '', 'C.I./NIT:'],
                  ]
 
-        t2 = Table(data2, [3.2*cm, 6.5*cm, 9.7*cm], 6*[0.6*cm])
+        t2 = Table(data2, [3.2*cm, 5.5*cm, 8.7*cm], 6*[0.6*cm])
 
         t2.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
