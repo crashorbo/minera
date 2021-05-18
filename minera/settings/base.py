@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'paleta.apps.PaletaConfig',
     'laboratorio.apps.LaboratorioConfig',
     'contabilidad.apps.ContabilidadConfig',
+    'produccion.apps.ProduccionConfig',
 ]
 
 MIDDLEWARE = [

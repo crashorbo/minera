@@ -18,10 +18,16 @@
             <div class="card sticky-top">
                 <ul class="list-group list-group-flush">
                     <li id="selector-perfil" class="list-group-item  active"><a href="{% url 'user-profile' pk=request.user.id %}">PERFIL</a></li>
-                    <li id="selector-usuario" class="list-group-item"><a href="{% url 'user-list' %}">USUARIO</a></li>                                        
+                    {% if request.user.rol == 0 or request.user.rol == 1 %}
+                    <li id="selector-usuario" class="list-group-item"><a href="{% url 'user-list' %}">USUARIO</a></li>                                                                                
                     <li id="selector-parametro" class="list-group-item"><a href="{% url 'parametro-index' %}">PARAMETRO</a></li>
+                    {% endif %}
+                    {% if request.user.rol == 0 or request.user.rol == 1 or request.user.rol == 2 %}
                     <li id="selector-ubicacion" class="list-group-item"><a href="{% url 'parametro-ubicacion-index' %}">UBICACION</a></li>
+                    {% endif %}
+                    {% if request.user.rol == 0 or request.user.rol == 1 or request.user.rol == 4 %}
                     <li id="selector-laboratorio" class="list-group-item"><a href="{% url 'parametro-laboratorio-index' %}">LABORATORIO</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

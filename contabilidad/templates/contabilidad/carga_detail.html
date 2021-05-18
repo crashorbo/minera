@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">DETALE CARGA</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered
+            ">
+                <tr>
+                    <td class="primary-row">TIPO CARGA</td>
+                    <td class="text-end">{{ object.tipo_carga}}</td>
+                </tr>
+                <tr>
+                    <td class="primary-row">Au(g/Tn)</td>
+                    <td class="text-end">{{ object.au }}</td>
+                </tr>
+                <tr>
+                    <td class="primary-row">H2O(%)</td>
+                    <td class="text-end">{{ object.h2o }}</td>
+                </tr>
+                <tr>
+                    <td class="primary-row">% DE SOBRES TAMANOS</td>
+                    <td class="text-end">{{ object.porcentaje_tamanos }}</td>
+                </tr>                                
+                <tr>
+                    <td class="primary-row">COBRE SOLUBLE CN</td>
+                    <td class="text-end">{{ object.cobre_soluble }}</td>
+                </tr>                                
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">        
+            {% for muestra in object.muestra_set.all %}
+                <div class="text-center muestra-title">MUESTRA {{ muestra.nombre }}</div>
+                <table class="table table-bordered table-sm table-muestra">        
+                    <thead class="{{ muestra.css_class }}">
+                        <tr>                            
+                            <th>MALLA +150</th>
+                            <th>MALLA -150</th>
+                            <th>LEY POND.</th>
+                            <th>NRO. CERT.</th>
+                            <th>LABORATORIO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>                            
+                            <td class="text-end">{{ muestra.malla_mas }}</td>
+                            <td class="text-end">{{ muestra.malla_menos }}</td>
+                            <td class="text-end">{{ muestra.ley_ponderada }}</td>
+                            <td class="text-center">{{ muestra.nro_certif }}</td>
+                            <td class="text-center">{% if muestra.laboratorio %}{{ muestra.laboratorio }}{% endif %}   </td>
+                        </tr>
+                    </tbody>
+                </table>      
+            {% endfor %}
+        </div>
+    </div>        
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cerrar</button>    
+</div>

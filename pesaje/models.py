@@ -81,7 +81,8 @@ class Carga(models.Model):
 
 class Muestra(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    carga = models.ForeignKey(Carga, on_delete=models.CASCADE)
+    carga = models.ForeignKey(
+        Carga, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100, default='')
     codigo = models.CharField(max_length=20)
     malla_mas = models.FloatField(default=0)

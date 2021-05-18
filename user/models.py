@@ -9,8 +9,9 @@ TIPO_ROL = (
     (0, 'GERENTE'),
     (1, 'ADMINISTRACION'),
     (2, 'PESAJE'),
-    (3, 'LABORATORIO'),
-    (4, 'CONTABILIDAD'),
+    (3, 'PALETA'),
+    (4, 'LABORATORIO'),
+    (5, 'CONTABILIDAD'),
 )
 
 TIPO_PARAMETRO = (

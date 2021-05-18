@@ -31,6 +31,7 @@
         <div class="nav-item logo">
             <img src="{% static 'images/logo-blue.png' %}" class="img-fluid" alt="">
         </div>
+        {% if request.user.rol == 0 or request.user.rol == 1 or request.user.rol == 2 %}
         <div class="nav-item {% active 'proveedor-index' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Proveedores">
             <a href="{% url 'proveedor-index' %}">
                 <i class="bi bi-person"></i>
@@ -46,11 +47,17 @@
                 <i class="bi bi-tv"></i>
             </a>
         </div>
+        {% endif %}
+
+        {% if request.user.rol == 0 or request.user.rol == 1 or request.user.rol == 3 %}
         <div class="nav-item {% active 'paleta-index' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Paletas">
             <a href="{% url 'paleta-index' %}">
                 <i class="bi bi-journals"></i>
             </a>
-        </div>
+        </div>        
+        {% endif %}
+
+        {% if request.user.rol == 0 or request.user.rol == 1 or request.user.rol == 4 %}
         <div class="nav-item {% active 'laboratorio-index' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Laboratorio">
             <a href="{% url 'laboratorio-index' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,6 +65,9 @@
                 </svg>
             </a>
         </div>
+        {% endif %}
+
+        {% if request.user.rol == 0 or request.user.rol == 1 or request.user.rol == 5 %}
         <div class="nav-item {% active 'contabilidad-index' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Contabilidad">
             <a href="{% url 'contabilidad-index' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,13 +75,18 @@
                 </svg>
             </a>
         </div>
-        <div class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Reportes">
-            <a href="#">
+        {% endif %}
+
+        {% if request.user.rol == 0 or request.user.rol == 1 %}
+        <div class="nav-item {% active 'produccion-index' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Produccion">
+            <a href="{% url 'produccion-index' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
             </a>
         </div>
+        {% endif %}
+        
         <div class="nav-item {% active 'user-configuracion' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Configuracion">
             <a href="{% url 'user-configuracion' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -79,7 +94,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </a>
-        </div> 
+        </div>        
             
         
         <div class="nav-item logout">

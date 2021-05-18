@@ -13,6 +13,8 @@ urlpatterns = [
          name='contabilidad-pagar'),
     path('detalle/<pk>', views.ContabilidadCargaView.as_view(),
          name='contabilidad-carga-view'),
+    path('ajax/detalle/<pk>', views.AjaxCargaDetailView.as_view(),
+         name='carga-ajax-detail'),
     path('resporte/boleta/<pk>/',
          views.ReporteBoletaView.as_view(), name='reporte-boleta'),
     path('resporte/comprobante/<pk>/',

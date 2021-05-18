@@ -22,8 +22,9 @@ def rol_usuario(val):
         0: 'GERENTE',
         1: 'ADMINISTRACION',
         2: 'PESAJE',
-        3: 'LABORATORIO',
-        4: 'CONTABILIDAD'
+        3: 'PALETA',
+        4: 'LABORATORIO',
+        5: 'CONTABILIDAD'
     }
     return TIPO_ROL[val]
 

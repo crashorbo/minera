@@ -11,7 +11,7 @@ from django.db.models import Q
 
 from .reportes import ReporteContabilidad, ReporteExcel, ReporteComprobante
 from pesaje.templatetags.pesaje_tags import numero_decimal
-from pesaje.models import Carga
+from pesaje.models import Carga, Muestra
 # Create your views here.
 
 
@@ -161,3 +161,8 @@ class ReportePorPagar(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         carga = Carga.objects.filter(pagado=False)
         return ReporteExcel(carga).reporte_por_pagar()
+
+
+class AjaxCargaDetailView(DetailView):
+    model = Carga
+    template_name = 'contabilidad/carga_detail.html'

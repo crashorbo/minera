@@ -1,6 +1,7 @@
 const loader = document.querySelector('.loader');
 const containerDetalle = document.querySelector("#detalle");
 const modalContent = document.querySelector(".modal-content");
+const modalDialog = document.querySelector('.modal-dialog');
 const btnRefresh = document.querySelector("#btn-refresh");
 const myModal = new bootstrap.Modal(document.querySelector('#exampleModal'));
 const datatable = $('#cargas').DataTable({
@@ -82,6 +83,14 @@ containerDetalle.addEventListener("change", async (e) => {
     })
 });
 
+const handleCargaDetail = async(url) => {   
+    await axios(url)
+    .then( res => {                
+        modalContent.innerHTML = res.data;
+        myModal.show();
+    })
+}
+
 containerDetalle.addEventListener("click", async (e) => {
     e.preventDefault()
     if (e.target.getAttribute("id") === "carga-pagar"){
@@ -125,6 +134,9 @@ containerDetalle.addEventListener("click", async (e) => {
         e.preventDefault();
         printJS(e.target.dataset.url);
         //window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+    if (e.target.getAttribute("id") === "carga-detalle"){
+        handleCargaDetail(e.target.getAttribute('data-url'));
     }
 })
 
