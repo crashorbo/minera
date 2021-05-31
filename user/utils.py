@@ -57,7 +57,7 @@ def importar_proveedores():
             proveedor.deleted = activo(c9.value)
             print('{} {} {} {}'.format(c1.value, proveedor.apellidos,
                                        proveedor.nombres, proveedor.deleted))
-            # proveedor.save()
+            proveedor.save()
 
     return wbo.sheetnames
 
