@@ -10,7 +10,7 @@ ADMINS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'emcoisa',
+        'NAME': 'minera_env',
         'USER': 'alexander',
         'PASSWORD': 'add150806',
         'HOST': 'localhost',
