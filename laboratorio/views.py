@@ -60,7 +60,7 @@ class LaboratorioListJson(LoginRequiredMixin, BaseDatatableView):
             print('fecha no valida')
         if search:
             q_search = Q(numero__contains=search) | Q(
-                numero_paleta__contains=search) | Q(created__contains=search)
+                numero_paleta__contains=search) | Q(created__contains=search) | Q(muestra__codigo__contains=search)
             qs = qs.filter(q_search)
         # more advanced example using extra parameters
         filter_customer = self.request.GET.get('customer', None)

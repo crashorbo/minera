@@ -74,11 +74,32 @@ const cargarPerfil = async (url) => {
     .then(res => { 
         bodyConf.innerHTML = res.data;
         // loader
-        const loader = document.querySelector('.loader');        
+        const loader = document.querySelector('.loader');   
         loader.style.visibility = 'hidden';
+        const changePassword = document.querySelector("#cambiar-password");
         //
         const photo = document.querySelector("#id_photo");
         const formUpdate = document.querySelector("#edit-user-form")
+
+        changePassword.addEventListener('click', async (e) => {
+            e.preventDefault();            
+            await axios(e.target.getAttribute('data-url'))
+            .then(res => {
+                bodyConf.innerHTML = res.data;
+                const formPass = document.querySelector("#form-password");
+                formPass.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    axios(formPass.getAttribute("action"), {
+                        method: "post",
+                        data: new FormData(formPass)
+                    })
+                    .then( res => {
+                        bodyConf.innerHTML = res.data;
+                    })                                       
+                })
+            })
+        })
+
         photo.addEventListener('change', e => {
             console.log(photo)
             if(e.target.files.length > 0){
@@ -107,6 +128,7 @@ const cargarPerfil = async (url) => {
                 })
             })
         })
+
     })
 }
 

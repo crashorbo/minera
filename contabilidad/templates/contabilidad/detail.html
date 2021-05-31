@@ -32,7 +32,15 @@
                 <td class="text-center">
                     {{ object.proveedor.apellidos }} {{ object.proveedor.nombres }}
                 </td>
-            </tr>            
+            </tr>  
+            <tr>
+                <td class="primary-row">
+                    Au(g/Tn):
+                </td>
+                <td class="text-end">
+                    {{ object.au | numero_decimal }}
+                </td>
+            </tr>                    
             <tr>
                 <td class="primary-row">
                     TON HUMEDA:

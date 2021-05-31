@@ -76,13 +76,14 @@ class CargaLaboratorioForm(forms.ModelForm):
     class Meta:
         model = Carga
         fields = ('au', 'h2o', 'porcentaje_tamanos',
-                  'cobre_soluble', 'tipo_carga')
+                  'cobre_soluble', 'tipo_carga', 'observaciones')
         widgets = {
             'au': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
             'h2o': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
             'porcentaje_tamanos': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
             'cobre_soluble': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
             'tipo_carga': forms.Select(attrs={'class': 'form-select form-select-sm'}),
+            'observaciones': forms.Textarea(attrs={'class': 'form-control form-control-sm', 'rows': 3}),
         }
 
 

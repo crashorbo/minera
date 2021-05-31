@@ -1,0 +1,9 @@
+.card-nuevo {
+    height: calc(100vh - 120px);
+}
+
+.footer {
+    height: 50px;
+    background-color: #3C4B64;
+    color: #fff;
+}

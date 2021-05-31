@@ -70,6 +70,7 @@ class Carga(models.Model):
     valor_reposicion = models.FloatField(default=0)
     total_descuento = models.FloatField(default=0)
     liquido_pagable = models.FloatField(default=0)
+    observaciones = models.TextField(blank=True)
     pagado = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)

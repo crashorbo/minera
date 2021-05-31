@@ -1,6 +1,8 @@
 from django.urls import path
 from django.conf.urls import url
 
+from django.contrib.auth import views as auth_views
+
 from .views import CotizacionDeleteView, CotizacionListJson, CotizacionUpdateView, CreateUserView, ParametroView, ProfileUpdateView, ConfiguracionView, UserEditView, UserListView, CotizacionCreateView, \
     DestinoCreateView, DestinoListView, DestinoUpdateView, LaboratorioListView, LaboratorioCreateView, LaboratorioUpdateView, GeneradorListJson, GeneradorCreateView, GeneradorPrintView, \
     UbicacionView, LaboratorioView, OrigenListView, OrigenCreateView, OrigenUpdateView, CodigoAutoComplete, FactorCreateView, FactorListView, FactorUpdateView
@@ -56,4 +58,12 @@ urlpatterns = [
          FactorUpdateView.as_view(), name='factor-edit'),
     path('parametro/factor/list/',
          FactorListView.as_view(), name='factor-list'),
+    path(
+        'change-password/',
+        auth_views.PasswordChangeView.as_view(
+            template_name='user/change-password.html',
+            success_url='/user/logout/'
+        ),
+        name='change_password_personal'
+    ),
 ]

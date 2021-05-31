@@ -2,6 +2,42 @@
 
 {% load static %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'vendor/datatables/css/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/produccion/index.css' %}">
+{% endblock css %}
+
+{% block body %}
+<div class="row">
+    <div class="card">        
+        <div class="card-body card-produccion">
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">Lista Produccion</h5>
+                </div>
+                <div class="col-6 text-end">
+                    <a href="{% url 'produccion-nuevo' %}" class="btn btn-primary ">Nuevo</a>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Destino</th>
+                        <th>Minima Ley</th>
+                        <th>Maxima Ley</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
 {% block js %}    
+    <script src="{% static 'vendor/datatables/js/jquery-3.5.1.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'vendor/datatables/js/dataTables.bootstrap5.min.js'%}"></script>
     <script src="{% static 'js/produccion/index.js' %}"></script>
 {% endblock js %}
