@@ -17,11 +17,11 @@ def expedido(arg):
 
 def activo(arg):
     switcher = {
-        'ACTIVO': True,
-        'INACTIVO': False
+        'ACTIVO': False,
+        'INACTIVO': True
     }
 
-    return switcher.get(arg, False)
+    return switcher.get(arg, True)
 
 
 def get_numeracion(tipo):
@@ -55,7 +55,9 @@ def importar_proveedores():
             proveedor.numero_documento = '{} {}'.format(
                 c7.value, expedido(c8.value))
             proveedor.deleted = activo(c9.value)
-            proveedor.save()
+            print('{} {} {} {}'.format(c1.value, proveedor.apellidos,
+                                       proveedor.nombres, proveedor.deleted))
+            # proveedor.save()
 
     return wbo.sheetnames
 

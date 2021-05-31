@@ -40,7 +40,7 @@ class ProveedorListJson(LoginRequiredMixin, BaseDatatableView):
         # these are simply objects displayed in datatable
         # You should not filter data returned here by any filter values entered by user. This is because
         # we need some base queryset to count total number of records.
-        return Proveedor.objects.filter(deleted=False)
+        return Proveedor.objects.all()
 
     def render_column(self, row, column):
         # We want to render user as a custom column
@@ -56,8 +56,8 @@ class ProveedorListJson(LoginRequiredMixin, BaseDatatableView):
         # simple example:
         search = self.request.GET.get('search[value]', None)
         if search:
-            q_search = Q(nombres__contains=search) | Q(apellidos__contains=search) | Q(
-                numero_documento__contains=search) | Q(telefono__contains=search) | Q(direccion__contains=search)
+            q_search = Q(nombres__contains=search.upper()) | Q(apellidos__contains=search.upper()) | Q(
+                numero_documento__contains=search) | Q(telefono__contains=search) | Q(direccion__contains=search.upper())
             qs = qs.filter(q_search)
         # more advanced example using extra parameters
         filter_customer = self.request.GET.get('customer', None)
