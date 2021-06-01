@@ -1,18 +1,22 @@
 <div class="modal-header">
-    <h5 class="modal-title">Eliminar Proveedor</h5>
+    <h5 class="modal-title">{% if proveedor.deleted %}Habilitar Proveedor{% else %}Eliminar Proveedor{% endif %}</h5>
 </div>
 <div class="modal-body">
     <form id="proveedor-form" action="{% url 'proveedor-delete' pk=proveedor.id %}" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-12">
-                <p>Desea eliminar al proveedor: <strong>{{ proveedor.apellidos }} {{ proveedor.nombres }}</strong></p>
+                <p>Desea {% if proveedor.deleted %}habilitar{% else %}eliminar{% endif %} al proveedor: <strong>{{ proveedor.apellidos }} {{ proveedor.nombres }}</strong></p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 text-end">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                {% if proveedor.deleted %}
+                    <button type="submit" class="btn btn-sm btn-success">Habilitar</button>
+                {% else %}
+                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                {% endif %}
             </div>
         </div>
     </form>

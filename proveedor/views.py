@@ -84,8 +84,8 @@ class ProveedorListJson(LoginRequiredMixin, BaseDatatableView):
                 # escape HTML for security reasons
                 escape(item.telefono) if item.telefono else '',
                 escape(item.direccion) if item.direccion else '',
-                '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-pencil-square"></i><i data-url="{}" class="bi bi-trash ms-2"></i>'.format(
-                    reverse('proveedor-edit', kwargs={'pk': item.id}), reverse('proveedor-delete', kwargs={'pk': item.id}))
+                '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-pencil-square"></i><i data-url="{}" class="bi {} ms-2"></i>'.format(
+                    reverse('proveedor-edit', kwargs={'pk': item.id}), reverse('proveedor-delete', kwargs={'pk': item.id}), 'bi-check' if item.deleted else 'bi-trash')
             ])
         return json_data
 
@@ -125,6 +125,12 @@ class ProveedorDeleteView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         proveedor = Proveedor.objects.get(id=kwargs['pk'])
         pesajes = Carga.objects.filter(proveedor=proveedor.id)
+
+        if proveedor.deleted:
+            proveedor.deleted = False
+            proveedor.save()
+            return JsonResponse({"message": "Se ha habilitado al proveedor con exito"}, status=200)
+
         if pesajes:
             proveedor.deleted = True
             proveedor.save()

@@ -350,6 +350,10 @@ label.sr-only {
     color: var(--danger);
 }
 
+.cotizacion-options .bi-check {
+    color: var(--success);
+}
+
 .dataTables_info {
     color: var(--primary) !important;
     font-weight: 400;
