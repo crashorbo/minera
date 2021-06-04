@@ -66,7 +66,7 @@ class Carga(models.Model):
     analisis_laboratorio = models.FloatField(default=0)
     otros_descuentos = models.FloatField(default=0)
     retencion_acuerdo = models.FloatField(default=0)
-    retencion_acuerdo_vol = models.BooleanField(default=False)
+    retencion_acuerdo_vol = models.BooleanField(default=True)
     valor_reposicion = models.FloatField(default=0)
     total_descuento = models.FloatField(default=0)
     liquido_pagable = models.FloatField(default=0)

@@ -164,6 +164,8 @@ class LaboratorioUpdateView(LoginRequiredMixin, UpdateView):
                         (0.0089 * model.cobre_soluble - 1.325) * 30 * model.tms_pagar, 0)
                 else:
                     model.penalizacion_cu_soluble = 0
+                model.retencion_acuerdo = round(
+                    model.costo_tratamiento * 0.05, 0)
                 model.valor_reposicion = model.total_liquidacion_prov - model.regalia
                 model.liquido_pagable = model.valor_reposicion - \
                     model.total_descuento - model.cobre_soluble

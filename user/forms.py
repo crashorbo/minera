@@ -93,9 +93,10 @@ class DestinoCreateForm(forms.ModelForm):
 class OrigenCreateForm(forms.ModelForm):
     class Meta:
         model = Origen
-        fields = ('nombre',)
+        fields = ('nombre', 'costo_transporte')
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'})
+            'nombre': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
+            'costo_transporte': forms.NumberInput(attrs={'class': 'form-control form-control-sm'})
         }
 
 

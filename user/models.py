@@ -62,6 +62,7 @@ class Cotizacion(models.Model):
 class Origen(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nombre = models.CharField(max_length=100)
+    costo_transporte = models.FloatField(default=0)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

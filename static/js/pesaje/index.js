@@ -405,7 +405,7 @@ items.addEventListener("click", async (e) => {
     if (e.target.classList.contains("bi-printer")) {
         e.preventDefault();
         printJS(e.target.dataset.url);
-        //window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
+        // window.open(e.target.dataset.url,"_blank","height=500,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes");
     }
 
     if (e.target.classList.contains("bi-trash")) {
