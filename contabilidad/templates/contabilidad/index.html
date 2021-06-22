@@ -13,62 +13,114 @@
 {% endblock css %}
 
 {% block body %}
-    <div class="row">        
-        <div class="col-md-6 col-sm-12">
-            <div class="card proveedor-card">
-                <div class="card-body ">
-                    <div class="row">
-                        <div class="col-md-3"><strong>Proveedor:</strong></div>
-                        <div class="col-md-7 proovedor-card__nombre"></div>
-                        <div class="col-md-2 text-end"><i id="btn-refresh" class="refresh-btn bi bi-arrow-counterclockwise"></i></div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3"><strong>Total:</strong></div>
-                        <div class="col-md-5 proveedor-card__montos"></div>
-                        <div class="col-md-4 proveedor-card__total text-end">0.00 Bs.</div>
-                    </div>
+    <div class="conta-desktop">
+        <div class="conta-desktop--header">            
+            <div class="selector">
+                <label for="">Nro. Boleta </label><input type="text"><button class="button"><span class="button__text">Agregar</span><span class="button__icon"><i class="fas fa-plus"></i></span></button>
+            </div>
+            <div class="opciones">
+                <div class="uno">
+                    <button class="button"><span class="button__text">Historial</span><span class="button__icon"><i class="fas fa-clipboard"></i></span></button>    
                 </div>
-            </div>
-            <div class="card opciones-card">
-                <div class="row">
-                    {% comment %} <div class="col-md-6"><button class="btn-excel"><object type="image/svg+xml" data="{% static 'images/excel.svg' %}"></object></button></div> {% endcomment %}
-                    <div class="col-md-6"></div>
-                    {% comment %} <img class="btn-excel" src="{% static 'images/pdf.svg' %}" alt=""> {% endcomment %}
-                    <div class="col-md-6 text-end"><span class="btn-title">POR PAGAR</span> <a href="{% url 'reporte-por-pagar' %}"><img class="btn-excel" src="{% static 'images/excel.svg' %}" ></a></div> 
-                </div>                                
-            </div>
-            <div class="card lista-card">
-                <div class="card-body ">
-                    <h5 class="card-title">LISTA CARGAS</h5>
-                    <table id="cargas" class="table table-hover table-sm">
-                        <thead>
-                            <tr>
-                                <th>Numero</th>                            
-                                <th>Fecha</th>
-                                <th>Proveedor</th>
-                                <th>Monto</th>                                
-                                <th>Estado</th>                        
-                            </tr>
-                        </thead>
-                    </table>                    
+                <div class="dos">
+                    <button class="button button__comprobante"><span class="button__text">Comprobante</span><span class="button__icon"><i class="fas fa-print"></i></span></button>
+                    <button class="button button__recibo"><span class="button__text">Recibo</span><span class="button__icon"><i class="fas fa-print"></i></span></button>
+                    <button class="button button__guardar"><span class="button__text">Guardar</span><span class="button__icon"><i class="fas fa-save"></i></span></button> 
+                </div>                
+            </div>            
+        </div>
+        <div class="conta-desktop--body">
+            <div class="conta-desktop--body-content">
+                <div class="table-headers">
+                    <div class="number0">Nro. Boleta</div>
+                    <div class="number0">Fecha</div>
+                    <div class="complete-name">Transportista</div>
+                    <div class="complete-name">Proveedor</div>                
+                    <div class="number1">Placa</div>
+                    <div class="text1">Procedencia</div>
+                    <div class="number1">Peso Neto</div>
+                    <div class="text1">Tipo Carga</div>
+                    <div class="number1">Au(g/t)</div>
+                    <div class="number1">H2O(%)</div>
+                    <div class="number1">% Sobre Tamanos</div>
+                    <div class="number1">Cobre Soluble</div>
+                    <div class="number1">TMS a pagar</div>
+                    <div class="number1">Regalia</div>
+                    <div class="number1">Anticipo</div>
+                    <div class="number1">Equipo Pesado</div>
+                    <div class="number1">Balanza</div>
+                    <div class="number1">Volqueta</div>
+                    <div class="number1">Analisis Laboratorio</div>
+                    <div class="number1">Otros Descuentos</div>
+                    <div class="number1">Retencion 5% Voluntario</div>
+                    <div class="number1">Total Descuento</div>
+                    <div class="number1">Liquido Pagable</div>
+                </div>
+                <div class="table-row">
+                    <div class="number0 sec1">21000232442</div>
+                    <div class="number0 sec1">22/016/2021</div>
+                    <div class="complete-name sec1">HUACOTA SIMON BERNABE</div>
+                    <div class="complete-name sec1">ATAHUICHI NUÑEZ DAVID</div>                
+                    <div class="number1 sec1">2305-ZIR</div>
+                    <div class="text1 sec1">NEGRO CHANKA II</div>
+                    <div class="number1 sec1">16,44</div>
+                    <div class="text1 sec2">NORMAL</div>
+                    <div class="number1 sec2">0.40</div>
+                    <div class="number1 sec2">3.00</div>
+                    <div class="number1 sec2">2%</div>
+                    <div class="number1 sec2">3.5</div>
+                    <div class="number1 sec1">15.95</div>                    
+                    <div class="number1 sec4">3.966.00</div>
+                    <div class="number1 sec4">0.00</div>
+                    <div class="number1 sec3">0.00</div>
+                    <div class="number1 sec3">10.00</div>
+                    <div class="number1 sec3">250.00</div>
+                    <div class="number1 sec3">346.00</div>
+                    <div class="number1 sec3">0.00</div>
+                    <div class="number1 sec3">0.00</div>
+                    <div class="number1 sec3">2.456.00</div>
+                    <div class="number1 sec3">87.678.00</div>
+
+                </div>
+                <div class="table-row">
+                    <div class="number0 sec1">21000232442</div>
+                    <div class="number0 sec1">22/016/2021</div>
+                    <div class="complete-name sec1">HUACOTA SIMON BERNABE</div>
+                    <div class="complete-name sec1">ATAHUICHI NUÑEZ DAVID</div>                
+                    <div class="number1 sec1">2305-ZIR</div>
+                    <div class="text1 sec1">NEGRO CHANKA II</div>
+                    <div class="number1 sec1">16,44</div>
+                    <div class="text1 sec2">NORMAL</div>
+                    <div class="number1 sec2">0.40</div>
+                    <div class="number1 sec2">3.00</div>
+                    <div class="number1 sec2">2%</div>
+                    <div class="number1 sec2">3.5</div>
+                    <div class="number1 sec1">15.95</div>                    
+                    <div class="number1 sec4">3.966.00</div>
+                    <div class="number1 sec4">0.00</div>
+                    <div class="number1 sec3">0.00</div>
+                    <div class="number1 sec3">10.00</div>
+                    <div class="number1 sec3">250.00</div>
+                    <div class="number1 sec3">346.00</div>
+                    <div class="number1 sec3">0.00</div>
+                    <div class="number1 sec3">0.00</div>
+                    <div class="number1 sec3">2.456.00</div>
+                    <div class="number1 sec3">87.678.00</div>
+
                 </div>
             </div>            
         </div>
-        
-        <div class="col-md-6 col-sm-12">
-            <div class="card">
-                <div class="card-body">                    
-                    <div id="detalle" class="row"> 
-                        <div class="col-md-12 text-center">
-                            <p class="dataTables_info">Seleccionar Item para Visualizar</p>
-                        </div>                                                                         
-                    </div>
-                </div>
+        <div class="conta-desktop--footer">
+            <div class="texto">
+                25 registros
+            </div>
+            <div class="total">
+                <strong>TOTAL : </strong>56006 Bs.
             </div>
         </div>
     </div>
-    <!-- Modal -->
+
+
     <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

@@ -10,6 +10,7 @@
     <link rel="shortcut icon" type="image/jpg" href="{% static 'images/favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'node_modules/bootstrap-icons/font/bootstrap-icons.css' %}">
+    <script src="https://kit.fontawesome.com/b3ce2733d2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'node_modules/sweetalert2/dist/sweetalert2.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block css %}<link rel="stylesheet" href="{% static 'css/pesaje.css' %}">{% endblock css %}    
@@ -117,10 +118,8 @@
             {% block header %}{% endblock header %}
         </header>
         <div class="miner-body">
-            <div class="miner-main">
-                <div class="container-fluid"> 
-                    {% block body %}{% endblock body %}
-                </div>
+            <div class="miner-main">                
+                {% block body %}{% endblock body %}                
             </div>
         </div>
     </div>    

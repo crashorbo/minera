@@ -1,3 +1,7 @@
+.body-container {
+    display: flex;
+}
+
 .primary-row {
     background-color: var(--primary) !important;
     color: #fff;
@@ -127,4 +131,170 @@ tr {
 
 .pagado {
     width: 100px;
+}
+
+.conta-desktop {
+    margin: 5px;
+    margin-top: 0;    
+    height: calc(100vh - 4.5rem);
+    display: flex;
+    flex-direction: column;    
+}
+
+.conta-desktop--header {
+    background-color: #fff;    
+    display: flex;    
+}
+
+.table-headers {    
+    display: flex;
+    background-color: #3c4b64;
+    color: #fff;
+    align-items: center;
+}
+
+.table-row {
+    display: flex;
+    align-items: flex-end;    
+    border-bottom: 1px solid #3c4b64;
+}
+
+.number0 {
+    width: 5rem;    
+    padding: 2px 2px;
+    text-align: center;
+    height: 100%;
+}
+
+.complete-name {
+    width: 16rem;
+    padding: 2px 2px;
+    text-align: center;
+}
+
+.number1 {
+    width: 5rem;
+    padding: 2px 2px;
+    text-align: center;
+}
+
+.text1 {
+    width: 8rem;
+    padding: 2px 2px;
+    text-align: center;    
+}
+
+.sec1 {
+    background-color: rgba(176, 224, 230, .8);
+}
+
+.sec2, 
+.sec3, 
+.sec4 {
+    text-align: end;
+}
+
+.sec2 {
+    background-color: rgba(255, 215, 0, 1);
+}
+
+.sec3 {
+    background-color: rgba(0, 255, 0, .5);   
+}
+
+.sec4 {
+    background-color: rgba( 143, 188, 143 ,.6);
+}
+
+.button {    
+    display: inline-flex;    
+    padding: 0;
+    margin-left: 2px;
+    height: 24px;
+    background: #3C4B64;
+    color: #eee;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.button__comprobante {
+    background: var(--bs-primary);
+}
+
+.button__recibo {
+    background: var(--bs-orange);
+}
+
+.button__guardar {
+    background: var(--success);
+}
+
+.button__text,
+.button__icon {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 5px;  
+    height: 100%;  
+}
+
+.button__icon {
+    background: rgba(0,0,0, 0.08);
+}
+
+.conta-desktop--header .selector {
+    padding: .5rem;
+    width: 50%;
+    display: flex;
+    align-items: baseline;    
+}
+
+.conta-desktop--header .opciones {
+    padding: .5rem;
+    width: 50%;
+    display: flex;
+}
+
+.conta-desktop--header .opciones .uno {
+    width: 50%;
+}
+
+.conta-desktop--header .opciones .dos {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.conta-desktop--body {    
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    height: 100%;
+    padding: .5rem;
+    background: #fff;
+    width: 100%;
+    overflow: scroll;
+}
+
+.conta-desktop--body-content {
+    flex: 0 0 auto;
+}
+
+.conta-desktop--footer {    
+    display: flex;
+    background-color: #3C4B64;
+    color: #eee;
+ }
+
+.conta-desktop--footer .texto {
+    padding: .5rem;
+    width: 50%;
+}
+
+.conta-desktop--footer .total {
+    padding: .5rem;    
+    text-align: end;
+    width: 50%;
+    font-size: 14px;
 }
