@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 
 from . import views
 
@@ -17,4 +18,6 @@ urlpatterns = [
          views.PesajeReporteNetoView.as_view(), name='reporte-pesaje-neto'),
     path('buscar-tara/', views.PesajeBuscarTara.as_view(), name='buscar-tara'),
     path('destare/create/', views.DestareView.as_view(), name='destare-create'),
+    url(r'^pesaje-autocomplete/$', views.PesajeAutocomplete.as_view(),
+        name='proveedor-autocomplete'),
 ]

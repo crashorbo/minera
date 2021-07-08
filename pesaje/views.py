@@ -1,3 +1,4 @@
+from django.db import models
 from conductor.models import Vehiculo
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,7 +8,7 @@ from django.views.generic import TemplateView, FormView, ListView, View, DetailV
 # Create your views here.
 from user.utils import get_numeracion
 from .models import Carga, Destare
-from .forms import CargaForm, CargaTaraForm, DestareForm
+from .forms import CargaForm, CargaTaraForm, DestareForm, CargaEditForm
 from .reportes import ReporteCarga
 
 
@@ -15,9 +16,21 @@ class PesajeIndexView(LoginRequiredMixin, TemplateView):
     template_name = 'pesaje/index.html'
 
 
-class PesajeDetailView(DetailView):
+class PesajeDetailView(UpdateView):
     model = Carga
+    form_class = CargaEditForm
     template_name = 'pesaje/detalle.html'
+
+
+class PesajeUpdateView(UpdateView):
+    model = Carga
+    form_class = CargaEditForm
+    template_name = 'pesaje/update.html'
+
+    def form_valid(self, form):
+        model = form.save(commit=False)
+        model.save()
+        return JsonResponse({"message": "Datos de Pesaje registrado con exito"}, status=200)
 
 
 class PesajeCreateView(LoginRequiredMixin, FormView):
@@ -91,6 +104,23 @@ class PesajeSearchListView(LoginRequiredMixin, ListView):
         return Carga.objects.filter(Q(proveedor__nombres__icontains=search) | Q(proveedor__apellidos__icontains=search) | Q(proveedor__numero_documento__icontains=search) | Q(numero__icontains=search)).order_by('-created')
 
 
+class PesajeAutocomplete(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        q = self.request.GET['q']
+        object_list = Carga.objects.filter(deleted=False)
+        filtered_object_list = object_list
+        if len(q) > 0:
+            filtered_object_list = object_list.filter_on_search(q)
+        qs = filtered_object_list
+        qs = self.get_results(qs)
+        return JsonResponse({
+            'results': qs
+        }, content_type='application/json')
+
+    def get_results(self, results):
+        return [dict(id=x.id, text='{} - {} {}'.format(x.numero, x.proveedor.apellidos, x.proveedor.nombres)) for x in results]
+
+
 class PesajeReporteBrutoView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
@@ -140,7 +170,6 @@ class DestareView(LoginRequiredMixin, FormView):
                 created__date=today, vehiculo=model.vehiculo)
             destare.peso = model.peso
             destare.save()
-            print(destare.peso)
         except model.DoesNotExist:
             destare = None
             model.save()

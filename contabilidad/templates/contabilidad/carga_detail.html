@@ -1,67 +1,59 @@
-<div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">DETALE CARGA</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-<div class="modal-body">
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-bordered
-            ">
-                <tr>
-                    <td class="primary-row">TIPO CARGA</td>
-                    <td class="text-end">{{ object.tipo_carga}}</td>
-                </tr>
-                <tr>
-                    <td class="primary-row">Au(g/Tn)</td>
-                    <td class="text-end">{{ object.au }}</td>
-                </tr>
-                <tr>
-                    <td class="primary-row">H2O(%)</td>
-                    <td class="text-end">{{ object.h2o }}</td>
-                </tr>
-                <tr>
-                    <td class="primary-row">% DE SOBRES TAMANOS</td>
-                    <td class="text-end">{{ object.porcentaje_tamanos }}</td>
-                </tr>                                
-                <tr>
-                    <td class="primary-row">COBRE SOLUBLE CN</td>
-                    <td class="text-end">{{ object.cobre_soluble }}</td>
-                </tr>                                
-                <tr>
-                    <td class="primary-row">OBSERVACIONES</td>
-                    <td>{{ object.observaciones }}</td>
-                </tr>                                
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">        
-            {% for muestra in object.muestra_set.all %}
-                <div class="text-center muestra-title">MUESTRA {{ muestra.nombre }}</div>
-                <table class="table table-bordered table-sm table-muestra">        
-                    <thead class="{{ muestra.css_class }}">
-                        <tr>                            
-                            <th>MALLA +150</th>
-                            <th>MALLA -150</th>
-                            <th>LEY POND.</th>
-                            <th>NRO. CERT.</th>
-                            <th>LABORATORIO</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>                            
-                            <td class="text-end">{{ muestra.malla_mas }}</td>
-                            <td class="text-end">{{ muestra.malla_menos }}</td>
-                            <td class="text-end">{{ muestra.ley_ponderada }}</td>
-                            <td class="text-center">{{ muestra.nro_certif }}</td>
-                            <td class="text-center">{% if muestra.laboratorio %}{{ muestra.laboratorio }}{% endif %}   </td>
-                        </tr>
-                    </tbody>
-                </table>      
-            {% endfor %}
-        </div>
-    </div>        
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cerrar</button>    
-</div>
+{% load pesaje_tags %}
+
+
+{% if carga.pagado %}
+    <div class="number0 sec1">{{ carga.numero }}</div>
+    <div class="number0 sec1">{{ carga.created|date:'d/m/Y' }}</div>
+    <div class="complete-name sec1">{{ carga.conductor_vehiculo.apellidos }} {{ carga.conductor_vehiculo.nombres }}</div>
+    <div class="complete-name sec1">{{ carga.proveedor.apellidos}} {{ carga.proveedor.nombres }}</div>                
+    <div class="number1 sec1">{{ carga.vehiculo.placa }}</div>
+    <div class="text1 sec1">{{ carga.origen.nombre }}</div>
+    <div class="number1 sec1">{{ carga.peso_neto_tn|numero_decimal }}</div>
+    <div class="text1 sec2">{{ carga.tipo_carga }}</div>
+    <div class="number1 sec2">{{ carga.au|numero_decimal }}</div>
+    <div class="number1 sec2">{{ carga.h2o|numero_decimal }}</div>
+    <div class="number1 sec2">{{ carga.porcentaje_tamanos|numero_decimal }}%</div>
+    <div class="number1 sec2">{{ carga.cobre_soluble|numero_decimal }}</div>
+    <div class="number1 sec1">{{ carga.tms_pagar }}</div>                    
+    <div class="number1 sec4">{{ carga.regalia }}</div>
+    <div class="number1 sec4 numero-alineacion">{{ carga.anticipo|numero_decimal}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ carga.equipo_pesado|numero_decimal}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ carga.balanza|numero_decimal}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ carga.volqueta|numero_decimal}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ carga.analisis_laboratorio|numero_decimal}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ carga.otros_descuentos|numero_decimal}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ carga.retencion_acuerdo|numero_decimal}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ carga.total_descuento|numero_decimal}}</div>
+    <div class="number1 sec5 numero-alineacion"><span data-value="{{carga.liquido_pagable}}" class="carga-pagada">{{ carga.liquido_pagable|numero_decimal}}</span></div>
+    <div class="number0 sec1">{{ carga.numero }}</div>
+    <div class="number0 sec6">{{ carga.numero_paleta }} {{ carga.color}}</div>
+    <div class="number0"><i class="table-options fas fa-minus-circle"></i><i class="table-options fas fa-clipboard-check"></i></div>
+{% else %}
+    <div class="number0 sec1">{{ carga.numero }}</div>
+    <div class="number0 sec1">{{ carga.created|date:'d/m/Y' }}</div>
+    <div class="complete-name sec1">{{ carga.conductor_vehiculo.apellidos }} {{ carga.conductor_vehiculo.nombres }}</div>
+    <div class="complete-name sec1">{{ carga.proveedor.apellidos}} {{ carga.proveedor.nombres }}</div>                
+    <div class="number1 sec1">{{ carga.vehiculo.placa }}</div>
+    <div class="text1 sec1">{{ carga.origen.nombre }}</div>
+    <div class="number1 sec1">{{ carga.peso_neto_tn|numero_decimal }}</div>
+    <div class="text1 sec2">{{ carga.tipo_carga }}</div>
+    <div class="number1 sec2">{{ carga.au|numero_decimal }}</div>
+    <div class="number1 sec2">{{ carga.h2o|numero_decimal }}</div>
+    <div class="number1 sec2">{{ carga.porcentaje_tamanos|numero_decimal }}%</div>
+    <div class="number1 sec2">{{ carga.cobre_soluble|numero_decimal }}</div>
+    <div class="number1 sec1">{{ carga.tms_pagar }}</div>                    
+    <div class="number1 sec4">{{ carga.regalia }}</div>
+    <div class="number1 sec4 numero-alineacion">{{ form.anticipo }}</div>      
+    <div class="number1 sec3 numero-alineacion">{{ form.equipo_pesado }}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.balanza}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.volqueta }}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.analisis_laboratorio }}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.otros_descuentos }}</div>
+    <div class="number1 sec3 numero-alineacion"><span class=" retencion-acuerdo retencion-acuerdo_{{carga.id}}">{{ carga.retencion_acuerdo|numero_decimal }}</span>{{ form.retencion_acuerdo_vol }}</div>
+    <div class="number1 sec3 numero-alineacion"><span class="total-descuento_{{carga.id}}">{{ carga.total_descuento|numero_decimal }}</span></div>
+    <div class="number1 sec5 numero-alineacion total"><span data-value="{{carga.liquido_pagable}}" class="liquido-pagable_{{carga.id}}">{{ carga.liquido_pagable|numero_decimal }}</span></div>
+    <div class="number0 sec1">{{ carga.numero }}</div>
+    <div class="number0 sec6">{{ carga.numero_paleta }} {{ carga.color}}</div>
+    <div class="number0"><i class="table-options fas fa-minus-circle"></i><i class="table-options fas fa-clipboard-check"></i></div>
+    {% csrf_token %}
+{% endif %}

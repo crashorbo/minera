@@ -103,73 +103,10 @@ class LaboratorioUpdateView(LoginRequiredMixin, UpdateView):
                 fecha_inicio__lte=today, fecha_fin__gte=today)
             if cotizacion:
                 model.cotizacion = cotizacion[0].valor_pagable
-                model.tms = model.peso_neto_tn*(100 - model.h2o)/100
-                if model.porcentaje_tamanos > 4:
-                    model.tms_neta = model.tms - \
-                        (model.tms * model.porcentaje_tamanos)/100
-                else:
-                    model.tms_neta = model.tms
-                if model.cobre_soluble > 800:
-                    model.tms_penalizar = model.tms_neta
-                else:
-                    model.tms_penalizar = 0
-                model.tms_pagar = round(
-                    model.tms_neta - model.tms_penalizar, 2)
-                model.finos_gr = model.tms_pagar * model.au
-                model.finos_oz = model.finos_gr / 31.1035
-                if model.tipo_carga == 'LAMA' and model.au < 3:
-                    model.finos_gr_recup = 0
-                else:
-                    factor = Factor.objects.filter(
-                        rango_inferior__lte=model.au, rango_superior__gte=model.au)
-                    if factor:
-                        model.finos_gr_recup = round(factor[0].factor_recuperacion *
-                                                     model.finos_gr, 2)
-                model.calculo_regalia = model.finos_oz * model.cotizacion * 6.96
-                if model.tipo_carga == 'LAMA' and model.au < 3:
-                    model.recu_planta = 0
-                else:
-                    if model.tipo_carga == 'NORMAL' and model.au < 1:
-                        model.recu_planta = 0
-                    else:
-                        factor = Factor.objects.filter(
-                            rango_inferior__lte=model.au, rango_superior__gte=model.au)
-                        if factor:
-                            model.recu_planta = factor[0].factor_recuperacion * \
-                                model.finos_oz
-
-                model.valor_venta = round(
-                    model.cotizacion * model.recu_planta * 6.96 * 0.94, 0)
-
-                if model.au >= 10:
-                    model.costo_tratamiento = round(
-                        model.valor_venta * 0.52, 0)
-                else:
-                    model.costo_tratamiento = round(
-                        model.valor_venta * 0.50, 0)
-                model.total_liquidacion_prov = model.valor_venta - model.costo_tratamiento
-
-                if model.recu_planta <= 0:
-                    model.regalia = 0
-                else:
-                    if model.au >= 1 and model.au <= 2:
-                        model.regalia = round(
-                            model.calculo_regalia * 0.042 * 0.9, 0)
-                    else:
-                        model.regalia = round(
-                            model.calculo_regalia * 0.042 * 1, 0)
-
-                if model.cobre_soluble >= 150 and model.cobre_soluble <= 800:
-                    model.penalizacion_cu_soluble = round(
-                        (0.0089 * model.cobre_soluble - 1.325) * 30 * model.tms_pagar, 0)
-                else:
-                    model.penalizacion_cu_soluble = 0
-                model.retencion_acuerdo = round(
-                    model.costo_tratamiento * 0.05, 0)
-                model.valor_reposicion = model.total_liquidacion_prov - model.regalia
-                model.liquido_pagable = model.valor_reposicion - \
-                    model.total_descuento - model.cobre_soluble
+                model.calcular_total()
                 model.save()
+            else:
+                return JsonResponse({"message": "No existe cotizacion activa"}, status=400)
             return JsonResponse({"message": "Datos del Laboratorio editado con exito"}, status=200)
         return JsonResponse({"message": "Este laboratorio ya no puede ser modificado"}, status=200)
 

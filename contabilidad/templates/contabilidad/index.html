@@ -16,16 +16,15 @@
     <div class="conta-desktop">
         <div class="conta-desktop--header">            
             <div class="selector">
-                <label for="">Nro. Boleta </label><input type="text"><button class="button"><span class="button__text">Agregar</span><span class="button__icon"><i class="fas fa-plus"></i></span></button>
+                <label for="">Nro. Boleta &nbsp;</label><select id="select-boleta"></select>
             </div>
             <div class="opciones">
                 <div class="uno">
                     <button class="button"><span class="button__text">Historial</span><span class="button__icon"><i class="fas fa-clipboard"></i></span></button>    
                 </div>
                 <div class="dos">
-                    <button class="button button__comprobante"><span class="button__text">Comprobante</span><span class="button__icon"><i class="fas fa-print"></i></span></button>
-                    <button class="button button__recibo"><span class="button__text">Recibo</span><span class="button__icon"><i class="fas fa-print"></i></span></button>
-                    <button class="button button__guardar"><span class="button__text">Guardar</span><span class="button__icon"><i class="fas fa-save"></i></span></button> 
+                    <button class="button button__comprobante"><span id="imprimir-comprobantes" class="button__text">Comprobante</span><span class="button__icon"><i class="fas fa-print"></i></span></button>
+                    <button class="button button__recibo"><span id="imprimir-boletas" class="button__text">Recibo</span><span class="button__icon"><i class="fas fa-print"></i></span></button>                    
                 </div>                
             </div>            
         </div>
@@ -55,67 +54,18 @@
                     <div class="number1">Retencion 5% Voluntario</div>
                     <div class="number1">Total Descuento</div>
                     <div class="number1">Liquido Pagable</div>
-                </div>
-                <div class="table-row">
-                    <div class="number0 sec1">21000232442</div>
-                    <div class="number0 sec1">22/016/2021</div>
-                    <div class="complete-name sec1">HUACOTA SIMON BERNABE</div>
-                    <div class="complete-name sec1">ATAHUICHI NUÑEZ DAVID</div>                
-                    <div class="number1 sec1">2305-ZIR</div>
-                    <div class="text1 sec1">NEGRO CHANKA II</div>
-                    <div class="number1 sec1">16,44</div>
-                    <div class="text1 sec2">NORMAL</div>
-                    <div class="number1 sec2">0.40</div>
-                    <div class="number1 sec2">3.00</div>
-                    <div class="number1 sec2">2%</div>
-                    <div class="number1 sec2">3.5</div>
-                    <div class="number1 sec1">15.95</div>                    
-                    <div class="number1 sec4">3.966.00</div>
-                    <div class="number1 sec4">0.00</div>
-                    <div class="number1 sec3">0.00</div>
-                    <div class="number1 sec3">10.00</div>
-                    <div class="number1 sec3">250.00</div>
-                    <div class="number1 sec3">346.00</div>
-                    <div class="number1 sec3">0.00</div>
-                    <div class="number1 sec3">0.00</div>
-                    <div class="number1 sec3">2.456.00</div>
-                    <div class="number1 sec3">87.678.00</div>
+                    <div class="number0">Nro. Boleta</div>
+                    <div class="number0">Nro. y Color de Paleta</div>
 
-                </div>
-                <div class="table-row">
-                    <div class="number0 sec1">21000232442</div>
-                    <div class="number0 sec1">22/016/2021</div>
-                    <div class="complete-name sec1">HUACOTA SIMON BERNABE</div>
-                    <div class="complete-name sec1">ATAHUICHI NUÑEZ DAVID</div>                
-                    <div class="number1 sec1">2305-ZIR</div>
-                    <div class="text1 sec1">NEGRO CHANKA II</div>
-                    <div class="number1 sec1">16,44</div>
-                    <div class="text1 sec2">NORMAL</div>
-                    <div class="number1 sec2">0.40</div>
-                    <div class="number1 sec2">3.00</div>
-                    <div class="number1 sec2">2%</div>
-                    <div class="number1 sec2">3.5</div>
-                    <div class="number1 sec1">15.95</div>                    
-                    <div class="number1 sec4">3.966.00</div>
-                    <div class="number1 sec4">0.00</div>
-                    <div class="number1 sec3">0.00</div>
-                    <div class="number1 sec3">10.00</div>
-                    <div class="number1 sec3">250.00</div>
-                    <div class="number1 sec3">346.00</div>
-                    <div class="number1 sec3">0.00</div>
-                    <div class="number1 sec3">0.00</div>
-                    <div class="number1 sec3">2.456.00</div>
-                    <div class="number1 sec3">87.678.00</div>
-
-                </div>
+                </div>                                
             </div>            
         </div>
         <div class="conta-desktop--footer">
             <div class="texto">
-                25 registros
+                <span class="texto-registros">0</span> registros
             </div>
-            <div class="total">
-                <strong>TOTAL : </strong>56006 Bs.
+            <div class="calculo-total">
+                <strong>TOTAL : </strong><span class="calculo-total-valor">56006</span> Bs.
             </div>
         </div>
     </div>

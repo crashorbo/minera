@@ -1,4 +1,3 @@
-from pesaje.forms import CargaContabilidadForm, CargaPagarForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, UpdateView, DetailView, View
@@ -11,7 +10,9 @@ from django.db.models import Q
 
 from .reportes import ReporteContabilidad, ReporteExcel, ReporteComprobante
 from pesaje.templatetags.pesaje_tags import numero_decimal
-from pesaje.models import Carga, Muestra
+from pesaje.models import Carga
+
+from pesaje.forms import CargaContabilidadForm, CargaPagarForm
 # Create your views here.
 
 
@@ -98,42 +99,30 @@ class ContabilidadListJson(LoginRequiredMixin, BaseDatatableView):
 class ContabilidadUpdateView(LoginRequiredMixin, UpdateView):
     model = Carga
     form_class = CargaContabilidadForm
-    template_name = 'contabilidad/update.html'
+    template_name = 'contabilidad/detalle.html'
 
-    def get(self, request, *args, **kwargs):
-        carga = Carga.objects.get(id=self.kwargs['pk'])
+    def form_valid(self, form):
+        model = form.save()
+        model.calcular_total()
+        model.save()
+        return JsonResponse({"message": "Datos de Pesaje editado con exito", "id": model.id, "descuentos": numero_decimal(model.total_descuento), "pagable": numero_decimal(model.liquido_pagable), "retencion": numero_decimal(model.retencion_acuerdo)}, status=200)
+
+    def form_invalid(self, form):
+        errors = form.errors.as_json()
+        return JsonResponse({"message": errors}, status=400)
+
+
+class ContabilidadPagarView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        pagar_data = self.request.POST.dict()
+        carga = Carga.objects.get(pk=pagar_data['id'])
         if carga.pagado:
-            return redirect('contabilidad-carga-view', pk=carga.id)
-        return super().get(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        model = form.save(commit=False)
-        model.total_descuento = model.penalizacion_cu_soluble + model.anticipo + \
-            model.equipo_pesado + model.balanza + model.volqueta + \
-            model.analisis_laboratorio + model.otros_descuentos
-        model.liquido_pagable = model.valor_reposicion - model.total_descuento
-        model.save()
-        return JsonResponse({"message": "Datos de Pesaje editado con exito", "descuentos": numero_decimal(model.total_descuento), "pagable": numero_decimal(model.liquido_pagable)}, status=200)
-
-    def form_invalid(self, form):
-        errors = form.errors.as_json()
-        return JsonResponse({"message": errors}, status=400)
-
-
-class ContabilidadPagarView(LoginRequiredMixin, UpdateView):
-    model = Carga
-    form_class = CargaPagarForm
-    template_name = 'contabilidad/pagar.html'
-
-    def form_valid(self, form):
-        model = form.save(commit=False)
-        model.pagado = True
-        model.save()
-        return redirect('contabilidad-carga-view', pk=model.id)
-
-    def form_invalid(self, form):
-        errors = form.errors.as_json()
-        return JsonResponse({"message": errors}, status=400)
+            carga.pagado = False
+        else:
+            carga.pagado = True
+        carga.save()
+        form = CargaContabilidadForm(instance=carga)
+        return render(self.request, 'contabilidad/carga_detail.html', {'carga': carga, 'form': form})
 
 
 class ContabilidadCargaView(LoginRequiredMixin, DetailView):
@@ -142,19 +131,26 @@ class ContabilidadCargaView(LoginRequiredMixin, DetailView):
 
 
 class ReporteBoletaView(LoginRequiredMixin, View):
-    def get(self, *args, **kwargs):
-        carga = Carga.objects.get(id=self.kwargs['pk'])
-        if carga.pesaje:
-            return ReporteContabilidad(carga).reporte_boleta()
-        return ReporteContabilidad(carga).reporte_boleta()
+    def post(self, *args, **kwargs):
+        pagado_dict = self.request.POST.dict()
+        pagado_list = pagado_dict['indices'].split(',')
+        pagados = []
+        for id in pagado_list:
+            pagado = Carga.objects.get(pk=id)
+            pagados.append(pagado)
+        return ReporteContabilidad(pagados).reporte_boleta()
 
 
 class ReporteComprobanteView(LoginRequiredMixin, View):
-    def get(self, *args, **kwargs):
-        carga = Carga.objects.get(id=self.kwargs['pk'])
-        if carga.pesaje:
-            return ReporteComprobante(carga).generar_comprobante()
-        return ReporteComprobante(carga).generar_comprobante()
+    def post(self, *args, **kwargs):
+        pagado_dict = self.request.POST.dict()
+        pagado_list = pagado_dict['indices'].split(',')
+        pagados = []
+        for id in pagado_list:
+            pagado = Carga.objects.get(pk=id)
+            pagados.append(pagado)
+
+        return ReporteComprobante(pagados).generar_comprobante()
 
 
 class ReportePorPagar(LoginRequiredMixin, View):

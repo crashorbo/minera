@@ -1,0 +1,27 @@
+<div class="number0 sec1">{{ object.numero }}</div>
+<div class="number0 sec1">{{ object.created|date:'d/m/Y' }}</div>
+<div class="complete-name sec1">{{ object.conductor_vehiculo.apellidos }} {{ object.conductor_vehiculo.nombres }}</div>
+<div class="complete-name sec1">{{ object.proveedor.apellidos}} {{ object.proveedor.nombres }}</div>                
+<div class="number1 sec1">{{ object.vehiculo.placa }}</div>
+<div class="text1 sec1">{{ object.origen.nombre }}</div>
+<div class="number1 sec1">{{ object.peso_neto_tn|numero_decimal }}</div>
+<div class="text1 sec2">{{ object.tipo_carga }}</div>
+<div class="number1 sec2">{{ object.au|numero_decimal }}</div>
+<div class="number1 sec2">{{ object.h2o|numero_decimal }}</div>
+<div class="number1 sec2">{{ object.porcentaje_tamanos|numero_decimal }}%</div>
+<div class="number1 sec2">{{ object.cobre_soluble|numero_decimal }}</div>
+<div class="number1 sec1">{{ object.tms_pagar }}</div>                    
+<div class="number1 sec4">{{ object.regalia }}</div>
+<div class="number1 sec4 numero-alineacion">{{ form.anticipo }}</div>      
+<div class="number1 sec3 numero-alineacion">{{ form.equipo_pesado }}</div>
+<div class="number1 sec3 numero-alineacion">{{ form.balanza}}</div>
+<div class="number1 sec3 numero-alineacion">{{ form.volqueta }}</div>
+<div class="number1 sec3 numero-alineacion">{{ form.analisis_laboratorio }}</div>
+<div class="number1 sec3 numero-alineacion">{{ form.otros_descuentos }}</div>
+<div class="number1 sec3 numero-alineacion">{{ form.retencion_acuerdo }}</div>
+<div class="number1 sec3 numero-alineacion">{{ object.total_descuento|numero_decimal }}</div>
+<div class="number1 sec5 numero-alineacion total" data-value="{{ object.liquido_pagable}}">{{ object.liquido_pagable|numero_decimal }}</div>
+<div class="number0 sec1">{{ object.numero }}</div>
+<div class="number0 sec6">{{ object.numero_paleta }} {{ object.color}}</div>
+<div class="number0"><i class="table-options fas fa-minus-circle"></i><i class="table-options fas fa-clipboard-check"></i></div>
+{% csrf_token %}

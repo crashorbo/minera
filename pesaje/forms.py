@@ -2,6 +2,8 @@ from django import forms
 from dal import autocomplete
 import datetime
 
+from django.forms import fields, widgets
+
 from .models import Carga, Muestra, Destare
 from proveedor.models import Proveedor
 from conductor.models import Vehiculo, Conductor
@@ -30,6 +32,22 @@ class CargaForm(forms.ModelForm):
             'peso_tara': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
             'peso_neto_tn': forms.NumberInput(attrs={'class': 'form-control', 'readonly': True}),
+        }
+
+
+class CargaEditForm(forms.ModelForm):
+    class Meta:
+        model = Carga
+        fields = ('anticipo', 'equipo_pesado', 'balanza', 'volqueta',
+                  'analisis_laboratorio', 'otros_descuentos', 'retencion_acuerdo_vol')
+        widgets = {
+            'anticipo': forms.NumberInput(attrs={'class': 'table-input'}),
+            'equipo_pesado': forms.NumberInput(attrs={'class': 'table-input'}),
+            'balanza': forms.NumberInput(attrs={'class': 'table-input'}),
+            'volqueta': forms.NumberInput(attrs={'class': 'table-input'}),
+            'analisis_laboratorio': forms.NumberInput(attrs={'class': 'table-input'}),
+            'otros_descuentos': forms.NumberInput(attrs={'class': 'table-input'}),
+            'retencion_acuerdo': forms.NumberInput(attrs={'class': 'table-input'}),
         }
 
 
@@ -91,14 +109,15 @@ class CargaContabilidadForm(forms.ModelForm):
     class Meta:
         model = Carga
         fields = ('anticipo', 'equipo_pesado', 'balanza', 'volqueta',
-                  'analisis_laboratorio', 'otros_descuentos')
+                  'analisis_laboratorio', 'otros_descuentos', 'retencion_acuerdo_vol')
         widgets = {
-            'anticipo': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
-            'equipo_pesado': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
-            'balanza': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
-            'volqueta': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
-            'analisis_laboratorio': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
-            'otros_descuentos': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end descuento'}),
+            'anticipo': forms.NumberInput(attrs={'class': 'table-input'}),
+            'equipo_pesado': forms.NumberInput(attrs={'class': 'table-input'}),
+            'balanza': forms.NumberInput(attrs={'class': 'table-input'}),
+            'volqueta': forms.NumberInput(attrs={'class': 'table-input'}),
+            'analisis_laboratorio': forms.NumberInput(attrs={'class': 'table-input'}),
+            'otros_descuentos': forms.NumberInput(attrs={'class': 'table-input'}),
+            'retencion_acuerdo': forms.NumberInput(attrs={'class': 'table-input'}),
         }
 
 

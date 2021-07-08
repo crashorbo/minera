@@ -188,22 +188,57 @@ tr {
     background-color: rgba(176, 224, 230, .8);
 }
 
-.sec2, 
-.sec3, 
-.sec4 {
+.numero-alineacion {
     text-align: end;
 }
 
 .sec2 {
-    background-color: rgba(255, 215, 0, 1);
+    background-color: rgba(255, 215, 0, .6);
 }
 
 .sec3 {
-    background-color: rgba(0, 255, 0, .5);   
+    background-color: rgba(0, 255, 0, .5);        
 }
 
 .sec4 {
     background-color: rgba( 143, 188, 143 ,.6);
+}
+
+.sec5 {
+    background-color: rgba(255, 165, 0, .6 );
+}
+
+.sec6 {
+    background-color: rgba(0, 255, 255, .4);
+}
+
+.retencion-acuerdo {
+    margin-right: 5px;
+}
+
+.table-options {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.table-input {
+    display: inline-block;
+    line-height: 12px;
+    font-size: 11px;
+    width: 4.5rem;
+    text-align: end;    
+}
+
+.select2-container .select2-selection--single {
+    height: 24px;
+}
+
+.fa-minus-circle {
+    color: var(--bs-danger);
+}
+
+.fa-clipboard-check {
+    color: var(--bs-success);
 }
 
 .button {    
@@ -269,12 +304,12 @@ tr {
 .conta-desktop--body {    
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: scroll;
     height: 100%;
     padding: .5rem;
     background: #fff;
     width: 100%;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .conta-desktop--body-content {
@@ -292,7 +327,7 @@ tr {
     width: 50%;
 }
 
-.conta-desktop--footer .total {
+.conta-desktop--footer .calculo-total {
     padding: .5rem;    
     text-align: end;
     width: 50%;

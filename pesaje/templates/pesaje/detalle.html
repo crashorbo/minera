@@ -1,0 +1,62 @@
+{% load pesaje_tags %}
+
+{% if not object.pagado %}
+<form data-id="{{ object.id }}" data-estado="1" class="table-row">
+    <div class="number0 sec1">{{ object.numero }}</div>
+    <div class="number0 sec1">{{ object.created|date:'d/m/Y' }}</div>
+    <div class="complete-name sec1">{{ object.conductor_vehiculo.apellidos }} {{ object.conductor_vehiculo.nombres }}</div>
+    <div class="complete-name sec1">{{ object.proveedor.apellidos}} {{ object.proveedor.nombres }}</div>                
+    <div class="number1 sec1">{{ object.vehiculo.placa }}</div>
+    <div class="text1 sec1">{{ object.origen.nombre }}</div>
+    <div class="number1 sec1">{{ object.peso_neto_tn|numero_decimal }}</div>
+    <div class="text1 sec2">{{ object.tipo_carga }}</div>
+    <div class="number1 sec2">{{ object.au|numero_decimal }}</div>
+    <div class="number1 sec2">{{ object.h2o|numero_decimal }}</div>
+    <div class="number1 sec2">{{ object.porcentaje_tamanos|numero_decimal }}%</div>
+    <div class="number1 sec2">{{ object.cobre_soluble|numero_decimal }}</div>
+    <div class="number1 sec1">{{ object.tms_pagar }}</div>                    
+    <div class="number1 sec4">{{ object.regalia }}</div>
+    <div class="number1 sec4 numero-alineacion">{{ form.anticipo }}</div>      
+    <div class="number1 sec3 numero-alineacion">{{ form.equipo_pesado }}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.balanza}}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.volqueta }}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.analisis_laboratorio }}</div>
+    <div class="number1 sec3 numero-alineacion">{{ form.otros_descuentos }}</div>
+    <div class="number1 sec3 numero-alineacion"><span class=" retencion-acuerdo retencion-acuerdo_{{object.id}}">{{ object.retencion_acuerdo|numero_decimal }}</span>{{ form.retencion_acuerdo_vol }}</div>
+    <div class="number1 sec3 numero-alineacion">{{ object.total_descuento|numero_decimal }}</div>
+    <div class="number1 sec5 numero-alineacion total" data-value="{{ object.liquido_pagable}}">{{ object.liquido_pagable|numero_decimal }}</div>
+    <div class="number0 sec1">{{ object.numero }}</div>
+    <div class="number0 sec6">{{ object.numero_paleta }} {{ object.color}}</div>
+    <div class="number0"><i class="table-options fas fa-minus-circle"></i><i class="table-options fas fa-clipboard-check"></i></div>
+    {% csrf_token %}
+</form>
+{% else %}
+<id data-id="{{ object.id}}" data-estado="0" class="table-row">
+    <div class="number0 sec1">{{ object.numero }}</div>
+    <div class="number0 sec1">{{ object.created|date:'d/m/Y' }}</div>
+    <div class="complete-name sec1">HUACOTA SIMON BERNABE</div>
+    <div class="complete-name sec1">ATAHUICHI NUÑEZ DAVID</div>                
+    <div class="number1 sec1">2305-ZIR</div>
+    <div class="text1 sec1">NEGRO CHANKA II</div>
+    <div class="number1 sec1">16,44</div>
+    <div class="text1 sec2">NORMAL</div>
+    <div class="number1 sec2">0.40</div>
+    <div class="number1 sec2">3.00</div>
+    <div class="number1 sec2">2%</div>
+    <div class="number1 sec2">3.5</div>
+    <div class="number1 sec1">15.95</div>                    
+    <div class="number1 sec4">3.966.00</div>
+    <div class="number1 sec4">0.00</div>
+    <div class="number1 sec3 numero-alineacion">0.00</div>
+    <div class="number1 sec3 numero-alineacion">10.00</div>
+    <div class="number1 sec3 numero-alineacion">250.00</div>
+    <div class="number1 sec3 numero-alineacion">346.00</div>
+    <div class="number1 sec3 numero-alineacion">0.00</div>
+    <div class="number1 sec3 numero-alineacion">0.00</div>
+    <div class="number1 sec3 numero-alineacion">2.456.00</div>
+    <div class="number1 sec5 numero-alineacion">87.678.00</div>
+    <div class="number0 sec1">21000232442</div>
+    <div class="number0 sec6">4 rojo</div>
+    <div class="number0"><i class="table-options fas fa-minus-circle"></i><i class="table-options fas fa-clipboard-check"></i></div>                    
+</id>
+{% endif %}
