@@ -4,13 +4,13 @@
 <form action="{% url 'contabilidad-update' pk=object.id %}" data-id="{{ object.id }}" class="table-row">
     <div class="number0 sec1">{{ object.numero }}</div>
     <div class="number0 sec1">{{ object.created|date:'d/m/Y' }}</div>
-    <div class="complete-name sec1">{{ object.conductor_vehiculo.apellidos }} {{ object.conductor_vehiculo.nombres }}</div>
-    <div class="complete-name sec1">{{ object.proveedor.apellidos}} {{ object.proveedor.nombres }}</div>                
-    <div class="number1 sec1">{{ object.vehiculo.placa }}</div>
-    <div class="text1 sec1">{{ object.origen.nombre }}</div>
+    <div class="complete-name sec1"><span data-id="{{carga.proveedor.id}}" id="proveedor-item_{{carga.id}}" class="proveedor-item-link">{{ carga.proveedor.apellidos}} {{ carga.proveedor.nombres }}</span></div>                
+    <div class="complete-name sec1">{{ carga.conductor_vehiculo.apellidos }} {{ carga.conductor_vehiculo.nombres }}</div>
+    <div class="number1 sec1">{{ carga.vehiculo.placa }}</div>
+    <div class="text1 sec1 carga-item-link" data-id="{{carga.origen.id}}" id="origen-item_{{carga.id}}">{{ carga.origen.nombre }}</div>
     <div class="number1 sec1">{{ object.peso_neto_tn|numero_decimal }}</div>
     <div class="text1 sec2">{{ object.tipo_carga }}</div>
-    <div class="number1 sec2">{{ object.au|numero_decimal }}</div>
+    <div class="number1 sec2 laboratorio-link">{{ object.au|numero_decimal }}</div>
     <div class="number1 sec2">{{ object.h2o|numero_decimal }}</div>
     <div class="number1 sec2">{{ object.porcentaje_tamanos|numero_decimal }}%</div>
     <div class="number1 sec2">{{ object.cobre_soluble|numero_decimal }}</div>
@@ -34,13 +34,13 @@
 <form action="{% url 'contabilidad-update' pk=object.id %}" data-id="{{ object.id}}" class="table-row">
     <div class="number0 sec1">{{ object.numero }}</div>
     <div class="number0 sec1">{{ object.created|date:'d/m/Y' }}</div>
-    <div class="complete-name sec1">{{ object.conductor_vehiculo.apellidos }} {{ object.conductor_vehiculo.nombres }}</div>
-    <div class="complete-name sec1">{{ object.proveedor.apellidos}} {{ object.proveedor.nombres }}</div>                
-    <div class="number1 sec1">{{ object.vehiculo.placa }}</div>
-    <div class="text1 sec1">{{ object.origen.nombre }}</div>
+    <div class="complete-name sec1"><span data-id="{{carga.proveedor.id}}" id="proveedor-item_{{carga.id}}" class="proveedor-item-link">{{ carga.proveedor.apellidos}} {{ carga.proveedor.nombres }}</span></div>                
+    <div class="complete-name sec1">{{ carga.conductor_vehiculo.apellidos }} {{ carga.conductor_vehiculo.nombres }}</div>
+    <div class="number1 sec1">{{ carga.vehiculo.placa }}</div>
+    <div class="text1 sec1 carga-item-link" data-id="{{carga.origen.id}}" id="origen-item_{{carga.id}}">{{ carga.origen.nombre }}</div>
     <div class="number1 sec1">{{ object.peso_neto_tn|numero_decimal }}</div>
     <div class="text1 sec2">{{ object.tipo_carga }}</div>
-    <div class="number1 sec2">{{ object.au|numero_decimal }}</div>
+    <div class="number1 sec2 laboratorio-link">{{ object.au|numero_decimal }}</div>
     <div class="number1 sec2">{{ object.h2o|numero_decimal }}</div>
     <div class="number1 sec2">{{ object.porcentaje_tamanos|numero_decimal }}%</div>
     <div class="number1 sec2">{{ object.cobre_soluble|numero_decimal }}</div>

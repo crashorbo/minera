@@ -19,10 +19,12 @@ urlpatterns = [
          views.ReporteComprobanteView.as_view(), name='reporte-comprobantes'),
     # path('generar/laboratorios/<pk>/', views.LaboratorioGenerarView.as_view(),
     #      name='laboratorios-generar'),
-    # path('muestras/list/<pk>/', views.MuestrasListView.as_view(),
-    #      name='muestras-list'),
-    # path('muestra/update/<pk>/', views.MuestraUpdateView.as_view(),
-    #      name='muestra-update')
+    path('laboratorios/', views.AjaxLaboratoriosView.as_view(),
+         name='laboratorios-list'),
+    path('proveedor-origen/', views.AjaxProveedorOrigenView.as_view(),
+         name='proveedor-origen'),
     path('reporte/por-pagar/', views.ReportePorPagar.as_view(),
          name='reporte-por-pagar'),
+    path('reporte-cargas-pagadas/', views.AjaxCargasPagadasView.as_view(),
+         name='reporte-cargas-pagadas')
 ]

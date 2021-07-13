@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Historial</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+
+{% if cargas %}
+    <div class="lab-header">
+        <div class="boleta">Nro. Boleta</div>
+        <div class="boleta">Fecha</div>
+        <div class="prov">Proveedor</div>
+        <div class="texto">Procedencia</div>
+        <div class="texto">Tipo Carga</div>
+        <div class="numero1">Au(g/Tn)</div>
+    </div>
+    {% for carga in cargas %}
+        <div class="lab-row">
+            <div class="boleta">{{ carga.numero}}</div>
+            <div class="boleta">{{ carga.created|date:"d/m/Y" }}</div>
+            <div class="prov">{{ carga.proveedor}}</div>
+            <div class="texto">{{carga.origen}}</div>
+            <div class="texto">{{ carga.tipo_carga }}</div>
+            <div class="numero1">{{ carga.au}}</div>
+        </div>
+    {% endfor %}
+
+{% else %}
+    No se han encrotado resultados.
+{% endif %}
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>    
+</div>

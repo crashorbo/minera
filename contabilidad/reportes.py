@@ -3,7 +3,7 @@ import re
 import locale
 from datetime import datetime
 from openpyxl import Workbook
-from openpyxl.styles import NamedStyle, Font, Border, Side, Alignment
+from openpyxl.styles import NamedStyle, Font, Border, Side, Alignment, PatternFill
 from openpyxl.utils import get_column_letter
 
 
@@ -149,69 +149,6 @@ class ReporteContabilidad:
         return response
 
 
-class ReporteExcel():
-
-    def __init__(self, carga):
-        self.__carga = carga
-
-    def reporte_por_pagar(self):
-        response = HttpResponse(
-            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', )
-        response['Content-Disposition'] = 'attachment; filename={date}-porpagar.xlsx'.format(
-            date=datetime.now().strftime('%Y%m%d'), )
-
-        titulo = NamedStyle(name="titulo")
-        titulo.font = Font(bold=True, size=14,)
-        titulo.alignment = Alignment(horizontal="center", vertical="center")
-
-        monto = NamedStyle(name="monto")
-        monto.font = Font(bold=True, size=14,)
-        monto.alignment = Alignment(horizontal="right", vertical="center")
-        wb = Workbook()
-
-        wb.add_named_style(titulo)
-
-        sheet = wb.active
-
-        sheet['A1'] = "Numero"
-        sheet['A1'].style = titulo
-        sheet['B1'] = "Fecha"
-        sheet['B1'].style = titulo
-        sheet['C1'] = "Proveedor"
-        sheet['C1'].style = titulo
-        sheet['D1'] = "Monto"
-        sheet['D1'].style = titulo
-
-        liquido_pagable = 0
-
-        for row in self.__carga:
-            if row.liquido_pagable > 0:
-                liquido_pagable = liquido_pagable + row.liquido_pagable
-                sheet.append((row.numero, row.created.strftime("%d/%m/%Y"), '{} {}'.format(
-                    row.proveedor.apellidos, row.proveedor.nombres), row.liquido_pagable))
-
-        max_row = sheet.max_row
-
-        total_liquido_pagable_descr_cell = sheet.cell(
-            row=max_row + 2, column=sheet.max_column - 1)
-        total_liquido_pagable_descr_cell.value = "Total"
-
-        total_liquido_pagable = sheet.cell(
-            row=max_row + 2, column=sheet.max_column)
-        total_liquido_pagable.value = liquido_pagable
-
-        total_liquido_pagable_descr_cell.style = titulo
-        total_liquido_pagable.style = monto
-
-        for i in range(1, sheet.max_column+1):
-            sheet.column_dimensions[get_column_letter(i)].bestFit = True
-            sheet.column_dimensions[get_column_letter(i)].auto_size = True
-
-        wb.save(response)
-
-        return response
-
-
 class ReporteComprobante():
     def __init__(self, cargas):
         self.__cargas = cargas
@@ -333,4 +270,148 @@ class ReporteComprobante():
         pdf = buffer.getvalue()
         buffer.close()
         response.write(pdf)
+        return response
+
+
+class ReporteExcel():
+
+    def __init__(self, carga):
+        self.__carga = carga
+
+    def reporte_por_pagar(self):
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', )
+        response['Content-Disposition'] = 'attachment; filename={date}-porpagar.xlsx'.format(
+            date=datetime.now().strftime('%Y%m%d'), )
+
+        titulo = NamedStyle(name="titulo")
+        titulo.font = Font(bold=True, size=14, color='ffffff')
+        titulo.alignment = Alignment(
+            horizontal="center", vertical="center")
+        titulo.fill = PatternFill(
+            start_color='0070C0',
+            end_color='0070C0',
+            fill_type='solid',
+        )
+
+        monto = NamedStyle(name="monto")
+        monto.font = Font(bold=True, size=14,)
+        monto.alignment = Alignment(horizontal="right", vertical="center")
+        wb = Workbook()
+
+        wb.add_named_style(titulo)
+
+        sheet = wb.active
+
+        column_dimensions = sheet.column_dimensions['C']
+        column_dimensions.width = 60
+
+        sheet['A1'] = "Numero"
+        sheet['A1'].style = titulo
+        sheet['B1'] = "Fecha"
+        sheet['B1'].style = titulo
+        sheet['C1'] = "Proveedor"
+        sheet['C1'].style = titulo
+        sheet['D1'] = "Monto"
+        sheet['D1'].style = titulo
+
+        liquido_pagable = 0
+
+        for row in self.__carga:
+            if row.liquido_pagable > 0:
+                liquido_pagable = liquido_pagable + row.liquido_pagable
+                sheet.append((row.numero, row.created.strftime("%d/%m/%Y"), '{} {}'.format(
+                    row.proveedor.apellidos, row.proveedor.nombres), row.liquido_pagable))
+
+        max_row = sheet.max_row
+
+        total_liquido_pagable_descr_cell = sheet.cell(
+            row=max_row + 2, column=sheet.max_column - 1)
+        total_liquido_pagable_descr_cell.value = "Total"
+
+        total_liquido_pagable = sheet.cell(
+            row=max_row + 2, column=sheet.max_column)
+        total_liquido_pagable.value = liquido_pagable
+
+        total_liquido_pagable_descr_cell.style = titulo
+        total_liquido_pagable.style = monto
+
+        for i in range(1, sheet.max_column+1):
+            sheet.column_dimensions[get_column_letter(i)].bestFit = True
+            sheet.column_dimensions[get_column_letter(i)].auto_size = True
+
+        wb.save(response)
+
+        return response
+
+
+class ReporteCargasPagadas():
+
+    def __init__(self, cargas):
+        self.__cargas = cargas
+
+    def reporte_cargas_pagadas(self):
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', )
+        response['Content-Disposition'] = 'attachment; filename={date}-cargas-pagadas.xlsx'.format(
+            date=datetime.now().strftime('%Y%m%d'), )
+
+        titulo = NamedStyle(name="titulo")
+        titulo.font = Font(bold=True, size=10, color='ffffff')
+        titulo.alignment = Alignment(
+            horizontal="center", vertical="center")
+        titulo.fill = PatternFill(
+            start_color='0070C0',
+            end_color='0070C0',
+            fill_type='solid',
+        )
+        titulo.height = 20
+
+        monto = NamedStyle(name="monto")
+        monto.font = Font(bold=True, size=10,)
+        monto.alignment = Alignment(horizontal="right", vertical="center")
+        wb = Workbook()
+
+        numero = NamedStyle(name="")
+
+        wb.add_named_style(titulo)
+
+        sheet = wb.active
+
+        column_dimensions = sheet.column_dimensions['C']
+        column_dimensions.width = 60
+
+        column_dimensions = sheet.column_dimensions['D']
+        column_dimensions.width = 16
+
+        column_dimensions = sheet.column_dimensions['E']
+        column_dimensions.width = 16
+
+        column_dimensions = sheet.column_dimensions['F']
+        column_dimensions.width = 16
+
+        column_dimensions = sheet.column_dimensions['G']
+        column_dimensions.width = 40
+
+        sheet['A1'] = "NUM. BOL."
+        sheet['A1'].style = titulo
+        sheet['B1'] = "FECHA"
+        sheet['B1'].style = titulo
+        sheet['C1'] = "CONCEPTO"
+        sheet['C1'].style = titulo
+        sheet['D1'] = "EGRESO (Bs)"
+        sheet['D1'].style = titulo
+        sheet['E1'] = "EGRESO NETO (Bs)"
+        sheet['E1'].style = titulo
+        sheet['F1'] = "CODIGO CONTABLE"
+        sheet['F1'].style = titulo
+        sheet['G1'] = "NOMBRE CUENTA"
+        sheet['G1'].style = titulo
+
+        for carga in self.__cargas:
+            sheet.append((carga.numero, carga.fecha_pago.strftime("%d/%m/%Y"), 'PESAJE - {} SEP/20; {} {}'.format(carga.numero,
+                                                                                                                  carga.proveedor.apellidos, carga.proveedor.nombres), carga.liquido_pagable, carga.liquido_pagable, '2110301', 'PROVEEDORES CARGA MINERALIZADA'))
+
+        wb.save(response)
+
         return response

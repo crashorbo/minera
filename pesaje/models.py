@@ -101,6 +101,7 @@ class Carga(models.Model):
     liquido_pagable = models.FloatField(default=0)
     observaciones = models.TextField(blank=True)
     pagado = models.BooleanField(default=False)
+    fecha_pago = models.DateTimeField(blank=True, null=True)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

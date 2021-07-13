@@ -26,6 +26,12 @@
     font-weight: 700;
 }
 
+.dos {
+    display: flex;
+    padding-top: 10px;
+    padding-right: 5px;
+}
+
 .proveedor-card {
     background-color: #3c4b64;
     color: #eee;
@@ -229,6 +235,10 @@ tr {
     text-align: end;    
 }
 
+.proveedor-item-link, .carga-item-link, .laboratorio-link {
+    cursor: pointer;
+}
+
 .select2-container .select2-selection--single {
     height: 24px;
 }
@@ -332,4 +342,55 @@ tr {
     text-align: end;
     width: 50%;
     font-size: 14px;
+}
+
+.modal-content {
+    font-size: 14px;
+}
+
+.lab-row, .lab-header {
+    display: flex;
+}
+
+.lab-row .numero, .lab-header .numero {
+    width: 10rem;
+}
+
+.lab-row .numero1, .lab-header .numero1 {
+    width: 8rem;
+}
+
+.lab-row .texto, .lab-header .texto {
+    width: 15rem;
+}
+
+.lab-header {
+    text-align: center;
+}
+
+.lab-row .texto {
+    text-align: center;
+}
+
+.lab-row .numero, .lab-row .numero1 {
+    text-align: end;
+}
+
+.lab-row .boleta , .lab-header .boleta{
+    width: 10rem;
+    text-align: center;
+}
+
+.lab-row .prov , .lab-header .prov{
+    width: 20rem;
+    text-align: center;
+}
+
+.lab-header {
+    background-color: #3c4b64;
+    color: #fff;
+}
+
+.lab-row:nth-child(odd) {
+    background-color: #eee;
 }

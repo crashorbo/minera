@@ -20,7 +20,17 @@
             </div>
             <div class="opciones">
                 <div class="uno">
-                    <button class="button"><span class="button__text">Historial</span><span class="button__icon"><i class="fas fa-clipboard"></i></span></button>    
+                    <div class="btn-group">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Reportes
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a id="reporte-general" class="dropdown-item" href="#">Reporte General</a></li>
+                            <li><a id="cargas-pagadas" class="dropdown-item" href="#">Cargas Pagadas</a></li>                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'reporte-por-pagar' %}">Cargas Por Pagar</a></li>                            
+                        </ul>
+                    </div> 
                 </div>
                 <div class="dos">
                     <button class="button button__comprobante"><span id="imprimir-comprobantes" class="button__text">Comprobante</span><span class="button__icon"><i class="fas fa-print"></i></span></button>
@@ -33,8 +43,8 @@
                 <div class="table-headers">
                     <div class="number0">Nro. Boleta</div>
                     <div class="number0">Fecha</div>
-                    <div class="complete-name">Transportista</div>
-                    <div class="complete-name">Proveedor</div>                
+                    <div class="complete-name">Proveedor</div>
+                    <div class="complete-name">Transportista</div>                                    
                     <div class="number1">Placa</div>
                     <div class="text1">Procedencia</div>
                     <div class="number1">Peso Neto</div>
@@ -65,17 +75,44 @@
                 <span class="texto-registros">0</span> registros
             </div>
             <div class="calculo-total">
-                <strong>TOTAL : </strong><span class="calculo-total-valor">56006</span> Bs.
+                <strong>TOTAL : </strong><span class="calculo-total-valor">0</span> Bs.
             </div>
         </div>
     </div>
 
-
-    <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="modalGen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalPagado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="form-cargas-pagadas" class="modal-content" action="/contabilidad/reporte-cargas-pagadas/" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reporte Cargas Pagadas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">                                      
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Desde</label>
+                                <input id="fecha-inicio" type="text" class="form-control form-control-sm" name="fecha_inicio">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Hasta</label>
+                                <input id="fecha-fin" type="text" class="form-control form-control-sm" name="fecha_fin">
+                            </div>
+                        </div>
+                        {% csrf_token %}                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>    
+                    <button type="submit" class="btn btn-primary">Aceptar</button>    
+                </div>            
+            </form>
         </div>
     </div>
 {% endblock body %}

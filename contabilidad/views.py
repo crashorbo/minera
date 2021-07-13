@@ -6,9 +6,10 @@ from django.http.response import JsonResponse
 from django.utils.html import escape
 from django.urls import reverse_lazy
 import datetime
+from django.utils import timezone
 from django.db.models import Q
 
-from .reportes import ReporteContabilidad, ReporteExcel, ReporteComprobante
+from .reportes import ReporteCargasPagadas, ReporteContabilidad, ReporteExcel, ReporteComprobante
 from pesaje.templatetags.pesaje_tags import numero_decimal
 from pesaje.models import Carga
 
@@ -118,8 +119,10 @@ class ContabilidadPagarView(LoginRequiredMixin, View):
         carga = Carga.objects.get(pk=pagar_data['id'])
         if carga.pagado:
             carga.pagado = False
+            carga.fecha_pago = None
         else:
             carga.pagado = True
+            carga.fecha_pago = datetime.datetime.now(tz=timezone.utc)
         carga.save()
         form = CargaContabilidadForm(instance=carga)
         return render(self.request, 'contabilidad/carga_detail.html', {'carga': carga, 'form': form})
@@ -137,7 +140,8 @@ class ReporteBoletaView(LoginRequiredMixin, View):
         pagados = []
         for id in pagado_list:
             pagado = Carga.objects.get(pk=id)
-            pagados.append(pagado)
+            if pagado.pagado:
+                pagados.append(pagado)
         return ReporteContabilidad(pagados).reporte_boleta()
 
 
@@ -148,7 +152,8 @@ class ReporteComprobanteView(LoginRequiredMixin, View):
         pagados = []
         for id in pagado_list:
             pagado = Carga.objects.get(pk=id)
-            pagados.append(pagado)
+            if pagado.pagado:
+                pagados.append(pagado)
 
         return ReporteComprobante(pagados).generar_comprobante()
 
@@ -162,3 +167,30 @@ class ReportePorPagar(LoginRequiredMixin, View):
 class AjaxCargaDetailView(DetailView):
     model = Carga
     template_name = 'contabilidad/carga_detail.html'
+
+
+class AjaxProveedorOrigenView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        proveedor_origen = self.request.POST.dict()
+        cargas = Carga.objects.filter(
+            proveedor=proveedor_origen['proveedor'], origen__id=proveedor_origen['origen']).exclude(pk=proveedor_origen['carga']).order_by('-created')[:10]
+        return render(self.request, 'contabilidad/proveedor_origen.html', {'cargas': cargas})
+
+
+class AjaxLaboratoriosView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        carga_id = self.request.POST.dict()
+        carga = Carga.objects.get(pk=carga_id['carga'])
+        return render(self.request, 'contabilidad/laboratorios.html', {'carga': carga})
+
+
+class AjaxCargasPagadasView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        fechas = self.request.POST.dict()
+        fecha_inicio = '%s 00:00:00' % datetime.datetime.strptime(
+            fechas['fecha_inicio'], "%d/%m/%Y").strftime("%Y-%m-%d")
+        fecha_fin = '%s 23:59:59' % datetime.datetime.strptime(
+            fechas['fecha_fin'], "%d/%m/%Y").strftime("%Y-%m-%d")
+        cargas = Carga.objects.filter(
+            fecha_pago__range=(fecha_inicio, fecha_fin))
+        return ReporteCargasPagadas(cargas).reporte_cargas_pagadas()

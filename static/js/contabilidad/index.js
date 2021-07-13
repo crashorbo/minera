@@ -4,6 +4,8 @@ const calculoTotal = document.querySelector(".calculo-total-valor");
 const textoRegistros = document.querySelector(".texto-registros");
 const imprimirComprobantes = document.querySelector("#imprimir-comprobantes");
 const imprimirBoletas = document.querySelector("#imprimir-boletas");
+const modalPagadas = document.querySelector("#cargas-pagadas");
+const formCargasPagadas = document.querySelector("#form-cargas-pagadas");
 let indices = [];
 
 function getCookie(name) {
@@ -78,7 +80,6 @@ $('#select-boleta').on('select2:select', async (e) => {
             .then(res => {
                 $('.conta-desktop--body-content').append(res.data);
                 indices.push(e.target.value);
-                console.log(indices);
                 calcularTotales();
             })
     }
@@ -91,6 +92,18 @@ bodyContent.addEventListener('click', (e) => {
     }
     if (e.target.classList.contains('fa-clipboard-check')) {
         pagarRow(e.target);
+    }
+
+    if (e.target.classList.contains('proveedor-item-link')) {
+        modalProveedor(e.target);
+    }
+
+    if (e.target.classList.contains('carga-item-link')) {
+        modalProveedor(e.target);
+    }
+
+    if (e.target.classList.contains('laboratorio-link')) {
+        modalLaboratorio(e.target);
     }
 });
 
@@ -178,7 +191,6 @@ const printComprobantes = async () => {
     })
         .then(res => res.blob())
         .then(blob => {
-            console.log("imprimiendo");
             let url = window.URL.createObjectURL(blob);
             printJS(url);
         });
@@ -195,8 +207,86 @@ const printBoletas = async () => {
     })
         .then(res => res.blob())
         .then(blob => {
-            console.log("imprimiendo");
             let url = window.URL.createObjectURL(blob);
             printJS(url);
         });
 }
+
+const modalProveedor = async (el) => {
+    const row = el.closest('.table-row');
+    let myModal = new bootstrap.Modal(document.getElementById('modalGen'));
+    const modalBody = document.querySelector(".modal-content");
+    const cargaId = row.getAttribute("data-id");
+    const proveedorId = document.querySelector(`#proveedor-item_${row.getAttribute("data-id")}`).getAttribute("data-id");
+    const origenId = document.querySelector(`#origen-item_${row.getAttribute("data-id")}`).getAttribute("data-id");
+    const formData = new FormData();
+    formData.append('proveedor', proveedorId);
+    formData.append('origen', origenId);
+    formData.append('carga', cargaId);
+    const request = new Request('/contabilidad/proveedor-origen/', { headers: { 'X-CSRFToken': csrftoken } });
+    await fetch(request, {
+        method: 'post',
+        mode: 'same-origin',
+        body: formData
+    })
+        .then(res => res.text())
+        .then(text => {
+            modalBody.innerHTML = text;
+            myModal.show();
+        });
+}
+
+const modalLaboratorio = async (el) => {
+    const row = el.closest('.table-row');
+    let myModal = new bootstrap.Modal(document.getElementById('modalGen'));
+    const modalBody = document.querySelector(".modal-content");
+    const cargaId = row.getAttribute("data-id");
+    const formData = new FormData();
+    formData.append('carga', cargaId);
+    const request = new Request('/contabilidad/laboratorios/', { headers: { 'X-CSRFToken': csrftoken } });
+    await fetch(request, {
+        method: 'post',
+        mode: 'same-origin',
+        body: formData
+    })
+        .then(res => res.text())
+        .then(text => {
+            modalBody.innerHTML = text;
+            myModal.show();
+        });
+}
+
+modalPagadas.addEventListener("click", () => {
+    const hoy = new Date();
+    let myModal = new bootstrap.Modal(document.getElementById('modalPagado'));
+    const fechaInicio = new Datepicker(document.querySelector("#fecha-inicio"), {
+        language: 'es',
+        autohide: true,
+        format: 'dd/mm/yyyy',
+        container: '#modalPagado'
+    });
+    fechaInicio.setDate(`01/${hoy.getMonth() + 1}/${hoy.getFullYear()}`);
+    const fechaFin = new Datepicker(document.querySelector("#fecha-fin"), {
+        language: 'es',
+        autohide: true,
+        format: 'dd/mm/yyyy',
+        container: '#modalPagado'
+    });
+    fechaFin.setDate(new Date());
+    console.log(hoy.getMonth());
+    myModal.show();
+});
+
+// formCargasPagadas.addEventListener("submit", async (e) => {
+//     e.preventDefault();
+//     const dataForm = new FormData(e.target)
+//     await axios('/contabilidad/reporte-cargas-pagadas/', {
+//         method: 'post',
+//         data: dataForm,
+//         responseType: 'blob',
+//     }).then(
+//         res => {
+//             console.log(res.data);
+//         }
+//     )
+// })
