@@ -282,9 +282,13 @@ li {
 }
 
 .miner-main {
-    flex: 0 0 auto;          
-    padding-top: 4rem;
+    flex: 0 0 auto;   
+    padding-left: 5px;       
+    padding-right: 5px;       
+    padding-top: 4rem;    
     height: 100%;
+    overflow-y: auto !important;
+    overflow-x: hidden;
 }
 
 .container-fluid {
