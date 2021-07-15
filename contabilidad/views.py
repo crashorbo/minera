@@ -9,7 +9,7 @@ import datetime
 from django.utils import timezone
 from django.db.models import Q
 
-from .reportes import ReporteCargasPagadas, ReporteContabilidad, ReporteExcel, ReporteComprobante
+from .reportes import ReporteCargasGeneral, ReporteCargasPagadas, ReporteContabilidad, ReporteExcel, ReporteComprobante
 from pesaje.templatetags.pesaje_tags import numero_decimal
 from pesaje.models import Carga
 
@@ -194,3 +194,15 @@ class AjaxCargasPagadasView(LoginRequiredMixin, View):
         cargas = Carga.objects.filter(
             fecha_pago__range=(fecha_inicio, fecha_fin))
         return ReporteCargasPagadas(cargas).reporte_cargas_pagadas()
+
+
+class AjaxReporteCargasGeneral(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        fechas = self.request.POST.dict()
+        fecha_inicio = '%s 00:00:00' % datetime.datetime.strptime(
+            fechas['fecha_inicio'], "%d/%m/%Y").strftime("%Y-%m-%d")
+        fecha_fin = '%s 23:59:59' % datetime.datetime.strptime(
+            fechas['fecha_fin'], "%d/%m/%Y").strftime("%Y-%m-%d")
+        cargas = Carga.objects.filter(
+            created__range=(fecha_inicio, fecha_fin))
+        return ReporteCargasGeneral(cargas).reporte_cargas_general()

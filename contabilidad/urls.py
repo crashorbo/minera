@@ -26,5 +26,7 @@ urlpatterns = [
     path('reporte/por-pagar/', views.ReportePorPagar.as_view(),
          name='reporte-por-pagar'),
     path('reporte-cargas-pagadas/', views.AjaxCargasPagadasView.as_view(),
-         name='reporte-cargas-pagadas')
+         name='reporte-cargas-pagadas'),
+    path('reporte-cargas-general/', views.AjaxReporteCargasGeneral.as_view(),
+         name='reporte-cargas-general')
 ]

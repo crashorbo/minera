@@ -5,6 +5,7 @@ const textoRegistros = document.querySelector(".texto-registros");
 const imprimirComprobantes = document.querySelector("#imprimir-comprobantes");
 const imprimirBoletas = document.querySelector("#imprimir-boletas");
 const modalPagadas = document.querySelector("#cargas-pagadas");
+const modalGeneral = document.querySelector("#reporte-general");
 const formCargasPagadas = document.querySelector("#form-cargas-pagadas");
 let indices = [];
 
@@ -273,7 +274,26 @@ modalPagadas.addEventListener("click", () => {
         container: '#modalPagado'
     });
     fechaFin.setDate(new Date());
-    console.log(hoy.getMonth());
+    myModal.show();
+});
+
+modalGeneral.addEventListener("click", () => {
+    const hoy = new Date();
+    let myModal = new bootstrap.Modal(document.getElementById('modalGeneral'));
+    const fechaInicio = new Datepicker(document.querySelector("#fecha-inicio-general"), {
+        language: 'es',
+        autohide: true,
+        format: 'dd/mm/yyyy',
+        container: '#modalGeneral'
+    });
+    fechaInicio.setDate(`01/${hoy.getMonth() + 1}/${hoy.getFullYear()}`);
+    const fechaFin = new Datepicker(document.querySelector("#fecha-fin-general"), {
+        language: 'es',
+        autohide: true,
+        format: 'dd/mm/yyyy',
+        container: '#modalGeneral'
+    });
+    fechaFin.setDate(new Date());
     myModal.show();
 });
 
