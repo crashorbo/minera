@@ -112,9 +112,9 @@ class CargaContabilidadForm(forms.ModelForm):
                   'analisis_laboratorio', 'otros_descuentos', 'retencion_acuerdo_vol')
         widgets = {
             'anticipo': forms.NumberInput(attrs={'class': 'table-input'}),
-            'equipo_pesado': forms.NumberInput(attrs={'class': 'table-input'}),
+            'equipo_pesado': forms.NumberInput(attrs={'class': 'table-input tooltip-box-carguio'}),
             'balanza': forms.NumberInput(attrs={'class': 'table-input'}),
-            'volqueta': forms.NumberInput(attrs={'class': 'table-input'}),
+            'volqueta': forms.NumberInput(attrs={'class': 'table-input tooltip-box-volqueta'}),
             'analisis_laboratorio': forms.NumberInput(attrs={'class': 'table-input'}),
             'otros_descuentos': forms.NumberInput(attrs={'class': 'table-input'}),
             'retencion_acuerdo': forms.NumberInput(attrs={'class': 'table-input'}),

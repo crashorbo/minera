@@ -394,3 +394,21 @@ tr {
 .lab-row:nth-child(odd) {
     background-color: #eee;
 }
+
+.tooltip-container {
+    position: relative;
+}
+
+.tooltip-box {
+    position: absolute;
+    top: -24px;
+    border: 2px solid #fd7e14;
+    left: 0;
+    padding: 2px;
+    display: none;
+    font-size: 11px;
+    width: 400px;    
+    text-align: start;
+    background-color: #fff;
+    border-radius: 5px;
+}

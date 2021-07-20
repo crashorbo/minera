@@ -529,6 +529,8 @@ class ReporteCargasGeneral():
         column_dimensions.width = 40
         column_dimensions = sheet.column_dimensions['E']
         column_dimensions.width = 40
+        column_dimensions = sheet.column_dimensions['AQ']
+        column_dimensions.width = 40
 
         sheet['A1'] = "NUM. BOL."
         sheet['A1'].style = titulo
@@ -612,6 +614,10 @@ class ReporteCargasGeneral():
         sheet['AN1'].style = titulo7
         sheet['AO1'] = "NUMERO Y COLOR PALETA"
         sheet['AO1'].style = titulo7
+        sheet['AP1'] = "ESTADO"
+        sheet['AP1'].style = titulo7
+        sheet['AQ1'] = "EQUIPO CARGUIO"
+        sheet['AQ1'].style = titulo
 
         for carga in self.__cargas:
             sheet.append((carga.numero, carga.created.strftime("%d/%m/%Y"), carga.vehiculo.placa, '{} {}'.format(
@@ -621,8 +627,8 @@ class ReporteCargasGeneral():
                 carga.tms, carga.tms_neta, carga.tms_penalizar, carga.tms_pagar, carga.finos_gr, carga.finos_oz, carga.cotizacion, carga.calculo_regalia, carga.recu_planta, carga.valor_venta,
                 carga.costo_tratamiento, carga.total_liquidacion_prov, carga.regalia, carga.penalizacion_cu_soluble, carga.anticipo, carga.equipo_pesado, carga.balanza, carga.volqueta,
                 carga.analisis_laboratorio, carga.otros_descuentos, carga.retencion_acuerdo, carga.total_descuento, carga.liquido_pagable, carga.fecha_pago.strftime(
-                    "%d/%m/%Y") if carga.fecha_pago else '',
-                '{} {}'.format(carga.numero_paleta, carga.color)))
+                    "%d/%m/%Y") if carga.fecha_pago else '', '{} {}'.format(carga.numero_paleta, carga.color), 'PAGADO' if carga.pagado else 'POR PAGAR' if carga.liquido_pagable > 0 else 'NO PAGAR',
+                '{} {}'.format(carga.equipo_carguio.apellidos, carga.equipo_carguio.nombres) if carga.equipo_carguio else 'MANUAL'))
 
         wb.save(response)
 

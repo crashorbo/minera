@@ -17,9 +17,9 @@
     <div class="number1 sec1">{{ object.tms_pagar }}</div>                    
     <div class="number1 sec4">{{ object.regalia }}</div>
     <div class="number1 sec4 numero-alineacion">{{ form.anticipo }}</div>      
-    <div class="number1 sec3 numero-alineacion">{{ form.equipo_pesado }}</div>
+    <div class="number1 sec3 numero-alineacion tooltip-container">{{ form.equipo_pesado }}<div id="tooltip-box-carguio__{{object.id}}" class="tooltip-box">{% if object.equipo_carguio %}{{object.equipo_carguio.placa}} - {{ object.equipo_carguio.apellidos }} {{ object.equipo_carguio.nombres }}{% else %} NO TIENE EQUIPO CARGUIO ASIGNADO {% endif%}</div></div>
     <div class="number1 sec3 numero-alineacion">{{ form.balanza}}</div>
-    <div class="number1 sec3 numero-alineacion">{{ form.volqueta }}</div>
+    <div class="number1 sec3 numero-alineacion tooltip-container">{{ form.volqueta }}<div id="tooltip-box-volqueta__{{object.id}}" class="tooltip-box">{{object.vehiculo.placa}} - {{ object.vehiculo.apellidos }} {{ object.vehiculo.nombres }}</div></div>
     <div class="number1 sec3 numero-alineacion">{{ form.analisis_laboratorio }}</div>
     <div class="number1 sec3 numero-alineacion">{{ form.otros_descuentos }}</div>
     <div class="number1 sec3 numero-alineacion"><span class=" retencion-acuerdo retencion-acuerdo_{{object.id}}">{{ object.retencion_acuerdo|numero_decimal }}</span>{{ form.retencion_acuerdo_vol }}</div>

@@ -82,6 +82,8 @@ $('#select-boleta').on('select2:select', async (e) => {
                 $('.conta-desktop--body-content').append(res.data);
                 indices.push(e.target.value);
                 calcularTotales();
+                eliminarEventos();
+                generarEventos();
             })
     }
 });
@@ -138,6 +140,8 @@ const eliminarRow = (el) => {
     })
     indices = aux;
     calcularTotales();
+    eliminarEventos();
+    generarEventos();
 }
 
 const guardarRow = async (el) => {
@@ -151,6 +155,8 @@ const guardarRow = async (el) => {
         document.querySelector(`.total-descuento_${res.data.id}`).textContent = res.data.descuentos;
         document.querySelector(`.liquido-pagable_${res.data.id}`).textContent = res.data.pagable;
         document.querySelector(`.retencion-acuerdo_${res.data.id}`).textContent = res.data.retencion;
+        eliminarEventos();
+        generarEventos();
     });
 }
 
@@ -168,6 +174,8 @@ const pagarRow = async (el) => {
         .then(text => {
             row.innerHTML = text;
             calcularTotales();
+            eliminarEventos();
+            generarEventos();
         });
 }
 
@@ -297,6 +305,63 @@ modalGeneral.addEventListener("click", () => {
     myModal.show();
 });
 
+const generarEventos = () => {
+
+    const inputsCarguio = document.querySelectorAll('.tooltip-box-carguio');
+    const inputsVolqueta = document.querySelectorAll('.tooltip-box-volqueta');
+
+    inputsCarguio.forEach(element => {
+        element.addEventListener("focus", (e) => {
+            tooltipOn(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-carguio');
+        })
+        element.addEventListener("blur", (e) => {
+            tooltipOff(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-carguio');
+        })
+    });
+
+    inputsVolqueta.forEach(element => {
+        element.addEventListener("focus", (e) => {
+            tooltipOn(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-volqueta');
+        })
+        element.addEventListener("blur", (e) => {
+            tooltipOff(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-volqueta');
+        })
+    });
+}
+
+const eliminarEventos = () => {
+
+    const inputsCarguio = document.querySelectorAll('.tooltip-box-carguio');
+    const inputsVolqueta = document.querySelectorAll('.tooltip-box-volqueta');
+
+    inputsCarguio.forEach(element => {
+        element.removeEventListener("focus", (e) => {
+            tooltipOn(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-carguio');
+        })
+        element.removeEventListener("blur", (e) => {
+            tooltipOff(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-carguio');
+        })
+    });
+    inputsVolqueta.forEach(element => {
+        element.removeEventListener("focus", (e) => {
+            tooltipOn(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-volqueta');
+        })
+        element.removeEventListener("blur", (e) => {
+            tooltipOff(e.target.closest('.table-row').getAttribute("data-id"), 'tooltip-box-volqueta');
+        })
+    });
+}
+
+
+const tooltipOn = (e, nombre) => {
+    const elTool = document.querySelector(`#${nombre}__${e}`);
+    elTool.style.display = "block";
+};
+
+const tooltipOff = (e, nombre) => {
+    const elTool = document.querySelector(`#${nombre}__${e}`);
+    elTool.style.display = "none";
+};
 // formCargasPagadas.addEventListener("submit", async (e) => {
 //     e.preventDefault();
 //     const dataForm = new FormData(e.target)
