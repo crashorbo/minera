@@ -39,3 +39,11 @@
 .modal-header {
     padding: 10px;
 }
+
+.fa-dot-circle {
+    color: #FF8000;
+}
+
+.fa-check-circle {
+    color: var(--success);
+}

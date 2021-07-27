@@ -145,6 +145,15 @@ const muestrasList = async (url, container) => {
                     .then(res => {
                         modalContent.innerHTML = res.data;
                         const containerList = document.querySelector("#muestras-list");
+                        const mallaMas = document.querySelector("#id_malla_mas");
+                        const mallaMenos = document.querySelector("#id_malla_menos");
+                        const leyPonderada = document.querySelector("#id_ley_ponderada");
+                        mallaMas.addEventListener("change", () => {
+                            leyPonderada.value = (parseFloat(mallaMas.value) + parseFloat(mallaMenos.value)) / 2;
+                        });
+                        mallaMenos.addEventListener("change", () => {
+                            leyPonderada.value = (parseFloat(mallaMas.value) + parseFloat(mallaMenos.value)) / 2;
+                        });
                         myModal.show();
                         const formMuestra = document.querySelector("#form-muestra");
                         formMuestra.addEventListener("submit", async (e) => {

@@ -197,6 +197,7 @@ class Muestra(models.Model):
     laboratorio = models.ForeignKey(
         Laboratorio, on_delete=models.CASCADE, null=True)
     css_class = models.CharField(max_length=20, default='')
+    selected = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

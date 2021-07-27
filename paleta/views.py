@@ -25,7 +25,7 @@ class PaletaListJson(LoginRequiredMixin, BaseDatatableView):
     # order is important and should be same as order of columns
     # displayed by datatables. For non sortable columns use empty
     # value like ''
-    order_columns = ['numero', 'numero_paleta', 'created']
+    order_columns = ['-numero', 'numero_paleta', 'created']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
@@ -82,7 +82,7 @@ class PaletaListJson(LoginRequiredMixin, BaseDatatableView):
                 # escape HTML for security reasons
                 '<div data-url="{}" class="itemid">{}</div>'.format(
                     reverse_lazy('paleta-edit', kwargs={'pk': item.id}), item.numero),
-                item.numero_paleta,
+                '{} {}'.format(item.numero_paleta, item.color),
                 item.created.strftime("%d/%m/%Y")
             ])
         return json_data

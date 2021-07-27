@@ -10,6 +10,7 @@
                 <th>LEY POND.</th>
                 <th>NRO. CERT.</th>
                 <th>LABORATORIO</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +20,12 @@
                 <td class="text-end">{{ muestra.malla_menos }}</td>
                 <td class="text-end">{{ muestra.ley_ponderada }}</td>
                 <td class="text-center">{{ muestra.nro_certif }}</td>
-                <td class="text-center">{% if muestra.laboratorio %}{{ muestra.laboratorio }}{% endif %}   </td>
+                <td class="text-center">{% if muestra.laboratorio %}{{ muestra.laboratorio }}{% endif %}</td>
+                {% if muestra.selected %}
+                <td class="text-center"><i class="fa icon-selected fa-check-circle"></i></td>
+                {% else %}
+                <td class="text-center"><i class="fa icon-selected fa-dot-circle"></i></td>
+                {% endif %}
             </tr>
         </tbody>
     </table>      
