@@ -14,6 +14,9 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from reportlab.lib import colors
 
+from openpyxl import Workbook
+from openpyxl.styles import NamedStyle, Font, Border, Side, Alignment, PatternFill
+from openpyxl.utils import get_column_letter
 
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -75,4 +78,55 @@ class ReporteGenerador:
         pdf = buffer.getvalue()
         buffer.close()
         response.write(pdf)
+        return response
+
+    def generar_codigos_excel(self):
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', )
+        response['Content-Disposition'] = 'attachment; filename={date}-codigos.xlsx'.format(
+            date=datetime.now().strftime('%Y%m%d'), )
+
+        titulo = NamedStyle(name="titulo")
+        titulo.font = Font(bold=True, size=10, color='ffffff')
+        titulo.alignment = Alignment(
+            horizontal="center", vertical="center", wrap_text=True,)
+        titulo.fill = PatternFill(
+            start_color='244062',
+            end_color='244062',
+            fill_type='solid',
+        )
+
+        wb = Workbook()
+
+        wb.add_named_style(titulo)
+
+        sheet = wb.active
+
+        column_dimensions = sheet.column_dimensions['A']
+        column_dimensions.width = 20
+        column_dimensions = sheet.column_dimensions['B']
+        column_dimensions.width = 20
+        column_dimensions = sheet.column_dimensions['C']
+        column_dimensions.width = 20
+        column_dimensions = sheet.column_dimensions['D']
+        column_dimensions.width = 20
+        column_dimensions = sheet.column_dimensions['E']
+        column_dimensions.width = 20
+
+        sheet['A1'] = "CODIGO PRINCIPAL"
+        sheet['A1'].style = titulo
+        sheet['B1'] = "CODIGO EXTERNO"
+        sheet['B1'].style = titulo
+        sheet['C1'] = "CODIGO PROVEEDOR"
+        sheet['C1'].style = titulo
+        sheet['D1'] = "CODIGO TESTIGO"
+        sheet['D1'].style = titulo
+        sheet['E1'] = "CODIGO BOLSA"
+        sheet['E1'].style = titulo
+
+        for codigo in self.__codigos:
+            sheet.append((codigo.numero, codigo.cod_externo,
+                          codigo.cod_proveedor, codigo.cod_testigo, codigo.cod_bolsa))
+        wb.save(response)
+
         return response

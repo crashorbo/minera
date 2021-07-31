@@ -281,11 +281,11 @@ class GeneradorCreateView(LoginRequiredMixin, FormView):
         i = 0
         while i < model.cantidad:
             codigo = Codigo()
-            codigo.numero = get_random_string(length=12)
-            codigo.cod_externo = get_random_string(length=12)
-            codigo.cod_proveedor = get_random_string(length=12)
-            codigo.cod_testigo = get_random_string(length=12)
-            codigo.cod_bolsa = get_random_string(length=12)
+            codigo.numero = get_random_string(length=8)
+            codigo.cod_externo = get_random_string(length=8)
+            codigo.cod_proveedor = get_random_string(length=8)
+            codigo.cod_testigo = get_random_string(length=8)
+            codigo.cod_bolsa = get_random_string(length=8)
             codigo.generador = model
             codigo.save()
             i = i + 1
@@ -301,6 +301,12 @@ class GeneradorPrintView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         codigos = Codigo.objects.filter(generador=self.kwargs['pk'])
         return ReporteGenerador(codigos).generar_reporte_generador()
+
+
+class GeneradorPrintExcel(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        codigos = Codigo.objects.filter(generador=self.kwargs['pk'])
+        return ReporteGenerador(codigos).generar_codigos_excel()
 
 
 class GeneradorListJson(LoginRequiredMixin, BaseDatatableView):
@@ -356,8 +362,8 @@ class GeneradorListJson(LoginRequiredMixin, BaseDatatableView):
                 escape(item.created.strftime("%d/%m/%Y")),
                 '<div class="text-end">{}</div>'.format(item.cantidad),
                 # escape HTML for security reasons
-                '<div class="text-end cotizacion-options"><i data-url="{}" class="bi bi-printer ms-2"></i></div>'.format(
-                    reverse('generador-reporte', kwargs={'pk': item.id}))
+                '<div class="text-end cotizacion-options"><a href="{}"><i class="fa fa-file-excel-o ms-2"></i></a><i data-url="{}" class="bi bi-printer ms-2"></i></div>'.format(
+                    reverse('generador-reporte-excel', kwargs={'pk': item.id}), reverse('generador-reporte', kwargs={'pk': item.id}))
             ])
         return json_data
 

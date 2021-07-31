@@ -74,3 +74,6 @@
     color: var(--primary) !important;
     font-weight: 400;
 }
+.fa-file-excel-o {
+    color: teal;
+}

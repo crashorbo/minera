@@ -87,6 +87,9 @@ class Carga(models.Model):
     total_liquidacion_prov = models.FloatField(default=0)
     regalia = models.FloatField(default=0)
     penalizacion_cu_soluble = models.FloatField(default=0)
+    oro_soluble = models.FloatField(default=0)
+    ratio = models.FloatField(default=0)
+    fecha_muestreo = models.DateField(null=True, blank=True)
     # desde este punto pago de contador
     anticipo = models.FloatField(default=0)
     equipo_pesado = models.FloatField(default=0)

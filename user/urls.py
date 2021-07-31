@@ -3,7 +3,7 @@ from django.conf.urls import url
 
 from django.contrib.auth import views as auth_views
 
-from .views import CotizacionDeleteView, CotizacionListJson, CotizacionUpdateView, CreateUserView, ParametroView, ProfileUpdateView, ConfiguracionView, UserEditView, UserListView, CotizacionCreateView, \
+from .views import CotizacionDeleteView, CotizacionListJson, CotizacionUpdateView, CreateUserView, GeneradorPrintExcel, ParametroView, ProfileUpdateView, ConfiguracionView, UserEditView, UserListView, CotizacionCreateView, \
     DestinoCreateView, DestinoListView, DestinoUpdateView, LaboratorioListView, LaboratorioCreateView, LaboratorioUpdateView, GeneradorListJson, GeneradorCreateView, GeneradorPrintView, \
     UbicacionView, LaboratorioView, OrigenListView, OrigenCreateView, OrigenUpdateView, CodigoAutoComplete, FactorCreateView, FactorListView, FactorUpdateView
 
@@ -50,6 +50,8 @@ urlpatterns = [
          GeneradorCreateView.as_view(), name='generador-create'),
     path('parametro/generador/reporte/<pk>/',
          GeneradorPrintView.as_view(), name='generador-reporte'),
+    path('parametro/generador/reporte-excel/<pk>/',
+         GeneradorPrintExcel.as_view(), name='generador-reporte-excel'),
     url(r'^codigo-autocomplete/$', CodigoAutoComplete.as_view(),
         name='codigo-autocomplete'),
     path('parametro/factor/create/',
