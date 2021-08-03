@@ -101,8 +101,8 @@ class CargaLaboratorioForm(forms.ModelForm):
             'porcentaje_tamanos': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
             'cobre_soluble': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
             'oro_soluble': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
-            'ratio': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end'}),
-            'fecha_muestreo': forms.DateInput(attrs={'class': 'form-control form-control-sm'}),
+            'ratio': forms.NumberInput(attrs={'class': 'form-control form-control-sm text-end', 'readonly': True}),
+            'fecha_muestreo': forms.DateInput(attrs={'class': 'form-control form-control-sm text-center'}),
             'tipo_carga': forms.Select(attrs={'class': 'form-select form-select-sm'}),
             'observaciones': forms.Textarea(attrs={'class': 'form-control form-control-sm', 'rows': 3}),
         }

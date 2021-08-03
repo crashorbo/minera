@@ -22,9 +22,9 @@
                 <td class="text-center">{{ muestra.nro_certif }}</td>
                 <td class="text-center">{% if muestra.laboratorio %}{{ muestra.laboratorio }}{% endif %}</td>
                 {% if muestra.selected %}
-                <td class="text-center"><i class="fa icon-selected fa-check-circle"></i></td>
+                <td class="text-center"><i data-url="{% url 'muestra-selected' pk=muestra.id %}" data-value="{{ muestra.ley_ponderada }}" class="fa icon-selected fa-check-circle"></i></td>
                 {% else %}
-                <td class="text-center"><i class="fa icon-selected fa-dot-circle"></i></td>
+                <td class="text-center"><i data-url="{% url 'muestra-selected' pk=muestra.id %}" data-value="{{ muestra.ley_ponderada }}" class="fa icon-selected fa-dot-circle"></i></td>
                 {% endif %}
             </tr>
         </tbody>

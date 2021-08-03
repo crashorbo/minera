@@ -153,3 +153,15 @@ class MuestraUpdateView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         errors = form.errors.as_json()
         return JsonResponse({"message": errors}, status=400)
+
+
+class MuestraSelectedView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        muestra = Muestra.objects.get(id=self.kwargs.get("pk"))
+        muestras = Muestra.objects.filter(carga__id=muestra.carga.id)
+        for aux in muestras:
+            aux.selected = False
+            aux.save()
+        muestra.selected = True
+        muestra.save()
+        return JsonResponse({"message": "Muestra Seleccionada con exito"}, status=200)

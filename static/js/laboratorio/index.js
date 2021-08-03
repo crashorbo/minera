@@ -56,6 +56,15 @@ $('#cargas').on('click', 'tbody tr', async (e) => {
             detalle.innerHTML = res.data;
             const containerList = document.querySelector("#muestras-list");
             loader.style.visibility = 'hidden';
+            const idAu = document.querySelector("#id_au");
+            const idOroSoluble = document.querySelector("#id_oro_soluble");
+            const idRatio = document.querySelector("#id_ratio");
+            idAu.addEventListener("input", (e) => {
+                idRatio.value = parseFloat(idAu.value ? idAu.value : 0) / parseFloat(idOroSoluble.value ? idOroSoluble.value : 0);
+            });
+            idOroSoluble.addEventListener("input", (e) => {
+                idRatio.value = parseFloat(idAu.value ? idAu.value : 0) / parseFloat(idOroSoluble.value ? idOroSoluble.value : 0);
+            });
             $('#id_codigo_generado').select2({
                 language: 'es',
                 theme: "bootstrap4",
@@ -91,6 +100,11 @@ $('#cargas').on('click', 'tbody tr', async (e) => {
                 minimumInputLength: 3,
 
             });
+            const fechaMuestreo = new Datepicker(document.querySelector("#id_fecha_muestreo"), {
+                language: 'es',
+                autohide: true,
+            });
+            fechaMuestreo.setDate(new Date());
             muestrasList(containerList.getAttribute("data-url"), containerList)
         })
 });
@@ -140,47 +154,71 @@ const muestrasList = async (url, container) => {
             container.innerHTML = res.data;
             loader.style.visibility = 'hidden';
             $('#muestras-list').on('click', 'tbody tr', async (e) => {
-                const url = e.target.closest('tr').getAttribute("data-url");
-                await axios(url)
-                    .then(res => {
-                        modalContent.innerHTML = res.data;
-                        const containerList = document.querySelector("#muestras-list");
-                        const mallaMas = document.querySelector("#id_malla_mas");
-                        const mallaMenos = document.querySelector("#id_malla_menos");
-                        const leyPonderada = document.querySelector("#id_ley_ponderada");
-                        mallaMas.addEventListener("change", () => {
-                            leyPonderada.value = (parseFloat(mallaMas.value) + parseFloat(mallaMenos.value)) / 2;
-                        });
-                        mallaMenos.addEventListener("change", () => {
-                            leyPonderada.value = (parseFloat(mallaMas.value) + parseFloat(mallaMenos.value)) / 2;
-                        });
-                        myModal.show();
-                        const formMuestra = document.querySelector("#form-muestra");
-                        formMuestra.addEventListener("submit", async (e) => {
-                            e.preventDefault();
-                            loader.style.visibility = 'visible';
-                            await axios(formMuestra.getAttribute("action"), {
-                                method: "post",
-                                data: new FormData(formMuestra)
-                            })
-                                .then(res => {
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: res.data.message
-                                    });
-                                    muestrasList(containerList.getAttribute("data-url"), containerList)
-                                    loader.style.visibility = 'hidden';
-                                    myModal.hide();
+                e.preventDefault();
+                const idAu = document.querySelector("#id_au");
+                if (e.target.classList.contains("icon-selected")) {
+                    const iconos = document.querySelectorAll(".icon-selected");
+                    iconos.forEach(element => {
+                        if (element.classList.contains("fa-check-circle")) {
+                            element.classList.remove("fa-check-circle");
+                            element.classList.add("fa-dot-circle");
+                        }
+                    });
+                    if (e.target.classList.contains('fa-dot-circle')) {
+                        e.target.classList.remove("fa-dot-circle");
+                        e.target.classList.add("fa-check-circle");
+                    } else {
+                        e.target.classList.add("fa-check-circle");
+                    }
+                    idAu.value = parseFloat(e.target.getAttribute("data-value").replace(',', '.'));
+                    await axios(e.target.getAttribute("data-url")).then(res => console.log(res.data));
+                } else {
+                    const url = e.target.closest('tr').getAttribute("data-url");
+                    await axios(url)
+                        .then(res => {
+                            modalContent.innerHTML = res.data;
+                            const containerList = document.querySelector("#muestras-list");
+                            const mallaMas = document.querySelector("#id_malla_mas");
+                            const mallaMenos = document.querySelector("#id_malla_menos");
+                            const leyPonderada = document.querySelector("#id_ley_ponderada");
+                            mallaMas.addEventListener("input", () => {
+                                if (mallaMas.value) {
+                                    leyPonderada.value = (parseFloat(mallaMas.value) + parseFloat(mallaMenos.value));
+                                }
+                            });
+                            mallaMenos.addEventListener("input", () => {
+                                if (mallaMas.value) {
+                                    leyPonderada.value = (parseFloat(mallaMas.value) + parseFloat(mallaMenos.value));
+                                }
+                            });
+                            myModal.show();
+                            const formMuestra = document.querySelector("#form-muestra");
+                            formMuestra.addEventListener("submit", async (e) => {
+                                e.preventDefault();
+                                loader.style.visibility = 'visible';
+                                await axios(formMuestra.getAttribute("action"), {
+                                    method: "post",
+                                    data: new FormData(formMuestra)
                                 })
-                                .catch(error => {
-                                    const parseado = JSON.parse(error.response.data.message)
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: JSON.stringify(parseado)
+                                    .then(res => {
+                                        Toast.fire({
+                                            icon: 'success',
+                                            title: res.data.message
+                                        });
+                                        muestrasList(containerList.getAttribute("data-url"), containerList)
+                                        loader.style.visibility = 'hidden';
+                                        myModal.hide();
                                     })
-                                })
-                        })
-                    })
+                                    .catch(error => {
+                                        const parseado = JSON.parse(error.response.data.message)
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: JSON.stringify(parseado)
+                                        })
+                                    })
+                            })
+                        });
+                }
             });
         })
 }

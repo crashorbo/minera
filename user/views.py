@@ -281,11 +281,11 @@ class GeneradorCreateView(LoginRequiredMixin, FormView):
         i = 0
         while i < model.cantidad:
             codigo = Codigo()
-            codigo.numero = get_random_string(length=8)
-            codigo.cod_externo = get_random_string(length=8)
-            codigo.cod_proveedor = get_random_string(length=8)
-            codigo.cod_testigo = get_random_string(length=8)
-            codigo.cod_bolsa = get_random_string(length=8)
+            codigo.numero = get_random_string(length=8).upper()
+            codigo.cod_externo = get_random_string(length=8).upper()
+            codigo.cod_proveedor = get_random_string(length=8).upper()
+            codigo.cod_testigo = get_random_string(length=8).upper()
+            codigo.cod_bolsa = get_random_string(length=8).upper()
             codigo.generador = model
             codigo.save()
             i = i + 1

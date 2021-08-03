@@ -14,5 +14,8 @@ urlpatterns = [
     path('muestras/list/<pk>/', views.MuestrasListView.as_view(),
          name='muestras-list'),
     path('muestra/update/<pk>/', views.MuestraUpdateView.as_view(),
-         name='muestra-update')
+         name='muestra-update'),
+    path('muestra/selected/<pk>/', views.MuestraSelectedView.as_view(),
+         name='muestra-selected'),
+
 ]
