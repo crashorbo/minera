@@ -48,6 +48,28 @@ const Toast = Swal.mixin({
 
 const tabla = document.querySelector("#cargas");
 
+const calcularRatio = () => {
+    let idAu = parseFloat(document.querySelector("#id_au").value);
+    let idOroSoluble = parseFloat(document.querySelector("#id_oro_soluble").value);
+    const idRatio = document.querySelector("#id_ratio");
+    let aux = 0;
+
+    if (isNaN(idAu)) {
+        idAu = 0
+    }
+    if (isNaN(idOroSoluble)) {
+        idOroSoluble = 0
+    }
+    aux = idAu / idOroSoluble;
+
+    if (aux === Infinity || isNaN(aux)) {
+        aux = 0;
+    }
+
+    idRatio.value = aux.toFixed(2);
+
+}
+
 $('#cargas').on('click', 'tbody tr', async (e) => {
     const url = e.target.closest('tr').children[0].children[0].getAttribute("data-url");
     loader.style.visibility = 'visible';
@@ -60,10 +82,10 @@ $('#cargas').on('click', 'tbody tr', async (e) => {
             const idOroSoluble = document.querySelector("#id_oro_soluble");
             const idRatio = document.querySelector("#id_ratio");
             idAu.addEventListener("input", (e) => {
-                idRatio.value = parseFloat(idAu.value ? idAu.value : 0) / parseFloat(idOroSoluble.value ? idOroSoluble.value : 0);
+                calcularRatio();
             });
             idOroSoluble.addEventListener("input", (e) => {
-                idRatio.value = parseFloat(idAu.value ? idAu.value : 0) / parseFloat(idOroSoluble.value ? idOroSoluble.value : 0);
+                calcularRatio();
             });
             $('#id_codigo_generado').select2({
                 language: 'es',
@@ -171,7 +193,7 @@ const muestrasList = async (url, container) => {
                         e.target.classList.add("fa-check-circle");
                     }
                     idAu.value = parseFloat(e.target.getAttribute("data-value").replace(',', '.'));
-                    await axios(e.target.getAttribute("data-url")).then(res => console.log(res.data));
+                    await axios(e.target.getAttribute("data-url")).then(res => calcularRatio());
                 } else {
                     const url = e.target.closest('tr').getAttribute("data-url");
                     await axios(url)

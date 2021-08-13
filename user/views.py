@@ -10,8 +10,8 @@ from django.utils.html import escape
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
-from .forms import ColorEditForm, CotizacionForm, CustomUserCreationForm, CustomUserEditForm, CustomUserUpdateForm, DestinoCreateForm, FactorCreateForm, LaboratorioCreateForm, GeneradorCreateForm, OrigenCreateForm
-from .models import Codigo, Cotizacion, CustomUser, Factor, Generador, Parametro, Destino, Laboratorio, Origen
+from .forms import ColorEditForm, CotizacionForm, CustomUserCreationForm, CustomUserEditForm, CustomUserUpdateForm, DestinoCreateForm, DestinoProduccionCreateForm, FactorCreateForm, LaboratorioCreateForm, GeneradorCreateForm, OrigenCreateForm
+from .models import Codigo, Cotizacion, CustomUser, DestinoProduccion, Factor, Generador, Parametro, Destino, Laboratorio, Origen
 from .reportes import ReporteGenerador
 # Create your views here.
 
@@ -234,6 +234,38 @@ class DestinoUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.save()
         return JsonResponse({"message": "Destino editado con exito"}, status=200)
+
+    def form_invalid(self, form):
+        errors = form.errors.as_json()
+        return JsonResponse({"message": errors}, status=400)
+
+
+class DestinoProduccionListView(LoginRequiredMixin, ListView):
+    model = DestinoProduccion
+    template_name = 'destinoproduccion/list.html'
+
+
+class DestinoProduccionCreateView(LoginRequiredMixin, FormView):
+    form_class = DestinoProduccionCreateForm
+    template_name = 'destinoproduccion/create.html'
+
+    def form_valid(self, form):
+        form.save()
+        return JsonResponse({"message": "Destino Produccion registrado con exito"}, status=200)
+
+    def form_invalid(self, form):
+        errors = form.errors.as_json()
+        return JsonResponse({"message": errors}, status=400)
+
+
+class DestinoProduccionUpdateView(LoginRequiredMixin, UpdateView):
+    model = DestinoProduccion
+    form_class = DestinoProduccionCreateForm
+    template_name = 'destinoproduccion/edit.html'
+
+    def form_valid(self, form):
+        form.save()
+        return JsonResponse({"message": "Destino Produccion editado con exito"}, status=200)
 
     def form_invalid(self, form):
         errors = form.errors.as_json()

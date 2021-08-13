@@ -3,7 +3,7 @@ from django.conf.urls import url
 
 from django.contrib.auth import views as auth_views
 
-from .views import CotizacionDeleteView, CotizacionListJson, CotizacionUpdateView, CreateUserView, GeneradorPrintExcel, ParametroView, ProfileUpdateView, ConfiguracionView, UserEditView, UserListView, CotizacionCreateView, \
+from .views import CotizacionDeleteView, CotizacionListJson, CotizacionUpdateView, CreateUserView, DestinoProduccionCreateView, DestinoProduccionListView, DestinoProduccionUpdateView, GeneradorPrintExcel, ParametroView, ProfileUpdateView, ConfiguracionView, UserEditView, UserListView, CotizacionCreateView, \
     DestinoCreateView, DestinoListView, DestinoUpdateView, LaboratorioListView, LaboratorioCreateView, LaboratorioUpdateView, GeneradorListJson, GeneradorCreateView, GeneradorPrintView, \
     UbicacionView, LaboratorioView, OrigenListView, OrigenCreateView, OrigenUpdateView, CodigoAutoComplete, FactorCreateView, FactorListView, FactorUpdateView
 
@@ -38,6 +38,12 @@ urlpatterns = [
          DestinoCreateView.as_view(), name='destino-create'),
     path('parametro/destino/edit/<pk>/',
          DestinoUpdateView.as_view(), name='destino-edit'),
+    path('parametro/destinoproduccion/list/',
+         DestinoProduccionListView .as_view(), name='destinoproduccion-list'),
+    path('parametro/destinoproduccion/create/',
+         DestinoProduccionCreateView.as_view(), name='destinoproduccion-create'),
+    path('parametro/destinoproduccion/edit/<pk>/',
+         DestinoProduccionUpdateView.as_view(), name='destinoproduccion-edit'),
     path('parametro/laboratorio/list/',
          LaboratorioListView.as_view(), name='laboratorio-list'),
     path('parametro/laboratorio/create/',

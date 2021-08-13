@@ -224,6 +224,7 @@ const cargarParametro = async (url) => {
             //    
             const btnCotizacion = document.querySelector("#cotizacion-register");
             const btnFactor = document.querySelector("#factor-register");
+            const btnDestinoProduccion = document.querySelector("#destinoproduccion-register");
             const cotizaciones = document.querySelector("#cotizaciones");
             const datatable = $('#cotizaciones').DataTable({
                 "language": {
@@ -305,6 +306,48 @@ const cargarParametro = async (url) => {
             }
             factores();
 
+            const destinoProduccion = async () => {
+                const factorBody = document.querySelector("#destinoproducciones");
+                await axios(factorBody.getAttribute('data-url'))
+                    .then(res => {
+                        factorBody.innerHTML = res.data
+                        const editores = factorBody.querySelectorAll('i');
+                        editores.forEach(editor => {
+                            editor.addEventListener("click", async () => {
+                                await axios(editor.getAttribute("data-url"))
+                                    .then(res => {
+                                        modalContent.innerHTML = res.data;
+                                        const formRegister = document.querySelector("#destinoproduccion-form");
+                                        myModal.show();
+                                        formRegister.addEventListener("submit", async (e) => {
+                                            e.preventDefault();
+                                            await axios(formRegister.getAttribute("action"), {
+                                                method: "post",
+                                                data: new FormData(formRegister)
+                                            })
+                                                .then(res => {
+                                                    Toast.fire({
+                                                        icon: 'success',
+                                                        title: res.data.message
+                                                    });
+                                                    factores();
+                                                    myModal.hide();
+                                                })
+                                                .catch(error => {
+                                                    const parseado = JSON.parse(error.response.data.message)
+                                                    Toast.fire({
+                                                        icon: 'error',
+                                                        title: JSON.stringify(parseado)
+                                                    })
+                                                })
+                                        })
+                                    })
+                            })
+                        });
+                    })
+            };
+            destinoProduccion();
+
             cotizaciones.addEventListener("click", async (e) => {
                 if (e.target.classList.contains("bi")) {
                     await axios(e.target.getAttribute("data-url"))
@@ -372,6 +415,37 @@ const cargarParametro = async (url) => {
                                         title: res.data.message
                                     });
                                     factores()
+                                    myModal.hide();
+                                })
+                                .catch(error => {
+                                    const parseado = JSON.parse(error.response.data.message)
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: JSON.stringify(parseado)
+                                    })
+                                })
+                        });
+                    })
+            });
+
+            btnDestinoProduccion.addEventListener("click", async (e) => {
+                await axios(e.target.getAttribute("data-url"))
+                    .then(res => {
+                        modalContent.innerHTML = res.data;
+                        const formRegister = document.querySelector("#destinoproduccion-form");
+                        myModal.show();
+                        formRegister.addEventListener("submit", async (e) => {
+                            e.preventDefault();
+                            await axios(formRegister.getAttribute('action'), {
+                                method: "post",
+                                data: new FormData(formRegister)
+                            })
+                                .then(res => {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.data.message
+                                    });
+                                    destinoProduccion();
                                     myModal.hide();
                                 })
                                 .catch(error => {

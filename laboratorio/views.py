@@ -97,7 +97,7 @@ class LaboratorioUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         model = form.save(commit=False)
-        today = datetime.date.today()
+        today = model.created.date()
         if not model.pagado:
             cotizacion = Cotizacion.objects.filter(
                 fecha_inicio__lte=today, fecha_fin__gte=today)

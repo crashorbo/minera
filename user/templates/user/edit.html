@@ -6,14 +6,14 @@
         {% csrf_token %}                
         <div class="row mb-2">
             <div class="col-md-6 col-sm-12">
-                <label class="sr-only" for="">Rol</label>
+                <label for="">Rol</label>
                 {{ form.rol }}
                 {{ form.rol.help_text }}
             </div>
         </div>        
         <div class="row mb-2">
             <div class="col-md-12 col-sm-12">
-                <label class="sr-only" for="">Nombre de Usuario</label>
+                <label for="">Nombre de Usuario</label>
                 {{ form.username }}
                 <small class="form-text text-muted">
                     {{ form.username.help_text }}
@@ -22,14 +22,14 @@
         </div>
         <div class="row mb-2">
             <div class="col-md-12">
-                <label class="sr-only" for="">Nombres</label>
+                <label for="">Nombres</label>
                 {{ form.first_name }}
                 {{ form.first_name.help_text }}
             </div>
         </div>        
         <div class="row mb-2">
             <div class="col-md-12">
-                <label class="sr-only" for="">Apellidos</label>
+                <label for="">Apellidos</label>
                 {{ form.last_name }}
                 {{ form.last_name.help_text }}
             </div>

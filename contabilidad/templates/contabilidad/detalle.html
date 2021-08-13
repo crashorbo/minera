@@ -15,6 +15,8 @@
     <div class="number1 sec2">{{ object.porcentaje_tamanos|numero_decimal }}%</div>
     <div class="number1 sec2">{{ object.cobre_soluble|numero_decimal }}</div>
     <div class="number1 sec1">{{ object.tms_pagar }}</div>                    
+    <div class="number1 sec6">{{ object.oro_soluble }}</div>                    
+    <div class="number1 sec6">{{ object.ratio }}</div>                    
     <div class="number1 sec4">{{ object.regalia }}</div>
     <div class="number1 sec4 numero-alineacion">{{ form.anticipo }}</div>      
     <div class="number1 sec3 numero-alineacion tooltip-container">{{ form.equipo_pesado }}<div id="tooltip-box-carguio__{{object.id}}" class="tooltip-box">{% if object.equipo_carguio %}{{object.equipo_carguio.placa}} - {{ object.equipo_carguio.apellidos }} {{ object.equipo_carguio.nombres }}{% else %} NO TIENE EQUIPO CARGUIO ASIGNADO {% endif%}</div></div>
@@ -44,7 +46,9 @@
     <div class="number1 sec2">{{ object.h2o|numero_decimal }}</div>
     <div class="number1 sec2">{{ object.porcentaje_tamanos|numero_decimal }}%</div>
     <div class="number1 sec2">{{ object.cobre_soluble|numero_decimal }}</div>
-    <div class="number1 sec1">{{ object.tms_pagar }}</div>                    
+    <div class="number1 sec1">{{ object.tms_pagar }}</div>    
+    <div class="number1 sec6">{{ object.oro_soluble }}</div>                    
+    <div class="number1 sec6">{{ object.ratio }}</div>                                    
     <div class="number1 sec4">{{ object.regalia }}</div>
     <div class="number1 sec4 numero-alineacion">{{ object.anticipo|numero_decimal}}</div>
     <div class="number1 sec3 numero-alineacion">{{ object.equipo_pesado|numero_decimal}}</div>

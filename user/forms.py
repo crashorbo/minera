@@ -5,7 +5,7 @@ import datetime
 from django import forms
 from django.forms import widgets
 
-from .models import Cotizacion, CustomUser, Destino, Factor, Generador, Laboratorio, Parametro, Origen
+from .models import Cotizacion, CustomUser, Destino, DestinoProduccion, Factor, Generador, Laboratorio, Parametro, Origen
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -128,4 +128,13 @@ class FactorCreateForm(forms.ModelForm):
             'rango_superior': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
             'factor_recuperacion': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
             'sugerencia': forms.NumberInput(attrs={'class': 'form-control form-control-sm'})
+        }
+
+
+class DestinoProduccionCreateForm(forms.ModelForm):
+    class Meta:
+        model = DestinoProduccion
+        fields = ('nombre',)
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'})
         }

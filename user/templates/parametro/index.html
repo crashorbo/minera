@@ -36,8 +36,8 @@
         </div>                              
     </div>    
     <div class="col-md-6"> 
-        <div class="card">
-            <div class="card-body">
+        <div class="card mb-2">
+            <div class="card-body">                                
                 <div class="row mb-2">
                     <div class="col-md-8">
                         <h5 class="card-title">
@@ -54,6 +54,25 @@
                     </div>
                 </div>
             </div>
-        </div>                   
-    </div>
+        </div>
+        <div class="card">
+            <div class="card-body">                                
+                <div class="row mb-2">
+                    <div class="col-md-8">
+                        <h5 class="card-title">
+                        DESTINO PRODUCCION
+                        </h5>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button id="destinoproduccion-register" class="btn btn-sm btn-primary" data-url="{% url 'destinoproduccion-create' %}">NUEVO</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="destinoproducciones" class="col-md-12" data-url="{% url 'destinoproduccion-list' %}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>                           
+    </div>    
 </div>

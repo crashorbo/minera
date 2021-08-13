@@ -1,8 +1,8 @@
 <div class="modal-header">
-    <h5 class="modal-title">Editar Laboratorio</h5>
+    <h5 class="modal-title">Registrar Destino Produccion</h5>
 </div>
 <div class="modal-body">
-    <form id="laboratorio-form" action="{% url 'laboratorio-edit' pk=object.id %}" method="post" autocomplete="off">
+    <form id="destinoproduccion-form" action="{% url 'destinoproduccion-create' %}" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="row mb-2">
             <div class="col-md-12">
