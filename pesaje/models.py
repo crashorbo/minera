@@ -7,6 +7,7 @@ import datetime
 from proveedor.models import Proveedor
 from conductor.models import Vehiculo, Conductor
 from user.models import CustomUser, Destino, Factor, Laboratorio, Origen
+from produccion.models import Produccion
 
 TIPO_CARGA = (
     ('NORMAL', 'NORMAL'),
@@ -105,6 +106,8 @@ class Carga(models.Model):
     observaciones = models.TextField(blank=True)
     pagado = models.BooleanField(default=False)
     fecha_pago = models.DateTimeField(blank=True, null=True)
+    produccion = models.ForeignKey(
+        Produccion, on_delete=models.SET_NULL, blank=True, null=True)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

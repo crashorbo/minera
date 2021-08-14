@@ -11,6 +11,6 @@ class ProduccionCreateForm(forms.ModelForm):
         widgets = {
             'minima_ley': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
             'maxima_ley': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
-            'tms': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
+            'tms': forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'readonly': True}),
             'cargas': forms.Textarea(attrs={'class': 'd-none'})
         }

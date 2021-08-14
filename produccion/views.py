@@ -6,14 +6,14 @@ from produccion.forms import ProduccionCreateForm
 # Create your views here.
 
 
-class ProduccionIndexView(FormView):
-    form_class = ProduccionCreateForm
+class ProduccionIndexView(TemplateView):
     template_name = 'produccion/index.html'
+
+
+class ProduccionNuevoView(FormView):
+    form_class = ProduccionCreateForm
+    template_name = 'produccion/nuevo.html'
 
     def form_valid(self, form):
         model = form.save(commit=False)
         return redirect('')
-
-
-class ProduccionNuevoView(TemplateView):
-    template_name = 'produccion/nuevo.html'
