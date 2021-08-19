@@ -11,8 +11,9 @@ class Produccion(models.Model):
     maxima_ley = models.FloatField(default=0)
     tms = models.FloatField(default=0)
     destino = models.ForeignKey(
-        DestinoProduccion, on_delete=models.SET_NULL, blank=True, null=True)
+        DestinoProduccion, on_delete=models.CASCADE)
     cargas = models.TextField(default='', blank=True)
+    total_cargas = models.IntegerField(default=0)
     estado = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)

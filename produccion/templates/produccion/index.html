@@ -14,22 +14,37 @@
             <div class="row">
                 <div class="col-6">
                     <h5 class="card-title">Lista Produccion</h5>
-                </div>
+                </div>                
                 <div class="col-6 text-end">
                     <a href="{% url 'produccion-nuevo' %}" class="btn btn-primary btn-sm">Nuevo</a>
                 </div>
             </div>
-            <table class="table">
+            <hr/>
+            <table id="produccion" class="table">
                 <thead>
                     <tr>
                         <th>Fecha</th>
                         <th>Destino</th>
                         <th>Ley Minima</th>
                         <th>Ley Maxima</th>
-                        <th>Observaciones</th>
+                        <th>Total TMS</th>
+                        <th>Total Cargas</th>
                         <th></th>
                     </tr>
                 </thead>
+                <tbody>
+                    {% for produccion in objetos %}
+                    <tr>
+                        <td>{{ produccion.created|date:"d/m/Y"}}</td>
+                        <td>{{ produccion.destino.nombre }}</td>
+                        <td>{{ produccion.minima_ley }}</td>
+                        <td>{{ produccion.maxima_ley }}</td>
+                        <td>{{ produccion.tms }}</td>
+                        <td>{{ produccion.total_cargas }}</td>
+                        <td> <a href="{% url 'produccion-reporte' pk=produccion.id %}"><i class="bi bi-printer"></i></a> <a href="{% url 'produccion-cargas-view' pk=produccion.id %}"><i class="bi bi-eye"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>

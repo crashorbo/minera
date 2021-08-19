@@ -3,10 +3,56 @@
 }
 
 .carga-list {
-    height: calc(100vh - 190px);
-    width: 100%;
+    height: calc(100vh - 170px);
+    width: calc(100% - 35px);
     display: flex;
     position: absolute;
     top: 100px;
     overflow-y: auto;
+}
+
+.row-carga {
+    display: flex;
+    flex-direction: row;    
+    border-bottom: 1px solid #000;
+}
+
+.col1 {
+    width: 9%;
+}
+
+.col2 {
+    width: 15%;
+}
+.col3 {
+    width: 7%;
+}
+.col1, .col2, .col3 {
+    text-align: center;
+    padding: 4px 2px;
+}
+
+.dat1 {
+    background-color: #3c4b64;
+    color: #fff;
+}
+
+.dat2 {
+    background-color: #FFFF00;
+}
+
+.dat3 {
+    background-color: #C5D9F1;
+}
+.fa-minus-circle {
+    color: var(--bs-red);
+    cursor: pointer;
+    padding: 2px;
+}
+.rhead {
+    font-weight: 700;
+}
+
+.col-title {
+    font-weight: 700;
 }

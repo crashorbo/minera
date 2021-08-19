@@ -1,0 +1,27 @@
+<div class="row-carga">
+    <div class="col1 dat1 rhead">Numero Boleta</div>
+    <div class="col1 dat1 rhead">Fecha Pesaje</div>
+    <div class="col2 dat1 rhead">Procedencia</div>
+    <div class="col1 dat2 rhead">Tipo Carga</div>
+    <div class="col1 dat1 rhead">Peso Neto</div>
+    <div class="col1 dat3 rhead">TMS</div>
+    <div class="col1 dat2 rhead">Au(g/Tn)</div>
+    <div class="col1 dat3 rhead">Estado</div>
+    <div class="col2 dat3 rhead">Color Paleta</div>
+    <div class="col3 rhead"></div>
+</div>
+{% for carga in cargas %}
+<div class="row-carga">
+    <div class="d-none carga-id" data-id="{{ carga.id }}">{{ carga.id }}</div>
+    <div class="col1 dat3">{{ carga.numero }}</div>
+    <div class="col1 dat3">{{ carga.created|date:"d/m/Y"}}</div>
+    <div class="col2 dat3">{{ carga.origen }}</div>
+    <div class="col1">{{ carga.tipo_carga }}</div>
+    <div class="col1 dat3">{{ carga.peso_neto_tn }}</div>
+    <div class="col1 dat3 carga-tms" data-tms="{{ carga.tms_pagar }}" >{{ carga.tms_pagar }}</div>
+    <div class="col1 dat2">{{ carga.au }}</div>
+    <div class="col1 dat3">{% if carga.pagado %}PAGADO{% else %} {% if carga.liquido_pagable > 0 %}POR PAGAR {% else %}NO PAGAR {% endif %} {% endif %}</div>
+    <div class="col2 dat3">{{ carga.numero_paleta }} {{ carga.color }}</div>
+    <div class="col3"><i class="fa fa-minus-circle"></i></div>
+</div>
+{% endfor %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}    
+    <link rel="stylesheet" href="{% static 'css/produccion/nuevo.css' %}">
+{% endblock css %}
+
+{% block body %}
+    <div class="row">
+        <div class="card">
+            <div class="card-body card-nuevo">
+                <h5 class="card-title"></h5>
+                <div class="row">                    
+                    <div class="col-md-3">
+                        <div class="row">
+                            <label class="col-md-4 col-title col-form-label">Destino:</label>
+                            <div class="col-md-8 col-form-label">{{ produccion.destino }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <label class="col-md-6 col-title col-form-label">Ley Minima:</label>
+                            <div class="col-md-6 col-form-label">{{ produccion.minima_ley }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <label class="col-md-6 col-title col-form-label">Ley Maxima:</label>
+                            <div class="col-md-6 col-form-label">{{ produccion.maxima_ley }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <label class="col-md-5 col-title col-form-label">Total TMS:</label>
+                            <div class="col-md-7 col-form-label">{{ produccion.tms }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="row">                            
+                        </div>
+                    </div>                    
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-6 col-title col-form-label">Total Cargas: <span id="total_cargas" class="">{{ produccion.total_cargas }}</span></div>
+                            <div class="col-md-6 text-end"><a href="{% url 'produccion-reporte' pk=produccion.id %}" class="btn btn-primary btn-sm">Imprimir</a></div>                            
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row carga-list">
+                    <div id="lista-cargas" class="col-md-12">
+                        <div class="row-carga">
+                        <div class="col1 dat1 rhead">Numero Boleta</div>
+                        <div class="col1 dat1 rhead">Fecha Pesaje</div>
+                        <div class="col2 dat1 rhead">Procedencia</div>
+                        <div class="col1 dat2 rhead">Tipo Carga</div>
+                        <div class="col1 dat1 rhead">Peso Neto</div>
+                        <div class="col1 dat3 rhead">TMS</div>
+                        <div class="col1 dat2 rhead">Au(g/Tn)</div>
+                        <div class="col1 dat3 rhead">Estado</div>
+                        <div class="col2 dat3 rhead">Color Paleta</div>
+                        <div class="col3 rhead"></div>
+                    </div>
+                    {% for carga in produccion.carga_set.all %}
+                    <div class="row-carga">
+                        <div class="d-none carga-id" data-id="{{ carga.id }}">{{ carga.id }}</div>
+                        <div class="col1 dat3">{{ carga.numero }}</div>
+                        <div class="col1 dat3">{{ carga.created|date:"d/m/Y"}}</div>
+                        <div class="col2 dat3">{{ carga.origen }}</div>
+                        <div class="col1">{{ carga.tipo_carga }}</div>
+                        <div class="col1 dat3">{{ carga.peso_neto_tn }}</div>
+                        <div class="col1 dat3 carga-tms" data-tms="{{ carga.tms_pagar }}" >{{ carga.tms_pagar }}</div>
+                        <div class="col1 dat2">{{ carga.au }}</div>
+                        <div class="col1 dat3">{% if carga.pagado %}PAGADO{% else %} {% if carga.liquido_pagable > 0 %}POR PAGAR {% else %}NO PAGAR {% endif %} {% endif %}</div>
+                        <div class="col2 dat3">{{ carga.numero_paleta }} {{ carga.color }}</div>
+                        <div class="col3"></div>
+                    </div>
+{% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>                
+    </div>
+{% endblock body %}
+
+{% block js %}        
+    <script src="{% static 'vendor/datatables/js/jquery-3.5.1.js'%}"></script>    
+    <script src="{% static 'js/produccion/ver.js' %}"></script>
+{% endblock js %}

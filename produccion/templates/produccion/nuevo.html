@@ -2,7 +2,9 @@
 
 {% load static %}
 
-{% block css %}    
+{% block css %}
+    <link rel="stylesheet" href="{% static 'vendor/select2/dist/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/select2/dist/css/select2-bootstrap4.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/produccion/nuevo.css' %}">
 {% endblock css %}
 
@@ -11,69 +13,51 @@
         <div class="card">
             <div class="card-body card-nuevo">
                 <h5 class="card-title"></h5>
-                <div class="row">
-                    <div class="col-md-3">
+                <form class="row" action="" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-2">
                         <div class="row">
-                            <label class="col-md-4 col-form-label">Destino</label>
+                            <label class="col-md-4 col-title col-form-label">Destino</label>
                             <div class="col-md-8">{{ form.destino }}</div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="row">
-                            <label class="col-md-5 col-form-label">Ley Minima</label>
-                            <div class="col-md-7">{{ form.minima_ley }}</div>
+                            <label class="col-md-6 col-title col-form-label">Ley Minima</label>
+                            <div class="col-md-6">{{ form.minima_ley }}</div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="row">
-                            <label class="col-md-5 col-form-label">Ley Maxima</label>
-                            <div class="col-md-7">{{ form.maxima_ley }}</div>
+                            <label class="col-md-6 col-title col-form-label">Ley Maxima</label>
+                            <div class="col-md-6">{{ form.maxima_ley }}</div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="row">
-                            <label class="col-md-5 col-form-label">TMS</label>
-                            <div class="col-md-7">{{ form.tms }}</div>
+                            <label class="col-md-6 col-title col-form-label">Total TMS</label>
+                            <div class="col-md-6">{{ form.tms }}</div>
                         </div>
                     </div>
+                    <div class="col-md-1">
+                        <div class="row">
+                            <label class="col-md-8 col-title col-form-label" for="id_pagado">Pagado</label>
+                            <div class="col-md-4 d-flex align-items-center"><input id="id_pagado" type="checkbox" name="pagado" checked></div>
+                        </div>
+                    </div>
+                    {{ form.cargas }}
                     <div class="col-md-3">
                         <div class="row">
-                            <div class="col-md-12 text-end"><button class="btn btn-primary btn-sm">Guardar</button></div>                            
+                            <div class="col-md-6 col-title col-form-label text-end">Total Cargas:</div>
+                            <div class="col-md-4">{{ form.total_cargas }}</div>
+                            <div class="col-md-2 text-end"><button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-save"></i></button></div>                            
                         </div>
                     </div>
-                </div>
+                </form>
                 <hr>
                 <div class="row carga-list">
-                    <div class="col-md-12">
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p><p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p><p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod recusandae minima deleniti esse perferendis quam, eligendi aliquid, deserunt, ab eius in ea! Modi numquam, veniam sed magnam eius expedita alias.</p>
+                    <div id="lista-cargas" class="col-md-12">
+                        
                     </div>
                 </div>
             </div>
@@ -82,5 +66,8 @@
 {% endblock body %}
 
 {% block js %}        
+    <script src="{% static 'vendor/datatables/js/jquery-3.5.1.js'%}"></script>
+    <script src="{% static 'vendor/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'vendor/select2/dist/js/i18n/es.js' %}"></script>
     <script src="{% static 'js/produccion/nuevo.js' %}"></script>
 {% endblock js %}
