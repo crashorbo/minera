@@ -11,7 +11,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': 'emcoisa',
-        'NAME': 'minera_prod',
+        'NAME': 'emcoisa_prod',
         'USER': 'alexander',
         'PASSWORD': 'add150806',
         'HOST': 'localhost',
