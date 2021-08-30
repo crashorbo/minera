@@ -45,7 +45,7 @@ def transformar_numeracion(nombre, valor):
 def importar_proveedores():
     wbo = load_workbook(filename='BDATOS.xlsx')
     wso = wbo['PROVEEDORES']
-    cells = wso['A2':'I510']
+    cells = wso['A2':'I519']
 
     for c1, c2, c3, c4, c5, c6, c7, c8, c9 in cells:
         if (c1.value):
@@ -65,7 +65,7 @@ def importar_proveedores():
 def importar_vehiculos():
     wbo = load_workbook(filename='BDATOS.xlsx', data_only=True)
     wso = wbo['VEHICULOS']
-    cells = wso['A2':'I60']
+    cells = wso['A2':'I69']
 
     for c1, c2, c3, c4, c5, c6, c7, c8, c9 in cells:
         if (c1.value):
@@ -82,7 +82,7 @@ def importar_vehiculos():
 def importar_conductores():
     wbo = load_workbook(filename='BDATOS.xlsx', data_only=True)
     wso = wbo['CONDUCTORES']
-    cells = wso['B2':'F90']
+    cells = wso['B2':'F83']
 
     for c1, c2, c3, c4, c5 in cells:
         if (c1.value):
