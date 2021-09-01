@@ -63,13 +63,24 @@ class PesajeEditView(LoginRequiredMixin, UpdateView):
     template_name = 'pesaje/edit.html'
 
     def form_valid(self, form):
+        today = datetime.date.today()
         model = form.save(commit=False)
         model.peso_neto = model.peso_bruto - model.peso_tara
-        model.peso_neto_tn = model.peso_neto/1000
+        model.peso_neto_tn = model.peso_neto/1000        
         if model.peso_bruto > 0:
             model.pesaje_bruto = True
         if model.peso_tara > 0:
-            model.pesaje_tara = True
+            vehiculo = Vehiculo.objects.get(pk=model.vehiculo.id)
+            try:
+                destare = Destare.objects.get(created__date=today, vehiculo=model.vehiculo.id)
+                destare.peso = model.peso_tara
+                destare.save()
+            except Destare.DoesNotExist:
+                print(vehiculo)
+                print(model.vehiculo.id)
+                destare = Destare(vehiculo=vehiculo, peso=model.peso_tara)
+                destare.save()
+            model.pesaje_tara = True            
         if model.pesaje_bruto and model.pesaje_tara:
             model.pesaje = True
         model.save()
