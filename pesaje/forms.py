@@ -58,7 +58,7 @@ class CargaTaraForm(forms.ModelForm):
                                                 widget=autocomplete.ModelSelect2(url='proveedor-autocomplete', attrs={'class': 'form-control'}))
     vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), empty_label="Seleccionar Vehiculo", widget=autocomplete.ModelSelect2(
         url='vehiculo-autocomplete', attrs={'class': 'form-control'}))
-    carguio = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), empty_label="Seleccionar Carguio", widget=autocomplete.ModelSelect2(
+    equipo_carguio = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), empty_label="Seleccionar Carguio", widget=autocomplete.ModelSelect2(
         url='carguio-autocomplete', attrs={'class': 'form-control'}), required=False)
 
     class Meta:
