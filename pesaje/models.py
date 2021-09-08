@@ -195,7 +195,7 @@ class Muestra(models.Model):
     carga = models.ForeignKey(
         Carga, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100, default='')
-    codigo = models.CharField(max_length=20)
+    codigo = models.CharField(max_length=20) 
     malla_mas = models.FloatField(default=0)
     malla_menos = models.FloatField(default=0)
     ley_ponderada = models.FloatField(default=0)
@@ -208,6 +208,8 @@ class Muestra(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return f'{self.codigo} - {self.carga.numero} - {self.carga.color} {self.carga.numero_paleta}'
 
 class Destare(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -216,3 +218,5 @@ class Destare(models.Model):
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    

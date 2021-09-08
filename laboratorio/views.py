@@ -119,20 +119,22 @@ class LaboratorioUpdateView(LoginRequiredMixin, UpdateView):
 class LaboratorioGenerarView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         codigo = Codigo.objects.get(id=request.POST['codigo'])
-        codigo.utilizado = True
-        carga = Carga.objects.get(id=self.kwargs.get("pk"))
-        muestra = Muestra(nombre="LABORATORIO EXTERNO",
-                          carga=carga, codigo=codigo.cod_externo, css_class='muestra-ext')
-        muestra.save()
-        muestra = Muestra(nombre="PROVEEDOR", carga=carga,
-                          codigo=codigo.cod_proveedor, css_class='muestra-prov')
-        muestra.save()
-        muestra = Muestra(nombre="TESTIGO", carga=carga,
-                          codigo=codigo.cod_testigo, css_class='muestra-test')
-        muestra.save()
-        muestra = Muestra(nombre="BOLSA", carga=carga,
-                          codigo=codigo.cod_bolsa, css_class='muestra-bol')
-        muestra.save()
+        if not codigo.utilizado:
+            codigo.utilizado = True
+            carga = Carga.objects.get(id=self.kwargs.get("pk"))
+            muestra = Muestra(nombre="LABORATORIO EXTERNO",
+                            carga=carga, codigo=codigo.cod_externo, css_class='muestra-ext')
+            muestra.save()
+            muestra = Muestra(nombre="PROVEEDOR", carga=carga,
+                            codigo=codigo.cod_proveedor, css_class='muestra-prov')
+            muestra.save()
+            muestra = Muestra(nombre="TESTIGO", carga=carga,
+                            codigo=codigo.cod_testigo, css_class='muestra-test')
+            muestra.save()
+            muestra = Muestra(nombre="BOLSA", carga=carga,
+                            codigo=codigo.cod_bolsa, css_class='muestra-bol')
+            muestra.save()
+            codigo.save()
         return redirect('muestras-list', pk=carga.id)
 
 
