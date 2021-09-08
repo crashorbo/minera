@@ -60,7 +60,7 @@ const calcularRatio = () => {
     if (isNaN(idOroSoluble)) {
         idOroSoluble = 0
     }
-    aux = idAu / idOroSoluble;
+    aux = idOroSoluble / idAu;
 
     if (aux === Infinity || isNaN(aux)) {
         aux = 0;
@@ -125,8 +125,8 @@ $('#cargas').on('click', 'tbody tr', async (e) => {
             const fechaMuestreo = new Datepicker(document.querySelector("#id_fecha_muestreo"), {
                 language: 'es',
                 autohide: true,
-            });
-            fechaMuestreo.setDate(new Date());
+            });            
+            // fechaMuestreo.setDate(new Date());
             muestrasList(containerList.getAttribute("data-url"), containerList)
         })
 });
