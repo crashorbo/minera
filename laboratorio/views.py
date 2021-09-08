@@ -27,7 +27,7 @@ class LaboratorioListJson(LoginRequiredMixin, BaseDatatableView):
     # order is important and should be same as order of columns
     # displayed by datatables. For non sortable columns use empty
     # value like ''
-    order_columns = ['-numero', 'numero_paleta', 'created']
+    order_columns = ['-numero', 'numero_paleta', 'fecha_muestreo','created']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
@@ -85,6 +85,7 @@ class LaboratorioListJson(LoginRequiredMixin, BaseDatatableView):
                 '<div data-url="{}" class="itemid">{}</div>'.format(
                     reverse_lazy('laboratorio-update', kwargs={'pk': item.id}), item.numero),
                 '{} {}'.format(item.numero_paleta, item.color),
+                item.fecha_muestreo.strftime("%d/%m/%Y") if item.fecha_muestreo else '',
                 item.created.strftime("%d/%m/%Y")
             ])
         return json_data
