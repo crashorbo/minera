@@ -272,6 +272,10 @@ tr {
     background: var(--bs-orange);
 }
 
+.button__redo {
+    background: var(--bs-green);
+}
+
 .button__guardar {
     background: var(--success);
 }

@@ -15,9 +15,9 @@
     <div class="number1 sec2">{{ carga.porcentaje_tamanos|numero_decimal }}%</div>
     <div class="number1 sec2">{{ carga.cobre_soluble|numero_decimal }}</div>
     <div class="number1 sec1">{{ carga.tms_pagar }}</div>  
-    <div class="number1 sec6">{{ object.oro_soluble }}</div>                    
-    <div class="number1 sec6">{{ object.ratio }}</div>
-    <div class="number1 sec4">{{ object.penalizacion_cu_soluble }}</div>                 
+    <div class="number1 sec6">{{ carga.oro_soluble }}</div>                    
+    <div class="number1 sec6">{{ carga.ratio }}</div>
+    <div class="number1 sec4">{{ carga.penalizacion_cu_soluble }}</div>                 
     <div class="number1 sec4">{{ carga.regalia }}</div>
     <div class="number1 sec4 numero-alineacion">{{ carga.anticipo|numero_decimal}}</div>
     <div class="number1 sec3 numero-alineacion">{{ carga.equipo_pesado|numero_decimal}}</div>
@@ -45,9 +45,9 @@
     <div class="number1 sec2">{{ carga.porcentaje_tamanos|numero_decimal }}%</div>
     <div class="number1 sec2">{{ carga.cobre_soluble|numero_decimal }}</div>
     <div class="number1 sec1">{{ carga.tms_pagar }}</div>  
-    <div class="number1 sec6">{{ object.oro_soluble }}</div>                    
-    <div class="number1 sec6">{{ object.ratio }}</div>      
-    <div class="number1 sec4">{{ object.penalizacion_cu_soluble }}</div>            
+    <div class="number1 sec6">{{ carga.oro_soluble }}</div>                    
+    <div class="number1 sec6">{{ carga.ratio }}</div>      
+    <div class="number1 sec4">{{ carga.penalizacion_cu_soluble }}</div>            
     <div class="number1 sec4">{{ carga.regalia }}</div>
     <div class="number1 sec4 numero-alineacion">{{ form.anticipo }}</div>      
     <div class="number1 sec3 numero-alineacion tooltip-container">{{ form.equipo_pesado }}<div id="tooltip-box-carguio__{{carga.id}}" class="tooltip-box">{% if carga.equipo_carguio %}{{carga.equipo_carguio.placa}} - {{ carga.equipo_carguio.apellidos }} {{ carga.equipo_carguio.nombres }}{% else %} NO TIENE EQUIPO CARGUIO ASIGNADO {% endif%}</div></div>
