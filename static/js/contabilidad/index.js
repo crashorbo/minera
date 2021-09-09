@@ -4,6 +4,7 @@ const calculoTotal = document.querySelector(".calculo-total-valor");
 const textoRegistros = document.querySelector(".texto-registros");
 const imprimirComprobantes = document.querySelector("#imprimir-comprobantes");
 const imprimirBoletas = document.querySelector("#imprimir-boletas");
+const redoEspacio = document.querySelector("#redo-espacio");
 const modalPagadas = document.querySelector("#cargas-pagadas");
 const modalGeneral = document.querySelector("#reporte-general");
 const formCargasPagadas = document.querySelector("#form-cargas-pagadas");
@@ -187,6 +188,18 @@ imprimirComprobantes.addEventListener('click', (e) => {
 imprimirBoletas.addEventListener('click', (e) => {
     e.preventDefault();
     printBoletas();
+})
+
+redoEspacio.addEventListener('click', (e) => {
+    e.preventDefault();
+    const rows = document.querySelectorAll('.table-row');
+    rows.forEach(element => {
+        element.parentNode.removeChild(element);
+    });
+    indices = [];
+    calcularTotales();
+    eliminarEventos();
+    generarEventos();
 })
 
 const printComprobantes = async () => {
