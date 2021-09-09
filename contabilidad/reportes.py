@@ -618,6 +618,10 @@ class ReporteCargasGeneral():
         sheet['AP1'].style = titulo7
         sheet['AQ1'] = "EQUIPO CARGUIO"
         sheet['AQ1'].style = titulo
+        sheet['AR1'] = "Oro Soluble"
+        sheet['AR1'].style = titulo2
+        sheet['AS1'] = "Ratio"
+        sheet['AS1'].style = titulo2
 
         for carga in self.__cargas:
             sheet.append((carga.numero, carga.created.strftime("%d/%m/%Y"), carga.vehiculo.placa, '{} {}'.format(
@@ -628,7 +632,7 @@ class ReporteCargasGeneral():
                 carga.costo_tratamiento, carga.total_liquidacion_prov, carga.regalia, carga.penalizacion_cu_soluble, carga.anticipo, carga.equipo_pesado, carga.balanza, carga.volqueta,
                 carga.analisis_laboratorio, carga.otros_descuentos, carga.retencion_acuerdo, carga.total_descuento, carga.liquido_pagable, carga.fecha_pago.strftime(
                     "%d/%m/%Y") if carga.fecha_pago else '', '{} {}'.format(carga.numero_paleta, carga.color), 'PAGADO' if carga.pagado else 'POR PAGAR' if carga.liquido_pagable > 0 else 'NO PAGAR',
-                '{} {}'.format(carga.equipo_carguio.apellidos, carga.equipo_carguio.nombres) if carga.equipo_carguio else 'MANUAL'))
+                '{} {}'.format(carga.equipo_carguio.apellidos, carga.equipo_carguio.nombres) if carga.equipo_carguio else 'MANUAL', carga.oro_soluble, carga.ratio))
 
         wb.save(response)
 
