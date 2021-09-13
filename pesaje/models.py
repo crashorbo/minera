@@ -88,6 +88,9 @@ class Carga(models.Model):
     total_liquidacion_prov = models.FloatField(default=0)
     regalia = models.FloatField(default=0)
     penalizacion_cu_soluble = models.FloatField(default=0)
+    #cambios laboratorio para su control
+    fecha_laboratorio = models.DateTimeField(blank=True, null=True)
+    fecha_laboratorio_modificaciones = models.TextField(blank=True, null=True)
     oro_soluble = models.FloatField(default=0)
     ratio = models.FloatField(default=0)
     fecha_muestreo = models.DateField(null=True, blank=True)
@@ -188,8 +191,6 @@ class Carga(models.Model):
             self.analisis_laboratorio + self.otros_descuentos + self.retencion_acuerdo
         self.valor_reposicion = self.total_liquidacion_prov - self.regalia
         self.liquido_pagable = self.total_liquidacion_prov - self.total_descuento
-
-
 class Muestra(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     carga = models.ForeignKey(

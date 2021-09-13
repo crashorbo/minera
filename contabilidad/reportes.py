@@ -531,6 +531,10 @@ class ReporteCargasGeneral():
         column_dimensions.width = 40
         column_dimensions = sheet.column_dimensions['AQ']
         column_dimensions.width = 40
+        column_dimensions = sheet.column_dimensions['AU']
+        column_dimensions.width = 20
+        column_dimensions = sheet.column_dimensions['AV']
+        column_dimensions.width = 40
 
         sheet['A1'] = "NUM. BOL."
         sheet['A1'].style = titulo
@@ -618,10 +622,16 @@ class ReporteCargasGeneral():
         sheet['AP1'].style = titulo7
         sheet['AQ1'] = "EQUIPO CARGUIO"
         sheet['AQ1'].style = titulo
-        sheet['AR1'] = "Oro Soluble"
-        sheet['AR1'].style = titulo2
-        sheet['AS1'] = "Ratio"
-        sheet['AS1'].style = titulo2
+        sheet['AR1'] = "ORO SOLUBLE"
+        sheet['AR1'].style = titulo3
+        sheet['AS1'] = "RATIO"
+        sheet['AS1'].style = titulo3
+        sheet['AT1'] = "FECHA MUESTREO"
+        sheet['AT1'].style = titulo2
+        sheet['AU1'] = "FECHA LABORATORIO"
+        sheet['AU1'].style = titulo2
+        sheet['AV1'] = "HISTORIAL LABORATORIO MODIFICACIONES"
+        sheet['AV1'].style = titulo2
 
         for carga in self.__cargas:
             sheet.append((carga.numero, carga.created.strftime("%d/%m/%Y"), carga.vehiculo.placa, '{} {}'.format(
@@ -632,7 +642,8 @@ class ReporteCargasGeneral():
                 carga.costo_tratamiento, carga.total_liquidacion_prov, carga.regalia, carga.penalizacion_cu_soluble, carga.anticipo, carga.equipo_pesado, carga.balanza, carga.volqueta,
                 carga.analisis_laboratorio, carga.otros_descuentos, carga.retencion_acuerdo, carga.total_descuento, carga.liquido_pagable, carga.fecha_pago.strftime(
                     "%d/%m/%Y") if carga.fecha_pago else '', '{} {}'.format(carga.numero_paleta, carga.color), 'PAGADO' if carga.pagado else 'POR PAGAR' if carga.liquido_pagable > 0 else 'NO PAGAR',
-                '{} {}'.format(carga.equipo_carguio.apellidos, carga.equipo_carguio.nombres) if carga.equipo_carguio else 'MANUAL', carga.oro_soluble, carga.ratio))
+                '{} {}'.format(carga.equipo_carguio.apellidos, carga.equipo_carguio.nombres) if carga.equipo_carguio else 'MANUAL', carga.oro_soluble, carga.ratio, carga.fecha_muestreo.strftime("%d/%m/%Y") if carga.fecha_muestreo else '',
+                carga.fecha_laboratorio.strftime("%d/%m/%Y %H:%M") if carga.fecha_laboratorio else '', carga.fecha_laboratorio_modificaciones))
 
         wb.save(response)
 
