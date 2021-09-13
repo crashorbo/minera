@@ -42,8 +42,9 @@
                 <td class="text-center">
                     {{ object.destino }}
                 </td>
-            </tr>            
-            {% if object.numero_paleta and object.color %}
+            </tr>                  
+                        
+            {% if object.numero_paleta and object.color and not request.user.rol == 1 %}
             <tr>
                 <td class="primary-row">
                     FECHA:
