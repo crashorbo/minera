@@ -105,7 +105,9 @@ class LaboratorioUpdateView(LoginRequiredMixin, UpdateView):
             if cotizacion:
                 model.cotizacion = cotizacion[0].valor_pagable
                 model.calcular_total()
-                model.save()
+                model.fecha_laboratorio = datetime.datetime.today()
+                model.fecha_laboratorio_modificaciones = f"{model.fecha_laboratorio_modificaciones if model.fecha_laboratorio_modificaciones else ''} {',' if model.fecha_laboratorio_modificaciones else ''} {self.request.user.username} - {datetime.datetime.today().strftime('%d/%m/%Y %H:%M')}"
+                model.save()                
             else:
                 return JsonResponse({"message": "No existe cotizacion activa"}, status=400)
             return JsonResponse({"message": "Datos del Laboratorio editado con exito"}, status=200)
