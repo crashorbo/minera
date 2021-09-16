@@ -56,7 +56,8 @@ class ReporteContabilidad:
                 numero_decimal(carga.valor_reposicion)))
             pdf.drawString(25, 66, 'Valor descuentos')
             pdf.drawRightString(205, 66, '{}'.format(
-                numero_decimal(carga.total_descuento)))
+                numero_decimal(carga.penalizacion_cu_soluble + carga.anticipo + carga.equipo_pesado + carga.balanza + carga.volqueta + \
+                    carga.analisis_laboratorio + carga.otros_descuentos + carga.retencion_acuerdo))) 
 
             pdf.drawString(25, 43, 'Valor neto s/descuentos')
             pdf.drawRightString(205, 43, '{}'.format(
@@ -230,7 +231,8 @@ class ReporteComprobante():
                      ['', 'PP:{} - ANT:{} - EQP:{} - BAL:{} - VOL:{} - LAB:{} DSC:{} - V.DSC:{}'.format(
                          int(carga.penalizacion_cu_soluble), int(
                              carga.anticipo), int(carga.equipo_pesado),
-                         int(carga.balanza), int(carga.volqueta), int(carga.analisis_laboratorio), int(carga.otros_descuentos), int(carga.total_descuento))],
+                         int(carga.balanza), int(carga.volqueta), int(carga.analisis_laboratorio), int(carga.otros_descuentos), int(carga.penalizacion_cu_soluble + carga.anticipo + carga.equipo_pesado + carga.balanza + carga.volqueta + \
+                            carga.analisis_laboratorio + carga.otros_descuentos + carga.retencion_acuerdo))],
                      ]
             t1 = Table(data1, [3.2*cm, 14.2*cm],
                        [0.6*cm, 1.2*cm, 0.6*cm, 0.6*cm, 0.6*cm])
