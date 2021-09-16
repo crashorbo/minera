@@ -104,7 +104,7 @@ class ReporteContabilidad:
                 numero_decimal(carga.analisis_laboratorio)))
             pdf.drawString(25, 78, 'Descuentos p/terceros')
             pdf.drawRightString(205, 78, '{}'.format(
-                numero_decimal(carga.otros_descuentos)))
+                numero_decimal(carga.otros_descuentos + carga.retencion_acuerdo)))
 
             pdf.line(20, 243, 210, 243)
             pdf.line(20, 231, 210, 231)
@@ -231,7 +231,7 @@ class ReporteComprobante():
                      ['', 'PP:{} - ANT:{} - EQP:{} - BAL:{} - VOL:{} - LAB:{} DSC:{} - V.DSC:{}'.format(
                          int(carga.penalizacion_cu_soluble), int(
                              carga.anticipo), int(carga.equipo_pesado),
-                         int(carga.balanza), int(carga.volqueta), int(carga.analisis_laboratorio), int(carga.otros_descuentos), int(carga.penalizacion_cu_soluble + carga.anticipo + carga.equipo_pesado + carga.balanza + carga.volqueta + \
+                         int(carga.balanza), int(carga.volqueta), int(carga.analisis_laboratorio), int(carga.otros_descuentos + carga.retencion_acuerdo), int(carga.penalizacion_cu_soluble + carga.anticipo + carga.equipo_pesado + carga.balanza + carga.volqueta + \
                             carga.analisis_laboratorio + carga.otros_descuentos + carga.retencion_acuerdo))],
                      ]
             t1 = Table(data1, [3.2*cm, 14.2*cm],
