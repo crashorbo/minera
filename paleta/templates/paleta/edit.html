@@ -7,7 +7,7 @@
                 <td class="primary-row">
                     NUMERO:
                 </td>
-                <td class="text-end">
+                <td class="text-center">
                     <strong>{{ object.numero }}</strong>
                 </td>
             </tr>            
@@ -45,7 +45,7 @@
             </tr>                  
                         
             {% if object.numero_paleta and object.color and not request.user.rol == 1 %}
-            <tr>
+            <tr class="d-none">
                 <td class="primary-row">
                     FECHA:
                 </td>                
@@ -67,13 +67,13 @@
                 <td class="primary-row">
                     NUMERO PALETA:
                 </td>                
-                <td class="text-end">
+                <td class="text-center">
                     <strong>{{ object.numero_paleta }}</strong>
                 </td>                      
             </tr>
             
             {% else %}
-            <tr>
+            <tr class="d-none">
                 <td class="primary-row">
                     FECHA:
                 </td>

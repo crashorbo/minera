@@ -80,7 +80,7 @@ class CargaPaletaForm(forms.ModelForm):
         model = Carga
         fields = ('numero_paleta', 'color', 'fecha_paleta')
         widgets = {
-            'fecha_paleta': forms.DateInput(attrs={'class': 'form-control form-control-sm'}),
+            'fecha_paleta': forms.DateInput(attrs={'class': 'form-control form-control-sm', 'readonly': True}),
             'numero_paleta': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
             'color': forms.TextInput(attrs={'class': 'form-control form-control-sm uppercase'}),
         }
