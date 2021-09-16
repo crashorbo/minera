@@ -51,13 +51,13 @@ $('#cargas').on( 'click', 'tbody tr', async (e) =>  {
     await axios(url)
     .then(res => {
         detalle.innerHTML = res.data;
-        if (document.querySelector("#id_fecha_paleta")) {
-            const fechaPaleta = new Datepicker(document.querySelector("#id_fecha_paleta"), {
-                language: 'es',    
-                autohide: true,
-            });
-            fechaPaleta.setDate(new Date());
-        }
+        // if (document.querySelector("#id_fecha_paleta")) {
+        //     const fechaPaleta = new Datepicker(document.querySelector("#id_fecha_paleta"), {
+        //         language: 'es',    
+        //         autohide: true,
+        //     });
+        //     fechaPaleta.setDate(new Date());
+        // }
         loader.style.visibility = 'hidden';
     })
 } );

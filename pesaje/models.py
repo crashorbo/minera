@@ -64,7 +64,7 @@ class Carga(models.Model):
     pesaje_tara = models.BooleanField(default=False)
     numero_paleta = models.CharField(max_length=10, default='')
     color = models.CharField(max_length=50, default='')
-    fecha_paleta = models.DateField(null=True)
+    fecha_paleta = models.DateField(null=True, blank=True)
     paleta = models.BooleanField(default=False)
     laboratorio = models.BooleanField(default=False)
     au = models.FloatField(default=0)
