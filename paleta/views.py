@@ -98,7 +98,7 @@ class PaletaUpdateView(LoginRequiredMixin, UpdateView):
         today = datetime.date.today()
         paleta = Carga.objects.filter(
             numero_paleta=model.numero_paleta, created__year=today.year, created__month=today.month)
-        if paleta:
+        if paleta and not self.request.user.rol == 1:
             return JsonResponse({"message": 'ya se Registro este numero de paleta'}, status=400)
         else:
             model.laboratorio = True
