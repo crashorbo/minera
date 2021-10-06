@@ -151,6 +151,9 @@ class Codigo(models.Model):
     updated = models.DateTimeField(auto_now=True)
     objects = CondigoManager()
 
+    def __str__(self):
+        return self.numero
+
 
 class Factor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
