@@ -406,7 +406,7 @@ class ReporteCargasPagadas():
         sheet['G1'].style = titulo
 
         for carga in self.__cargas:
-            sheet.append((carga.numero, carga.fecha_pago.strftime("%d/%m/%Y"), 'PESAJE - {} {}; {} {}'.format(carga.numero, FechaLiteral().fecha_literal(carga.fecha_pago),
+            sheet.append((carga.numero, carga.fecha_pago.strftime("%d/%m/%Y"), 'PESAJE - {} {}; {} {}'.format(carga.numero, FechaLiteral().fecha_literal(carga.created),
                                                                                                               carga.proveedor.apellidos, carga.proveedor.nombres), carga.liquido_pagable, carga.liquido_pagable, '2110301', 'PROVEEDORES CARGA MINERALIZADA'))
         wb.save(response)
 
