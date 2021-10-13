@@ -111,6 +111,7 @@ class Carga(models.Model):
     fecha_pago = models.DateTimeField(blank=True, null=True)
     produccion = models.ForeignKey(
         Produccion, on_delete=models.SET_NULL, blank=True, null=True)
+    estado_produccion = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
