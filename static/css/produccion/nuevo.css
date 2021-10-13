@@ -56,3 +56,18 @@
 .col-title {
     font-weight: 700;
 }
+
+.bi-trash {
+    color: var(--bs-danger);
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.bi-check-circle-fill {
+    color: var(--bs-success);
+}
+
+.bi-bullseye {
+    color: var(--bs-warning);
+    cursor: pointer;
+}
