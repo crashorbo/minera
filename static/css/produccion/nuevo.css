@@ -65,6 +65,7 @@
 
 .bi-check-circle-fill {
     color: var(--bs-success);
+    cursor: pointer;
 }
 
 .bi-bullseye {

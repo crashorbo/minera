@@ -74,7 +74,10 @@
                         <div class="col1 dat2">{{ carga.au }}</div>
                         <div class="col1 dat3">{% if carga.pagado %}PAGADO{% else %} {% if carga.liquido_pagable > 0 %}POR PAGAR {% else %}NO PAGAR {% endif %} {% endif %}</div>
                         <div class="col2 dat3">{{ carga.numero_paleta }} {{ carga.color }}</div>
-                        <div class="col3"><i class="bi bi-bullseye"></i><i class="bi bi-trash"></i> </div>
+                        <div class="col3">
+                            <i data-entrega="{% url 'produccion-entrega-view' pk=carga.id %}" class="bi {% if carga.estado_produccion %}bi-check-circle-fill{% else %}bi-bullseye{% endif %}">
+                            </i><i data-remove="{% url 'produccion-carga-remove' pk=carga.id %}" class="bi bi-trash {% if carga.estado_produccion %}d-none{% endif %}"></i>
+                        </div>
                     </div>
                     {% endfor %}
                     </div>
