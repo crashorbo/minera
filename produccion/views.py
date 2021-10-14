@@ -51,6 +51,23 @@ class ProduccionCargasView(LoginRequiredMixin, View):
         return render(self.request, 'produccion/lista-cargas-ajax.html', {'cargas': cargas})
 
 
+class ProduccionEntregaView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        carga = Carga.objects.get(pk=self.kwargs['pk'])
+        if carga.estado_produccion:
+            carga.estado_produccion = False
+        else:
+            carga.estado_produccion = True
+        carga.save()
+        return JsonResponse({"message": "Datos de Pesaje registrado con exito"}, status=200)
+
+
+class ProduccionCargaRemoveView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        carga = Carga.objects.get(pk=self.kwargs['pk'])
+        carga.produccion = None;
+        carga.save()
+        return JsonResponse({"message": "Carga Eliminada de Produccion con exito"}, status=200)
 class ReporteProduccion(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         produccion = Produccion.objects.get(pk=self.kwargs['pk'])

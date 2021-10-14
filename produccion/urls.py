@@ -12,6 +12,10 @@ urlpatterns = [
          views.ProduccionCargasView.as_view(), name="produccion-cargas"),
     path('ver/<pk>/', views.ProduccionView.as_view(),
          name="produccion-cargas-view"),
+    path('carga/entregar/<pk>/', views.ProduccionEntregaView.as_view(),
+         name="produccion-entrega-view"),
+    path('carga/eliminar/<pk>/', views.ProduccionCargaRemoveView.as_view(),
+         name="produccion-carga-remove"),
     path('reporte/<pk>/', views.ReporteProduccion.as_view(),
          name="produccion-reporte")
 ]
