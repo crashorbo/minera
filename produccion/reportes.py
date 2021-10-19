@@ -116,3 +116,99 @@ def reporte_produccion(produccion):
     wb.save(response)
 
     return response
+
+def reporte_produccion_cancha(data):
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', )
+    response['Content-Disposition'] = 'attachment; filename={date}-reporte-produccion-cancha.xlsx'.format(
+        date=datetime.now().strftime('%Y%m%d'), )
+    
+    titulo = NamedStyle(name="titulo")
+    titulo.font = Font(bold=True, size=10, color='ffffff')
+    titulo.alignment = Alignment(
+        horizontal="center", vertical="center", wrap_text=True,)
+    titulo.fill = PatternFill(
+        start_color='244062',
+        end_color='244062',
+        fill_type='solid',
+    )
+
+    titulo1 = NamedStyle(name="titulo1")
+    titulo1.font = Font(bold=True, size=10, color='000000')
+    titulo1.alignment = Alignment(
+        horizontal="center", vertical="center", wrap_text=True,)
+    titulo1.fill = PatternFill(
+        start_color='FFFF00',
+        end_color='FFFF00',
+        fill_type='solid',
+    )
+
+    titulo2 = NamedStyle(name="titulo2")
+    titulo2.font = Font(bold=True, size=10, color='000000')
+    titulo2.alignment = Alignment(
+        horizontal="center",
+        vertical="center",
+        wrap_text=True,
+    )
+    titulo2.fill = PatternFill(
+        start_color='C5D9F1',
+        end_color='C5D9F1',
+        fill_type='solid',
+    )
+
+    wb = Workbook()
+
+    wb.add_named_style(titulo)
+
+    sheet = wb.active
+
+    sheet['A1'] = "Numero Boleta"
+    sheet['A1'].style = titulo
+    sheet['B1'] = "Fecha Pesaje"
+    sheet['B1'].style = titulo
+    sheet['C1'] = "Procedencia"
+    sheet['C1'].style = titulo
+    sheet['D1'] = "Tipo Carga"
+    sheet['D1'].style = titulo2
+    sheet['E1'] = "Peso Neto"
+    sheet['E1'].style = titulo
+    sheet['F1'] = "TMS"
+    sheet['F1'].style = titulo2
+    sheet['G1'] = "Au(g/Tn)"
+    sheet['G1'].style = titulo1
+    sheet['H1'] = "Estado"
+    sheet['H1'].style = titulo2
+    sheet['I1'] = "Color Paleta"
+    sheet['I1'].style = titulo2
+    sheet['J1'] = "Destino Produccion"
+    sheet['J1'].style = titulo2
+
+    column_dimensions = sheet.column_dimensions['A']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['B']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['C']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['D']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['E']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['F']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['G']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['H']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['I']
+    column_dimensions.width = 20
+    column_dimensions = sheet.column_dimensions['J']
+    column_dimensions.width = 20    
+
+    for carga in data:
+        sheet.append((carga.numero, carga.created.strftime("%d/%m/%Y"), carga.origen.nombre, carga.tipo_carga, carga.peso_neto_tn, carga.tms_pagar, carga.au,
+                      'PAGADO' if carga.pagado else 'POR PAGAR' if carga.liquido_pagable > 0 else 'NO PAGAR', '{} {}'.format(carga.numero_paleta, carga.color),
+                      carga.produccion.destino.nombre if carga.produccion else 'SIN ASIGNAR'))
+
+    wb.save(response)
+
+    return response
