@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, FormView, View
 
 from produccion.forms import ProduccionCreateForm
-from produccion.reportes import reporte_produccion
+from produccion.reportes import reporte_produccion, reporte_produccion_cancha
 
 # Create your views here.
 
@@ -65,10 +65,17 @@ class ProduccionEntregaView(LoginRequiredMixin, View):
 class ProduccionCargaRemoveView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         carga = Carga.objects.get(pk=self.kwargs['pk'])
-        carga.produccion = None;
+        carga.produccion = None
         carga.save()
         return JsonResponse({"message": "Carga Eliminada de Produccion con exito"}, status=200)
+    
 class ReporteProduccion(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         produccion = Produccion.objects.get(pk=self.kwargs['pk'])
         return reporte_produccion(produccion)
+
+
+class ReporteProduccionCancha(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        data = Carga.objects.filter(estado_produccion=False)        
+        return reporte_produccion_cancha(data)
