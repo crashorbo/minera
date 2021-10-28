@@ -80,8 +80,8 @@ class ReporteContabilidad:
                 numero_decimal(carga.tms_pagar)))
             pdf.drawString(25, 186, 'Ley')
             pdf.drawRightString(205, 186, '{}'.format(
-                numero_decimal(carga.au)))
-            pdf.drawString(25, 174, 'Finos recuper. Gr. - 60')
+                numero_decimal(carga.au)))            
+            pdf.drawString(25, 174, f'Finos recuper. Gr. - {carga.calculo_factor_recuperacion()}')
             pdf.drawRightString(205, 174, '{}'.format(
                 numero_decimal(carga.finos_gr_recup)))
             pdf.drawString(25, 150, 'Cobre soluble')

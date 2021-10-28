@@ -192,6 +192,19 @@ class Carga(models.Model):
             self.analisis_laboratorio + self.otros_descuentos + self.retencion_acuerdo
         self.valor_reposicion = self.total_liquidacion_prov - self.regalia
         self.liquido_pagable = self.total_liquidacion_prov - self.total_descuento
+    
+    def calculo_factor_recuperacion(self):
+        if self.tipo_carga == 'LAMA' and self.au < 3:
+            return 0
+        else:
+            if self.tipo_carga == 'NORMAL' and self.au < 1:
+                return 0
+            else:
+                factor = Factor.objects.filter(
+                    rango_inferior__lte=self.au, rango_superior__gte=self.au)
+                if factor:
+                    return factor[0].factor_recuperacion * 100                        
+    
 class Muestra(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     carga = models.ForeignKey(
