@@ -82,8 +82,8 @@ class LaboratorioListJson(LoginRequiredMixin, BaseDatatableView):
         for item in qs:
             json_data.append([
                 # escape HTML for security reasons
-                '<div data-url="{}" class="itemid">{}</div>'.format(
-                    reverse_lazy('laboratorio-update', kwargs={'pk': item.id}), item.numero),
+                '<div data-url="{}" class="itemid {}">{}</div>'.format(
+                    reverse_lazy('laboratorio-update', kwargs={'pk': item.id}), 'text-danger' if item.pagado else 'text-success',item.numero),
                 '{} {}'.format(item.numero_paleta, item.color),
                 item.fecha_muestreo.strftime("%d/%m/%Y") if item.fecha_muestreo else '',
                 item.created.strftime("%d/%m/%Y")
