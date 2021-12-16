@@ -8,7 +8,7 @@ admin.site.register(CustomUser)
 
 class CodigoAdmin(admin.ModelAdmin):
     list_display=('numero', 'cod_externo', 'cod_proveedor', 'cod_testigo', 'cod_bolsa')
-    search_fields = ['numero',]    
+    search_fields = ['numero', 'cod_externo', 'cod_proveedor', 'cod_testigo', 'cod_bolsa']    
     
 admin.site.register(Codigo, CodigoAdmin)
 
