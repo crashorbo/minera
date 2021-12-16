@@ -12,5 +12,4 @@ class CodigoAdmin(admin.ModelAdmin):
     
 admin.site.register(Codigo, CodigoAdmin)
 
-admin.site.register(Codigo)
 
